@@ -13,13 +13,21 @@
                 v-on="on"
               ></v-app-bar-nav-icon>
           </template>
-          <v-list>
+          <v-list class="mt-10">
             <v-list-item
-              v-for="n in 5"
-              :key="n"
               link
             >
-              <v-list-item-title v-text="'Item ' + n"></v-list-item-title>
+              <v-list-item-title v-text="'Wallet'"></v-list-item-title>
+            </v-list-item>
+            <v-list-item
+              link
+            >
+              <v-list-item-title v-text="'Help'"></v-list-item-title>
+            </v-list-item>
+            <v-list-item
+              link
+            >
+              <v-list-item-title v-text="'Logout'"></v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -28,7 +36,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn icon color="red">
+        <v-btn icon color="pink">
           <v-icon>mdi-heart</v-icon>
         </v-btn>
 

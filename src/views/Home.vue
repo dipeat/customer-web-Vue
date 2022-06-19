@@ -2,9 +2,73 @@
   
 
 <v-main>
- <body>
-   Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, repellendus accusamus ducimus beatae qui a. Velit esse atque iusto quia odit, dolorum molestiae obcaecati tenetur ipsa sed harum praesentium, optio veniam nostrum doloribus nesciunt expedita aliquid, sapiente aperiam delectus! Quas, eligendi blanditiis! Iste, mollitia quaerat odit nesciunt natus, sunt ipsam sequi nulla unde vero, repellendus incidunt quos. Adipisci quam, ab, reiciendis, minus deserunt consectetur fugit laborum quas nihil hic illum ratione nobis eligendi vel! Voluptate debitis ullam dolorem laborum totam, aspernatur eaque omnis corrupti voluptatem praesentium repellat. Aliquam enim autem molestiae repellat dolorem? Minima facilis perspiciatis aliquam officia dicta ex laboriosam atque voluptas magni molestiae aperiam tempore deserunt eos amet, culpa rerum porro? Dignissimos minus deserunt sequi vero, atque quam necessitatibus, modi sint repellat nemo explicabo voluptatibus quasi rem consequatur aperiam reprehenderit praesentium molestias ipsum vitae hic libero? Aliquam ad sint, maxime suscipit recusandae debitis, quisquam animi obcaecati praesentium voluptates, asperiores tempore eos eveniet mollitia ipsam. Totam ratione consequuntur officiis aut dicta dolor dolorem fuga maxime obcaecati, non quasi magni, sapiente excepturi repellat molestias et. Possimus voluptatibus modi iste optio vitae, aperiam doloremque voluptas cum? Quam eligendi obcaecati provident officia tempora nihil fugit culpa, modi iste quae nam odit, corrupti pariatur deserunt laborum facilis animi ea id asperiores cumque quis tenetur molestiae! Perferendis ratione quia labore iusto eum similique? Assumenda deleniti excepturi labore facere impedit quia, quod nesciunt numquam veritatis ducimus rerum, recusandae, expedita ipsa pariatur hic modi temporibus consectetur iste totam vitae. Dolor, labore in minima voluptate molestiae nam voluptas ea eum mollitia et quae tempora explicabo repellendus animi ipsum odio minus quod! Qui, ut? Expedita maxime quidem accusamus distinctio voluptas? Nihil dolore optio, repudiandae consequatur, veniam aliquid fugit ut quia odit, sunt fuga obcaecati delectus tempora magni? Laboriosam possimus asperiores repudiandae accusamus! Quaerat deserunt facilis voluptatem dolores, perferendis, mollitia quo reprehenderit porro nemo cumque possimus quos quia autem ducimus ex temporibus officiis velit accusamus rem? Numquam obcaecati accusantium doloribus ipsam. Iure quasi quidem similique, laudantium deleniti, ab repellendus repellat aliquam iusto nostrum consequatur ratione et quam incidunt rem, architecto non ex consectetur earum ipsa ducimus! Doloremque iusto facilis alias molestiae illum quisquam ex quam eos nobis? Eveniet id temporibus quod ipsum ad placeat unde blanditiis distinctio, est quibusdam magni velit debitis, necessitatibus, repellat quisquam ex doloremque molestias. Esse amet placeat fugiat mollitia suscipit, velit corporis praesentium. Dicta eius voluptatum quibusdam rem aut sequi velit voluptatibus obcaecati dolore exercitationem excepturi recusandae doloribus quidem, natus fugit, quasi sit nostrum repellendus assumenda aliquam libero. Quis provident expedita dicta reiciendis, distinctio suscipit illum! Ab nemo excepturi blanditiis reiciendis ut non nobis officiis quis sequi asperiores eius dignissimos sapiente vitae harum, omnis molestias at itaque, inventore pariatur tempora. Quae nobis voluptatibus earum quo veritatis nemo nisi dignissimos fugiat nesciunt sed impedit, doloremque, itaque iste odio non! Ad laborum expedita adipisci fuga eaque id tempore architecto, reiciendis mollitia, sint dolor culpa qui dolorum corrupti earum natus quas molestiae harum! Maxime quisquam ipsum expedita libero ab laudantium quas harum, sed hic, fuga quibusdam perspiciatis esse rerum voluptatibus, obcaecati facilis minima incidunt consequatur voluptates. Voluptates omnis aspernatur ex modi error ratione exercitationem alias eum. Nesciunt sapiente repellendus fuga similique cumque, nobis officiis deserunt doloribus dicta voluptas fugit delectus sit tempore soluta dolore quos, nisi accusantium vel veniam velit, magnam in. Accusantium esse, necessitatibus porro deleniti perspiciatis magni assumenda placeat commodi cupiditate sint dolore repellendus sapiente aut nemo! Autem et odit accusamus fugiat laboriosam alias facere quas, quod iste magnam totam ut? Provident vitae laboriosam quia iusto nulla debitis, aliquam placeat accusantium! Eius iusto debitis sunt labore consequatur illo repudiandae harum? Labore totam ullam blanditiis, molestias consectetur dolor debitis dolorem reprehenderit modi omnis repellendus tenetur cumque. Facilis placeat exercitationem aut suscipit rem distinctio, in velit! Vitae ex, voluptate dicta fugiat consequuntur fugit minima, et cupiditate esse, nobis tempore nesciunt quia culpa nemo autem quaerat. Autem quis earum eveniet dignissimos itaque corrupti quasi quae possimus? Eaque dolores soluta omnis ut nam sit provident vel, sunt, quas doloremque nisi nulla. In ab expedita unde quidem, beatae minus perspiciatis reiciendis sapiente dolorum odit commodi est, libero quisquam quas alias aliquid temporibus dignissimos totam vero. Voluptatum amet, iure ipsam itaque, rem nesciunt, similique distinctio blanditiis impedit molestias animi sit dolor? Velit reiciendis deleniti iure accusamus ea architecto voluptas. Veritatis, ducimus vel eius cum iste ipsa quod odit hic nam explicabo mollitia rerum minus, doloremque alias inventore libero aspernatur. Distinctio cupiditate earum delectus totam, sapiente doloremque veniam illum fuga reiciendis, repellat minima laborum porro? Architecto, quo. Unde architecto, optio, pariatur dolorem aliquid distinctio possimus at maxime exercitationem magnam dolores quis eaque iste in illum iure fugit inventore repudiandae minus veniam assumenda! Eius, optio enim. Praesentium culpa veritatis aliquid maiores voluptatum sint quas, quis aperiam temporibus quisquam consequuntur minus odio velit iste, fugit delectus recusandae! Assumenda fugiat velit nisi, veniam perspiciatis neque ipsum, suscipit enim temporibus deserunt amet aperiam eligendi iure dolorum explicabo quae aliquam aut. Odit cum harum, porro consequatur eum quis non ipsum quaerat debitis nobis quas amet pariatur. Distinctio doloremque eum quam molestiae, doloribus alias aspernatur velit ex tempora nobis animi quidem blanditiis fugiat, minima non praesentium modi labore ea nulla eaque obcaecati minus omnis? Libero atque eligendi necessitatibus saepe quod repudiandae ad non? Sint illum placeat sed dolore. Ducimus magni quod maiores illo ea nobis fuga sed quaerat at aperiam nulla corporis iusto tempora quae optio alias, voluptatibus sapiente exercitationem nesciunt, repellat eius. Saepe eum reiciendis minus magni! Atque voluptate eligendi beatae optio sint inventore quia unde, in maiores quaerat rerum facilis quod, dicta eum sit fuga recusandae officia molestiae culpa aspernatur vel nam tenetur veritatis. Unde inventore blanditiis fugit corrupti modi eligendi repellendus eos doloribus voluptas aliquam quas, saepe tempora. Eum voluptates laborum error! Ea voluptatum culpa quibusdam libero. Libero nisi incidunt itaque quae esse dolores vel et at ipsum aliquam, possimus voluptatem ea ducimus necessitatibus neque dolor inventore magnam iure dolore placeat commodi. Laboriosam assumenda consectetur accusantium repudiandae ut ex sunt exercitationem, nulla vero blanditiis iusto ducimus molestiae rerum voluptatum. Voluptates, et debitis! Ut adipisci minima exercitationem.
- </body>
+
+     
+    <v-slide-group
+      v-model="model"
+      center-active
+      show-arrows
+    >
+      <v-slide-item
+        v-for="n in 20"
+        :key="n"
+        v-slot="{ active, toggle }"
+      >
+        <v-card
+          :color="active ? 'transparent' : 'grey lighten-1'"
+          class="ma-1"
+          height="120"
+          width="120"
+          @click="toggle"
+        >
+          <v-row
+            class="fill-height"
+            align="center"
+            justify="center"
+          >
+            <v-scale-transition>
+              <v-btn
+                v-if="active"
+                color="black"
+                size="20"
+                v-text="'open'"
+                dark
+              ></v-btn>
+            </v-scale-transition>
+          </v-row>
+        </v-card>
+      </v-slide-item>
+    </v-slide-group>
+
+
+  <v-container>
+    <v-carousel
+    cycle
+    height="200"
+    hide-delimiter-background
+    show-arrows-on-hover
+  >
+    <v-carousel-item
+      v-for="(slide, i) in slides"
+      :key="i"
+    >
+      <v-sheet
+        :color="colors[i]"
+        height="100%"
+      >
+        <v-row
+          class="fill-height"
+          align="center"
+          justify="center"
+        >
+          <div class="text-h2">
+            {{ slide }} offer
+          </div>
+        </v-row>
+      </v-sheet>
+    </v-carousel-item>
+  </v-carousel>
+  </v-container>
 </v-main>
 </template>
 
@@ -13,6 +77,20 @@ export default {
   name: 'Home',
   data () {
     return {
+      colors: [
+          'indigo',
+          'warning',
+          'pink darken-2',
+          'red lighten-1',
+          'deep-purple accent-4',
+        ],
+        slides: [
+          'First',
+          'Second',
+          'Third',
+          'Fourth',
+          'Fifth',
+        ],
     }
   },
   methods: {
