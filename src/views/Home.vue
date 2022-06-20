@@ -47,6 +47,7 @@
     height="200"
     hide-delimiter-background
     show-arrows-on-hover
+    delimiter-icon="mdi-chevron-right"
   >
     <v-carousel-item
       v-for="(slide, i) in slides"
@@ -69,6 +70,51 @@
     </v-carousel-item>
   </v-carousel>
   </v-container>
+
+<v-card
+    class="mx-auto"
+    max-width="500"
+  >
+  <v-container fluid>
+      <v-row dense>
+        <v-col
+          
+          :cols="12"
+        >
+          <v-card>
+            <v-img
+              :src="'https://cdn.vuetifyjs.com/images/cards/house.jpg'"
+              class="white--text align-end"
+              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+              height="200px"
+            >
+              <v-card-title v-text="'Pre-fab homes'"></v-card-title>
+            </v-img>
+
+            <v-card-actions>
+              <v-btn color="blue" dark to="/menu">
+                Menu
+              </v-btn>
+              <v-spacer></v-spacer>
+
+              <v-btn icon>
+                <v-icon>mdi-heart</v-icon>
+              </v-btn>
+
+              <v-btn icon>
+                <v-icon>mdi-bookmark</v-icon>
+              </v-btn>
+
+              <v-btn icon>
+                <v-icon>mdi-share-variant</v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-card>
+  
 </v-main>
 </template>
 
