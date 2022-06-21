@@ -88,7 +88,7 @@
               gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
               height="200px"
             >
-              <v-card-title v-text="'Pre-fab homes'"></v-card-title>
+              <v-card-title v-text="'Western City'"></v-card-title>
             </v-img>
 
             <v-card-actions>
