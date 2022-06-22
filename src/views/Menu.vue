@@ -54,11 +54,10 @@
       </v-expand-transition>
     </v-card>
 
-    
     <v-radio-group v-model="radios" mandatory>
       <v-row align="center" justify="center">
         <v-col cols="4" sm="3" md="2">
-          <v-radio label="Dine-in" color="info" value="dineIn"></v-radio>
+          <v-radio label="Dine-in" color="purple" value="dineIn"></v-radio>
         </v-col>
         <v-col cols="5" sm="3" md="1">
           <v-radio label="Take-away" color="warning" value="takeAway"></v-radio>
@@ -66,48 +65,107 @@
       </v-row>
     </v-radio-group>
 
-    <v-card class="mx-auto" max-width="550">
-        <v-container>
-          <v-chip color="grey lighten-3">Starter</v-chip>
+    <v-card class="mx-auto overflow-hidden" max-width="550" height="500">
+      <v-bottom-navigation absolute horizontal>
+        <v-text-field
+          placeholder="Type message ..."
+          filled
+          rounded
+          dense
+          class="mt-2"
+        ></v-text-field>
+
+        <v-bottom-sheet v-model="sheet" inset>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn color="black" dark v-bind="attrs" v-on="on">
+              <span class="white--text">Ok</span>
+            </v-btn>
+          </template>
+          <v-sheet class="text-center" height="200px">
+            <v-btn class="mt-2" text color="error" @click="sheet = !sheet">
+              close
+            </v-btn>
+            <v-time-picker
+              width="50%"
+            ></v-time-picker>
+          </v-sheet>
+        </v-bottom-sheet>
+      </v-bottom-navigation>
+
+      <v-sheet
+        id="scroll-threshold-example"
+        class="overflow-y-auto pb-16"
+        max-height="530"
+      >
+        <v-responsive height="auto">
           <v-container>
-            <v-row>
-              <v-col cols="4" sm="5" md="5">
-                <span>
-                  Manchurian
-                </span>
-              </v-col>
-              <v-col  cols="3" sm="3" md="3">
-                <span>
-                  100/-
-                </span>
-              </v-col>
-              <v-col align="center" cols="5" sm="4" md="4">
-                <span>
-                  <v-chip dark link color="black"><v-icon small dark>mdi-minus</v-icon></v-chip><v-chip>1</v-chip><v-chip dark link color="black"><v-icon small dark>mdi-plus</v-icon></v-chip>
-                </span>
-              </v-col>
-            </v-row>
+            <v-chip color="grey lighten-3">Starter</v-chip>
+            <v-container v-for="i in 5" :key="i">
+              <v-row>
+                <v-col cols="4" sm="5" md="5">
+                  <span> Manchurian </span>
+                  <v-subheader :inset="inset"> 20 mins </v-subheader>
+                </v-col>
+                <v-col cols="3" sm="3" md="3">
+                  <span> 100/- </span>
+                </v-col>
+                <v-col align="center" cols="5" sm="4" md="4">
+                  <span>
+                    <v-chip dark link color="black"
+                      ><v-icon small dark>mdi-minus</v-icon></v-chip
+                    ><v-chip>{{ i + 1 }}</v-chip
+                    ><v-chip dark link color="black"
+                      ><v-icon small dark>mdi-plus</v-icon></v-chip
+                    >
+                  </span>
+                </v-col>
+              </v-row>
+            </v-container>
+            <v-container>
+              <v-row>
+                <v-col cols="4" sm="5" md="5">
+                  <span> Chai </span>
+                  <v-subheader :inset="inset"> 5 mins </v-subheader>
+                </v-col>
+                <v-col cols="3" sm="2" md="3">
+                  <span> 30/- </span>
+                </v-col>
+                <v-col align="center" cols="5" sm="4" md="4">
+                  <span>
+                    <v-chip dark link color="black"
+                      ><v-icon small dark>mdi-minus</v-icon></v-chip
+                    ><v-chip>2</v-chip
+                    ><v-chip dark link color="black"
+                      ><v-icon small dark>mdi-plus</v-icon></v-chip
+                    >
+                  </span>
+                </v-col>
+              </v-row>
+            </v-container>
+            <v-container>
+              <v-row>
+                <v-col cols="4" sm="5" md="5">
+                  <span> Chai </span>
+                  <v-subheader :inset="inset"> 5 mins </v-subheader>
+                </v-col>
+                <v-col cols="3" sm="3" md="3">
+                  <span> 30/- </span>
+                </v-col>
+                <v-col align="center" cols="5" sm="4" md="4">
+                  <span>
+                    <v-chip dark link color="black"
+                      ><v-icon small dark>mdi-minus</v-icon></v-chip
+                    ><v-chip>2</v-chip
+                    ><v-chip dark link color="black"
+                      ><v-icon small dark>mdi-plus</v-icon></v-chip
+                    >
+                  </span>
+                </v-col>
+              </v-row>
+            </v-container>
           </v-container>
-          <v-container>
-            <v-row>
-              <v-col cols="4" sm="5" md="5">
-                <span>
-                  Chai
-                </span>
-              </v-col>
-              <v-col  cols="3" sm="3" md="3">
-                <span>
-                  30/-
-                </span>
-              </v-col>
-              <v-col align="center" cols="5" sm="4" md="4">
-                <span>
-                  <v-chip dark link color="black"><v-icon small dark>mdi-minus</v-icon></v-chip><v-chip>2</v-chip><v-chip dark link color="black"><v-icon small dark>mdi-plus</v-icon></v-chip>
-                </span>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-container>
+        </v-responsive>
+      </v-sheet>
     </v-card>
   </v-main>
 </template>
@@ -119,7 +177,8 @@ export default {
     return {
       show: false,
       radios: null,
-      rating: '2.5',
+      rating: "2.5",
+      sheet: false,
     };
   },
 };
