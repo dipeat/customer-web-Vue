@@ -75,19 +75,79 @@
           class="mt-2"
         ></v-text-field>
 
-        <v-bottom-sheet v-model="sheet" inset>
+        <v-bottom-sheet v-model="sheet">
           <template v-slot:activator="{ on, attrs }">
             <v-btn color="black" dark v-bind="attrs" v-on="on">
               <span class="white--text">Ok</span>
             </v-btn>
           </template>
-          <v-sheet class="text-center" height="200px">
-            <v-btn class="mt-2" text color="error" @click="sheet = !sheet">
-              close
-            </v-btn>
-            <v-time-picker
-              width="50%"
-            ></v-time-picker>
+          <v-sheet
+            class="mx-auto overflow-hidden"
+            height="200px"
+            max-width="550"
+            align="center"
+          >
+            <v-row>
+              <v-col cols="10" sm="10" md="10">
+                <v-subheader>Minimum prepare time = 48 mins</v-subheader>
+              </v-col>
+
+              <v-col cols="1" sm="1" md="1">
+                <v-btn
+                  class="ml-2"
+                  text
+                  small
+                  color="error"
+                  @click="sheet = !sheet"
+                >
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+              </v-col>
+            </v-row>
+
+            <!-- date picker below -->
+
+            <v-row>
+              <v-col cols="6" sm="6" md="6">
+
+
+            <v-dialog
+              ref="dialog"
+              v-model="modal2"
+              :return-value.sync="time"
+              width="290px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="time"
+                  label="Select arrival time"
+                  prepend-icon="mdi-clock-time-four-outline"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-time-picker v-if="modal2" v-model="time" full-width ampm-in-title>
+                <v-spacer></v-spacer>
+                <v-btn text color="primary" @click="modal2 = false">
+                  Cancel
+                </v-btn>
+                <v-btn text color="primary" @click="$refs.dialog.save(time)">
+                  OK
+                </v-btn>
+              </v-time-picker>
+            </v-dialog>
+            </v-col>
+
+            <v-col cols="6" sm="6" md="6">
+              <v-subheader>Total = Rs.430/-</v-subheader>
+            </v-col>
+
+
+
+            </v-row>
+
+            <v-btn flat color="purple" dark>Checkout</v-btn>
           </v-sheet>
         </v-bottom-sheet>
       </v-bottom-navigation>
@@ -179,6 +239,10 @@ export default {
       radios: null,
       rating: "2.5",
       sheet: false,
+
+      time: null,
+      menu2: false,
+      modal2: false,
     };
   },
 };
