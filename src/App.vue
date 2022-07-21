@@ -13,30 +13,43 @@
                 v-on="on"
               ></v-app-bar-nav-icon>
           </template>
-          <v-list class="mt-10">
+          <v-list class="mt-10" rounded>
             <v-list-item
               link
+              to="/"
+              color="purple"
             >
+            <span><v-icon>mdi-home</v-icon></span>&nbsp;&nbsp;&nbsp;
+              <v-list-item-title v-text="'Home'"></v-list-item-title>
+            </v-list-item>
+            <v-list-item
+              link
+              color="purple"
+            >
+            <span><v-icon>mdi-wallet</v-icon></span>&nbsp;&nbsp;&nbsp;
               <v-list-item-title v-text="'Wallet'"></v-list-item-title>
             </v-list-item>
             <v-list-item
               link
+              color="purple"
             >
+            <span><v-icon>mdi-help</v-icon></span>&nbsp;&nbsp;&nbsp;
               <v-list-item-title v-text="'Help'"></v-list-item-title>
             </v-list-item>
             <v-list-item
               link
+              color="purple"
             >
+            <span><v-icon>mdi-logout</v-icon></span>&nbsp;&nbsp;&nbsp;
               <v-list-item-title v-text="'Logout'"></v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
-
         <v-toolbar-title>Crispicy</v-toolbar-title>
 
         <v-spacer></v-spacer>
 
-        <v-btn icon color="pink">
+        <v-btn icon color="pink" >
           <v-icon>mdi-heart</v-icon>
         </v-btn>
 

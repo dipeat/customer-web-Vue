@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Menu from '../views/Menu.vue'
+import Order from '../views/OrderDetail.vue'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,11 @@ const routes = [
     path: '/menu',
     name: 'Menu',
     component: Menu
+  },
+  {
+    path: '/order',
+    name: 'Order',
+    component: Order
   }
 ]
 
