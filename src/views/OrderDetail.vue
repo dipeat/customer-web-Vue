@@ -114,17 +114,101 @@
 
     
     <v-container class="text-center mt-2">
+      <v-dialog
+      v-model="dialog"
+      scrollable
+      max-width="300px"
+    >
+      <template v-slot:activator="{ on, attrs }">
       <v-btn 
         color="black"
         rounded
         dark
+         v-bind="attrs"
+          v-on="on"
       >
       Cancel Order
     </v-btn>
-    <v-subheader class="mt-3">
-      Note: Cancellation will be charged 35% of the total amount. 
-    </v-subheader>
+    </template>
+    <v-card>
+        <v-card-title>Reason for Cancellation:</v-card-title>
+        <v-divider></v-divider>
+        <v-card-text style="height:auto;">
+          <v-radio-group
+            v-model="dialogm1"
+            column
+          >
+            
+            <v-radio
+              label="Ordered wrong food"
+              value="bahrain"
+              @click="expand = false"
+            ></v-radio>
+            <v-radio
+              label="Ordered from other place"
+              value="bangladesh"
+              @click="expand = false"
+            ></v-radio>
+            <v-radio
+              label="Cannot reach on time"
+              value="barbados"
+              @click="expand = false"
+            ></v-radio>
+            <v-radio
+              label="Price too high"
+              value="belarus"
+              @click="expand = false"
+            ></v-radio>
+
+            <v-radio
+              label="Other :"
+              value="belgium"
+               @click="expand = true"
+               class="shrink"
+            ></v-radio>
+            <v-expand-transition>
+           
+          <v-textarea
+            label="Type message ..."
+            v-show="expand"
+            solo
+            auto-grow
+            class="mx-auto"
+            rows="1"
+          ></v-textarea>
+          </v-expand-transition>
+          
+            
+          </v-radio-group>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-btn
+            color="black"
+            text
+            @click="dialog = false"
+          >
+            Close
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="red"
+            text
+            @click="dialog = false"
+          >
+            Done
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     </v-container>
+    <v-row justify="center">
+      <v-col>
+    <v-subheader>
+      Note: Cancellation will be charged 35% of the total amount, as a food wastage compensation.
+    </v-subheader>
+    </v-col>
+    </v-row>
     
   </v-main>
 </template>
@@ -145,67 +229,9 @@ export default {
       //     referrerpolicy="no-referrer-when-downgrade"
       //   ></iframe>`,
 
-      headers: [
-        {
-          text: "Dessert (100g serving)",
-          align: "start",
-          value: "name",
-        },
-        { text: "Calories", value: "calories" },
-        { text: "Fat (g)", value: "fat" },
-      ],
-      desserts: [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-        },
-      ],
+      dialogm1: '',
+      dialog: false,
+      expand: false,
     };
   },
 };
