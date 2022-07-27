@@ -55,7 +55,7 @@
                     <h4 class="yellow--text">Western City</h4>
                     <div align="center" justify="center">
                       <v-subheader class=" justify-center">
-                        Time- 10:00 AM - 11:00 AM</v-subheader
+                        10:00 AM - 11:00 AM</v-subheader
                       >
                       <v-row>
                         <v-col>
