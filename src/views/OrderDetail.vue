@@ -203,11 +203,9 @@
     </v-dialog>
     </v-container>
     <v-row justify="center">
-      <v-col>
     <v-subheader>
       Note: Cancellation will be charged 35% of the total amount, as a food wastage compensation.
     </v-subheader>
-    </v-col>
     </v-row>
     
   </v-main>
