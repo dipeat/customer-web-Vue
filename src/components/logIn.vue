@@ -113,7 +113,7 @@ export default {
           localStorage.setItem("username", response.data.username);
           localStorage.setItem("userid", response.data.id);
 
-          this.$router.push("/");
+          this.$router.push("/home");
           this.dialog1 = false
         })
         .catch((error) => {

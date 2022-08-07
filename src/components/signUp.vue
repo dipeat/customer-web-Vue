@@ -125,7 +125,6 @@ export default {
         axios
           .post("/api/v1/users/", formData)
           .then((response) => {
-            console.log(response);
             toast({
               message: "Account created successfully",
               type: "is-success",

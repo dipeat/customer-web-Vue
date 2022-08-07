@@ -8,7 +8,7 @@
         <v-list class="mt-10" rounded>
           <v-list-item
             link
-            to="/"
+            to="/home"
             color="purple"
             v-if="$store.state.isAuthenticated"
           >
@@ -45,11 +45,11 @@
       <!-- sign & login below -->
 
       <span v-if="!$store.state.isAuthenticated">
-        <signUp/>
+        <signUp />
       </span>
-        &nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;
       <span v-if="!$store.state.isAuthenticated">
-        <logIn/>
+        <logIn />
       </span>
 
       <!--  -->
@@ -61,17 +61,21 @@
       <v-btn icon v-if="$store.state.isAuthenticated">
         <v-icon>mdi-history</v-icon>
       </v-btn>
-&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;
 
       <span link v-if="$store.state.isAuthenticated">
-          <h4>{{ $store.state.user.username }}</h4>
+        <h4>{{ $store.state.user.username }}</h4>
       </span>
-
     </v-app-bar>
 
     <v-sheet>
       <v-main class="mt-13">
-        <v-toolbar color="deep-purple accent-4" dark flat v-if="$store.state.isAuthenticated">
+        <v-toolbar
+          color="deep-purple accent-4"
+          dark
+          flat
+          v-if="$store.state.isAuthenticated"
+        >
           <v-row justify="center">
             <v-col sm="6">
               <v-text-field
@@ -84,7 +88,6 @@
                 rounded
               ></v-text-field>
             </v-col>
-              
           </v-row>
         </v-toolbar>
         <v-container>
@@ -106,7 +109,7 @@ export default {
 
   components: {
     signUp,
-    logIn
+    logIn,
   },
 
   beforeCreate() {
@@ -144,7 +147,7 @@ export default {
           localStorage.removeItem("token");
 
           this.$store.commit("removeToken");
-          this.$router.push("/welcome");
+          this.$router.push("/");
         })
         .catch((error) => {
           if (error.response) {
