@@ -14,10 +14,10 @@
             maxlength="10"
           ></v-text-field>
           <v-text-field
-            v-model="mobNumber"
-            label="Mobile Number"
+            v-model="email"
+            label="Email"
             counter
-            maxlength="10"
+            maxlength="50"
           ></v-text-field>
           <v-text-field
             v-model="password"
@@ -68,7 +68,7 @@ export default {
 
     errors: [],
     username: "",
-    mobNumber: "",
+    email: "",
     password: "",
     password1: "",
     
@@ -105,9 +105,9 @@ export default {
       if (this.username === "") {
         this.errors.push("Username required.");
       }
-      // if (this.mobNumber === "") {
-      //   this.errors.push("Mobile Number required.");
-      // }
+      if (this.email === "") {
+        this.errors.push("Email required.");
+      }
       if (this.password === "") {
         this.errors.push("Password required.");
       }
@@ -120,10 +120,12 @@ export default {
       if (!this.errors.length) {
         const formData = {
           username: this.username.toLowerCase(),
+          email: this.email.toLowerCase(),
           password: this.password,
+          password1: this.password1,
         };
         axios
-          .post("/api/v1/users/", formData)
+          .post("/api/signup/client/", formData)
           .then((response) => {
             toast({
               message: "Account created successfully",
