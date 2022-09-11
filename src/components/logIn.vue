@@ -71,7 +71,7 @@ export default {
     logIn() {
       axios
         .post("/api/login/", {
-          username: this.loginUsername,
+          username: this.loginUsername.toLowerCase(),
           password: this.loginPassword,
         })
         .then((response) => {
