@@ -125,7 +125,7 @@ export default {
           password1: this.password1,
         };
         axios
-          .post("/api/signup/customer/", formData)
+          .post("/api/v1/signup/customer/", formData)
           .then((response) => {
             toast({
               message: "Account created successfully",

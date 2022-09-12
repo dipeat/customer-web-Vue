@@ -138,7 +138,7 @@ export default {
   methods: {
     logout() {
       axios
-        .post("/api/logout/")
+        .post("/api/v1/logout/")
         .then((response) => {
           axios.defaults.headers.common["Authorization"] = null;
 

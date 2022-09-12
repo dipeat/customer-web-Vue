@@ -70,7 +70,7 @@ export default {
      
     logIn() {
       axios
-        .post("/api/login/", {
+        .post("/api/v1/login/", {
           username: this.loginUsername.toLowerCase(),
           password: this.loginPassword,
         })
@@ -123,7 +123,7 @@ export default {
   //     };
 
   //     await axios
-  //       .post("/api/login/", formData1)
+  //       .post("/api/v1/login/", formData1)
   //       .then((response) => {
           // const token = response.data.token;
           // this.$store.commit("setToken", token);
