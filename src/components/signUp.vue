@@ -127,14 +127,7 @@ export default {
         axios
           .post("/api/v1/signup/customer/", formData)
           .then((response) => {
-            toast({
-              message: "Account created successfully",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-              position: "top-right",
-              duration: 3000,
-            });
+            alert("SignUp Successful, Please Login");
           })
           .catch((error) => {
             if (error.response) {

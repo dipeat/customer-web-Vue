@@ -110,59 +110,7 @@ export default {
           this.errors.push(error);
         });
     },
-    
-
-  //   async logIn() {
-  //     axios.defaults.headers.common["Authorization"] = "";
-
-  //     localStorage.removeItem("token");
-
-  //     const formData1 = {
-  //       username: this.loginUsername.toLowerCase(),
-  //       password: this.loginPassword,
-  //     };
-
-  //     await axios
-  //       .post("/api/v1/login/", formData1)
-  //       .then((response) => {
-          // const token = response.data.token;
-          // this.$store.commit("setToken", token);
-          // axios.defaults.headers.common["Authorization"] = "Token " + token;
-          // localStorage.setItem("token", token);
-  //       })
-  //       .catch((error) => {
-  //         if (error.response) {
-  //           for (const property in error.response.data) {
-  //             this.errors.push(`${property}: ${error.response.data[property]}`);
-  //           }
-  //           console.log(JSON.stringify(error.response.data));
-  //         } else if (error.message) {
-  //           this.errors.push("Something went wrong, Please try again.");
-  //           console.log(JSON.stringify(error.message));
-  //         } else {
-  //           console.log(JSON.stringify(error));
-  //         }
-  //       });
-
-  //     axios
-  //       .get("/api/v1/users/me/")
-  //       .then((response) => {
-  //         this.$store.commit("setUser", {
-  //           'username': response.data.username,
-  //           'id': response.data.id,
-  //         });
-  //         // console.log(response.data);
-
-          // localStorage.setItem("username", response.data.username);
-          // localStorage.setItem("userid", response.data.id);
-
-  //         this.$router.push("/home");
-  //         this.dialog1 = false
-  //       })
-  //       .catch((error) => {
-  //         console.log(JSON.stringify(error));
-  //       });
-  //   },
+ 
   },
 
   beforeCreate() {
