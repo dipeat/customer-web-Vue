@@ -63,87 +63,51 @@
 
 
 
-    <v-container v-for="item,index in restaurantList" :key="index">
-      
-          <v-card class="mx-auto" max-width="400">
-              
-                    <v-img :src="'https://cdn.vuetifyjs.com/images/cards/house.jpg'" class="white--text align-end"
-                      gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px">
-                      <v-card-title> {{ item }}</v-card-title>
-                    </v-img>
 
-                    <v-card-actions>
-                      <v-btn color="blue" dark to="/menu"> Menu </v-btn>
-                      <v-spacer></v-spacer>
-
-
-
-                      <v-btn icon>
-                        <v-icon>mdi-heart</v-icon>
-                      </v-btn>
-
-                      <v-btn icon>
-                        <v-icon>mdi-bookmark</v-icon>
-                      </v-btn>
-
-                      <v-btn icon>
-                        <v-icon>mdi-share-variant</v-icon>
-                      </v-btn>
-                    </v-card-actions>
-                
-          </v-card>
-        
-    </v-container>
 
     <v-container v-for="item,index in restaurantList" :key="index">
-        <v-row>
-          <v-col
-            cols="12"
-            sm="6"
-          >
-            <v-sheet
-              rounded="lg"
-              min-height="268"
-            >
+      <v-row>
+        <v-col cols="12" sm="12">
+          <v-sheet rounded="lg" min-height="268">
             <v-card class="mx-auto" max-width="400">
               <v-row dense>
                 <v-col :cols="12">
-                    <v-img :src="'https://cdn.vuetifyjs.com/images/cards/house.jpg'" class="white--text align-end"
-                      gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px">
-                      <v-card-title> {{ item }}</v-card-title>
-                    </v-img>
+                  <v-img :src="'https://cdn.vuetifyjs.com/images/cards/house.jpg'" class="white--text align-end"
+                    gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px">
+                    <v-card-title> {{ item }}</v-card-title>
+                  </v-img>
 
-                    <v-card-actions>
-                      <v-btn color="blue" dark to="/menu"> Menu </v-btn>
-                      <v-spacer></v-spacer>
+                  <v-card-actions>
+                    <v-btn color="blue" dark to="/menu"> Menu </v-btn>
+                    <v-spacer></v-spacer>
 
 
 
-                      <v-btn icon>
-                        <v-icon>mdi-heart</v-icon>
-                      </v-btn>
+                    <v-btn icon>
+                      <v-icon>mdi-heart</v-icon>
+                    </v-btn>
 
-                      <v-btn icon>
-                        <v-icon>mdi-bookmark</v-icon>
-                      </v-btn>
+                    <v-btn icon>
+                      <v-icon>mdi-bookmark</v-icon>
+                    </v-btn>
 
-                      <v-btn icon>
-                        <v-icon>mdi-share-variant</v-icon>
-                      </v-btn>
-                    </v-card-actions>
+                    <v-btn icon>
+                      <v-icon>mdi-share-variant</v-icon>
+                    </v-btn>
+                  </v-card-actions>
                 </v-col>
               </v-row>
-          </v-card>
-            </v-sheet>
-          </v-col>
+            </v-card>
+          </v-sheet>
+        </v-col>
 
-         
 
-        
-        </v-row>
-      </v-container>
 
-      
+
+      </v-row>
+    </v-container>
+
+
 
 
   </v-main>
@@ -180,7 +144,7 @@ export default {
     // get menu data from backend
     getMenu() {
       axios
-        .get("/api/v1/getmenuitem/")
+        .get("/api/v1/menu/")
         .then((response) => {
 
           this.menuItem = response.data;
@@ -189,7 +153,7 @@ export default {
           //   console.log(response.data[i]);
           // }
           for (let i = 0; i < this.menuItem.length; i++) {
-            // make different array for each restaurant
+
             if (this.restaurantList.indexOf(this.menuItem[i].restaurant) === -1) {
               this.restaurantList.push(this.menuItem[i].restaurant);
             }
@@ -200,29 +164,14 @@ export default {
         })
     },
 
-    // restaurantName() {
-    //   for (let i = 0; i < this.menuItem.length; i++) {
-    //     // make different array for each restaurant
-    //     if (this.restaurantList.indexOf(this.menuItem[i].restaurant) === -1) {
-    //       this.restaurantList.push(this.menuItem[i].restaurant);
-    //     }
-
-
-    //   }
-    //   console.log(this.restaurantList);
-    // },
+    
 
 
   },
 
-  calculated: {
-
-
-  },
-
+ 
   created() {
     this.getMenu();
-    // this.restaurantName();
 
 
 

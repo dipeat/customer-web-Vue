@@ -147,7 +147,7 @@
 
             </v-row>
 
-            <v-btn flat color="purple" dark>Checkout</v-btn>
+            <v-btn text color="purple" dark>Checkout</v-btn>
           </v-sheet>
         </v-bottom-sheet>
       </v-bottom-navigation>
@@ -158,72 +158,43 @@
         max-height="530"
       >
         <v-responsive height="auto">
-          <v-container>
-            <v-chip color="grey lighten-3">Starter</v-chip>
-            <v-container v-for="i in 5" :key="i">
-              <v-row>
+
+          
+
+
+          <div v-for="item,index in menuList" :key="index">
+            
+
+
+            <v-container v-if="item.restaurant == setRestaurant">
+
+              <v-chip color="grey lighten-3">{{ item.category }}</v-chip>
+              
+              
+              <v-row >
                 <v-col cols="4" sm="5" md="5">
-                  <span> Manchurian </span>
-                  <v-subheader :inset="inset"> 20 mins </v-subheader>
+                  <span> {{ item.name }} </span>
+                  <v-subheader > {{ item.prepare_time }} mins </v-subheader>
                 </v-col>
                 <v-col cols="3" sm="3" md="3">
-                  <span> 100/- </span>
+                  <span class="text-decoration-line-through"> {{item.original_price}} </span> &nbsp;  <span> {{ item.final_price }}/- </span>
                 </v-col>
                 <v-col align="center" cols="5" sm="4" md="4">
                   <span>
-                    <v-chip dark link color="black"
+                    <v-chip dark link color="black" @click="minusOne"
                       ><v-icon small dark>mdi-minus</v-icon></v-chip
-                    ><v-chip>{{ i + 1 }}</v-chip
-                    ><v-chip dark link color="black"
+                    ><v-chip>{{ itemValue }}</v-chip
+                    ><v-chip dark link color="black" @click="plusOne"
                       ><v-icon small dark>mdi-plus</v-icon></v-chip
                     >
                   </span>
                 </v-col>
               </v-row>
             </v-container>
-            <v-container>
-              <v-row>
-                <v-col cols="4" sm="5" md="5">
-                  <span> Chai </span>
-                  <v-subheader :inset="inset"> 5 mins </v-subheader>
-                </v-col>
-                <v-col cols="3" sm="2" md="3">
-                  <span> 30/- </span>
-                </v-col>
-                <v-col align="center" cols="5" sm="4" md="4">
-                  <span>
-                    <v-chip dark link color="black"
-                      ><v-icon small dark>mdi-minus</v-icon></v-chip
-                    ><v-chip>2</v-chip
-                    ><v-chip dark link color="black"
-                      ><v-icon small dark>mdi-plus</v-icon></v-chip
-                    >
-                  </span>
-                </v-col>
-              </v-row>
-            </v-container>
-            <v-container>
-              <v-row>
-                <v-col cols="4" sm="5" md="5">
-                  <span> Chai </span>
-                  <v-subheader :inset="inset"> 5 mins </v-subheader>
-                </v-col>
-                <v-col cols="3" sm="3" md="3">
-                  <span> 30/- </span>
-                </v-col>
-                <v-col align="center" cols="5" sm="4" md="4">
-                  <span>
-                    <v-chip dark link color="black"
-                      ><v-icon small dark>mdi-minus</v-icon></v-chip
-                    ><v-chip>2</v-chip
-                    ><v-chip dark link color="black"
-                      ><v-icon small dark>mdi-plus</v-icon></v-chip
-                    >
-                  </span>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-container>
+            
+
+
+          </div>
         </v-responsive>
       </v-sheet>
     </v-card>
@@ -231,19 +202,82 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "Menu",
   data() {
     return {
       show: false,
       radios: null,
-      rating: "2.5",
+      rating: 2.5,
       sheet: false,
+
+      itemValue: 0,
+      setRestaurant: "client2",
 
       time: null,
       menu2: false,
       modal2: false,
+
+      menuList: [],
+      menu : [],
     };
+  },
+
+  methods: {
+    
+    getMenu() {
+      axios
+        .get("/api/v1/menu/")
+        .then((response) => {
+
+
+          for (let i = 0; i < response.data.length; i++) {
+            
+            if(this.menuList.restaurant != response.data[i].restaurant){
+              this.menuList.push(response.data[i]);
+            }
+
+            // filter restaurant of client2 and push to menu
+            if(response.data[i].restaurant == "client2"){
+              this.menu.push(response.data[i]);
+            }
+
+            // filter restaurant of
+              
+            
+          }
+          
+
+         
+          
+
+          // console.log(this.menuList);
+          // console.log(this.menu);
+
+          
+         
+        })
+    },
+
+    plusOne() {
+      if (this.itemValue < 0) {
+        this.itemValue++;
+      }
+      this.itemValue++;
+    
+    },
+
+    minusOne() {
+      if (this.itemValue > 0) {
+        this.itemValue--;
+      }
+    },
+
+  },
+
+  created() {
+    this.getMenu();
   },
 };
 </script>
