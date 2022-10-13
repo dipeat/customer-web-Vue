@@ -11,6 +11,7 @@ export default new Vuex.Store({
     },
     isAuthenticated: false,
     token: '',
+    restaurant:'',
   },
   mutations: {
     initializeStore(state) {
