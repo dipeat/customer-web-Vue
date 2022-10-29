@@ -37,7 +37,7 @@
           <v-divider></v-divider>
 
           <v-card-text>
-            I'm a thing. But, like most politicians, he promised more than he
+            I'm a thingo. But, like most politicians, he promised more than he
             could deliver. You won't have time for sleeping, soldier, not with
             all the bed making you'll be doing. Then we'll go with that data
             file! Hey, you add a one and two zeros to that or we walk! You're
@@ -109,10 +109,10 @@
       <v-sheet id="scroll-threshold-example" class="overflow-y-auto pb-16" max-height="480">
         <v-responsive height="auto">
           <v-container v-for="(cat, index) in menu" :key="index + 0.1">
-            <v-chip color="grey lighten-3">{{ cat }}</v-chip>
+            <v-chip  v-if="cat.restaurant == $store.state.restaurant" color="grey lighten-3">{{ cat.name }}</v-chip>
 
             <div v-for="(item, index) in menuList" :key="index">
-              <div v-if="cat == item.category">
+              <div v-if="cat.name == item.category">
                 <v-container v-if="item.restaurant == $store.state.restaurant">
                   <v-row>
                     <v-col cols="4" sm="5" md="5">
@@ -239,7 +239,7 @@
                   Cancel
                 </v-btn>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" text @click="dialog = false" v-if="foodOrder!=''">
+                <v-btn color="primary" text @click="checkout" v-if="foodOrder!=''">
                   Checkout
                 </v-btn>
               </v-card-actions>
@@ -278,18 +278,22 @@ export default {
 
   methods: {
     getMenu() {
-      axios.get("/api/v1/menu/").then((response) => {
-        for (let i = 0; i < response.data.length; i++) {
-          if (this.menuList.restaurant != response.data[i].restaurant) {
-            this.menuList.push(response.data[i]);
-
-            if (this.menu.indexOf(response.data[i].category) == -1) {
-              this.menu.push(response.data[i].category);
+          axios.get("/api/v1/menu/").then((response) => {
+            
+            for (let i = 0; i < response.data.length; i++) {
+              if (this.menuList.restaurant != response.data[i].restaurant) {
+                this.menuList.push(response.data[i]);
+              }
             }
-          }
-        }
-        // console.log(this.menu);
-      });
+          });
+
+
+          axios.get("/api/v1/menucategory/")
+          .then((response) => {
+            this.menu = response.data;
+            // console.log(this.menu);
+
+          });
     },
 
     oK() {
@@ -328,6 +332,25 @@ export default {
       this.foodOrder.splice(this.foodOrder.indexOf(item), 1);
       this.displayOrder.splice(this.displayOrder.indexOf(item), 1);
       // console.log(this.foodOrder);
+    },
+
+    checkout() {
+      this.dialog = false;
+      // print each item in displayOrder in console
+      this.displayOrder.forEach((item) => {
+        axios.post("/api/v1/foodorders/", {
+          restaurant: item.restaurant,
+          user: this.$store.state.user.username,
+          takeaway: true,
+          category: item.category,
+          final_price: item.final_price,
+          prepare_time: item.prepare_time,
+          food_name: item.name,
+          value: item.value,
+          discount: item.discount,
+          original_price: item.original_price,
+        });
+      });
     },
   },
 

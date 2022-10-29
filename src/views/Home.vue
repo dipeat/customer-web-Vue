@@ -61,24 +61,26 @@
       </v-card>
     </v-container>
 
-
-
-
-
     <v-container>
-      <v-row>
+      <v-row  >
         <v-col cols="12" sm="12">
-          <v-sheet rounded="lg" min-height="268" v-for="item,index in restaurantList" :key="index">
-            <v-card class="mx-auto" max-width="400" @click="setRestaurant(item)">
-              <v-row dense >
+          <v-sheet rounded="lg" min-height="268" v-for="item, index in status" :key="index">
+            <v-card class="mx-auto" max-width="400" >
+              <v-row dense>
                 <v-col :cols="12">
                   <v-img :src="'https://cdn.vuetifyjs.com/images/cards/house.jpg'" class="white--text align-end"
                     gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px">
-                    <v-card-title> {{ item }}</v-card-title>
+                    <v-card-title> {{ item.restaurant }}</v-card-title>
                   </v-img>
 
-                  <v-card-actions>
-                    <v-btn color="blue" dark to="/menu"> Menu </v-btn>
+                  <v-card-actions @click="setRestaurant(item.restaurant)">
+                    <div v-if="item.open_close">
+                      <v-btn color="blue" dark to="/menu" > Menu  </v-btn>
+                    </div>
+                    <div v-else>
+                      <h4 class="red--text" >Shop is closed.</h4>
+                    </div>
+                    
                     <v-spacer></v-spacer>
 
 
@@ -133,6 +135,8 @@ export default {
 
     menuItem: "",
     restaurantList: [],
+    status: "",
+    rest: "",
 
   }),
   methods: {
@@ -163,15 +167,26 @@ export default {
 
     setRestaurant(item) {
       this.$store.state.restaurant = item;
+      // console.log(item);
+      
+    },
+
+    shopStatus() {
+      
+      axios.get(`/api/v1/shopstatus/`)
+        .then(res => {
+          this.status = res.data
+          
+         
+        })
+
     }
   },
 
- 
+
   created() {
     this.getMenu();
-
-
-
+    this.shopStatus();
 
   },
 };
