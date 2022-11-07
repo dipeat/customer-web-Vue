@@ -50,10 +50,10 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requireLogin) && !store.state.isAuthenticated) {
-    next('/')
+    next('/home')
   } else {
     next()
   }
-})
+})();
 
 export default router

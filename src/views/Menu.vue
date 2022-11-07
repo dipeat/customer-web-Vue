@@ -109,7 +109,7 @@
       <v-sheet id="scroll-threshold-example" class="overflow-y-auto pb-16" max-height="480">
         <v-responsive height="auto">
           <v-container v-for="(cat, index) in menu" :key="index + 0.1">
-            <v-chip  v-if="cat.restaurant == $store.state.restaurant" color="grey lighten-3">{{ cat.name }}</v-chip>
+            <v-chip v-if="cat.restaurant == $store.state.restaurant" color="grey lighten-3">{{ cat.name }}</v-chip>
 
             <div v-for="(item, index) in menuList" :key="index">
               <div v-if="cat.name == item.category">
@@ -151,7 +151,7 @@
     <v-card shaped class="mx-auto overflow-hidden mt-2" max-width="550" height="40">
       <v-row>
         <v-col sm="10" cols="9">
-          <v-text-field placeholder="Type message ..." filled dense></v-text-field>
+          <v-text-field v-model="message" placeholder="Type message ..." filled dense></v-text-field>
         </v-col>
 
         <v-col sm="2" cols="2">
@@ -165,73 +165,83 @@
               <v-card-title>Orders</v-card-title>
               <v-divider></v-divider>
               <v-card-text style="height: auto">
-                <div v-for="order,index in displayOrder" :key="index">
+                <div v-for="order, index in displayOrder" :key="index">
                   <v-container>
                     <v-row>
                       <v-col>
                         <div>{{ order.name }}</div>
                       </v-col>
                       <v-col>
-                        <div>{{ order.final_price*order.value }}</div>
+                        <div>{{ order.final_price * order.value }}</div>
                       </v-col>
                       <v-col>
                         <div>{{ order.value }}</div>
                       </v-col>
                     </v-row>
-                    
+
                   </v-container>
-                 
+
                 </div>
                 <v-divider color="red"></v-divider>
-                <v-container v-if="displayOrder!=''">
+                <v-container v-if="displayOrder != ''">
                   <v-row>
                     <v-col>
                       <div>Total</div>
                     </v-col>
                     <v-col>
-                      <div><v-icon>mdi-currency-inr</v-icon> {{total}}</div>
+                      <div>
+                        <v-icon>mdi-currency-inr</v-icon> {{ total }}
+                      </div>
                     </v-col>
                   </v-row>
-                <v-divider color="yellow"></v-divider>
-                
+                  <v-divider color="yellow"></v-divider>
+
                   <v-row>
                     <v-col>
                       <div>Prepare Time</div>
                     </v-col>
                     <v-col>
-                      <div><v-icon>mdi-alarm</v-icon> {{premare_time}} mins</div>
+                      <div>
+                        <v-icon>mdi-alarm</v-icon> {{ premare_time }} mins
+                      </div>
                     </v-col>
                   </v-row>
 
                   <v-row>
-              <v-col cols="12" sm="12">
+                    <v-col cols="6" sm="6">
 
 
-                <v-dialog ref="dialog" v-model="modal2" :return-value.sync="time" width="290px">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field v-model="time" label="Select arrival time" prepend-icon="mdi-clock-time-four-outline"
-                      readonly v-bind="attrs" v-on="on"></v-text-field>
-                  </template>
-                  <v-time-picker v-if="modal2" v-model="time" full-width ampm-in-title>
-                    <v-spacer></v-spacer>
-                    <v-btn text color="primary" @click="modal2 = false">
-                      Cancel
-                    </v-btn>
-                    <v-btn text color="primary" @click="$refs.dialog.save(time)">
-                      OK
-                    </v-btn>
-                  </v-time-picker>
-                </v-dialog>
-              </v-col>
-
-            </v-row>
-
-
-
+                      <v-dialog ref="dialog" v-model="modal2" :return-value.sync="time" width="290px">
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-text-field v-model="time" label="Arrival time"
+                            prepend-icon="mdi-clock-time-four-outline" readonly v-bind="attrs" v-on="on"></v-text-field>
+                        </template>
+                        <v-time-picker v-if="modal2" v-model="time" full-width ampm-in-title>
+                          
+                          <v-spacer></v-spacer>
+                          <v-btn text color="primary" @click="modal2 = false">
+                            Cancel
+                          </v-btn>
+                          <v-btn text color="primary" @click="$refs.dialog.save(time)">
+                            OK
+                          </v-btn>
+                        </v-time-picker>
+                      </v-dialog>
+                    </v-col>
+                    <v-col cols="6" sm="6">
+                      <v-checkbox
+                        v-model="checkbox"
+                        label="Take Away"
+                        color="primary"
+                      >
+                      </v-checkbox>
+                    </v-col>
+                  </v-row>
                 </v-container>
-                <v-container v-if="displayOrder==''">
-                    <h4>Please select items for order!</h4>
-                  </v-container>
+                <v-container v-if="displayOrder == ''">
+                  <h4>Please select items for order!</h4>
+                </v-container>
+
               </v-card-text>
               <v-divider></v-divider>
               <v-card-actions>
@@ -239,7 +249,7 @@
                   Cancel
                 </v-btn>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" text @click="checkout" v-if="foodOrder!=''">
+                <v-btn color="primary" text @click="checkout" v-if="foodOrder != ''">
                   Checkout
                 </v-btn>
               </v-card-actions>
@@ -268,7 +278,10 @@ export default {
       modal2: false,
       total: 0,
       premare_time: 0,
-
+      message: "",
+      checkbox: false,
+      
+      foodName: [],
       menuList: [],
       menu: [],
       foodOrder: [],
@@ -278,22 +291,22 @@ export default {
 
   methods: {
     getMenu() {
-          axios.get("/api/v1/menu/").then((response) => {
-            
-            for (let i = 0; i < response.data.length; i++) {
-              if (this.menuList.restaurant != response.data[i].restaurant) {
-                this.menuList.push(response.data[i]);
-              }
-            }
-          });
+      axios.get("/api/v1/menu/").then((response) => {
+
+        for (let i = 0; i < response.data.length; i++) {
+          if (this.menuList.restaurant != response.data[i].restaurant) {
+            this.menuList.push(response.data[i]);
+          }
+        }
+      });
 
 
-          axios.get("/api/v1/menucategory/")
-          .then((response) => {
-            this.menu = response.data;
-            // console.log(this.menu);
+      axios.get("/api/v1/menucategory/")
+        .then((response) => {
+          this.menu = response.data;
+          // console.log(this.menu);
 
-          });
+        });
     },
 
     oK() {
@@ -316,7 +329,7 @@ export default {
       for (let i = 0; i < this.displayOrder.length; i++) {
         this.premare_time += this.displayOrder[i].prepare_time * this.displayOrder[i].value;
       }
-      
+
 
 
     },
@@ -324,7 +337,7 @@ export default {
     plusOne(item) {
       item.value++, this.foodOrder.push(item);
       // console.log(this.foodOrder);
-     
+
     },
 
     minusOne(item) {
@@ -336,26 +349,53 @@ export default {
 
     checkout() {
       this.dialog = false;
-      // print each item in displayOrder in console
-      this.displayOrder.forEach((item) => {
-        axios.post("/api/v1/foodorders/", {
-          restaurant: item.restaurant,
-          user: this.$store.state.user.username,
-          takeaway: true,
-          category: item.category,
-          final_price: item.final_price,
-          prepare_time: item.prepare_time,
-          food_name: item.name,
-          value: item.value,
-          discount: item.discount,
-          original_price: item.original_price,
-        });
+      // add all name of food in one string
+      for (let i = 0; i < this.displayOrder.length; i++) {
+        this.foodName += this.displayOrder[i].name + "@" + this.displayOrder[i].value + "$$" + this.displayOrder[i].final_price +"||";
+      }
+
+      // convert 24 hour to 12 hour
+      let time = this.time;
+      let hours = time.substring(0, 2);
+      let minutes = time.substring(3, 5);
+      let ampm = hours >= 12 ? "PM" : "AM";
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      let strTime = hours + ":" + minutes + " " + ampm;
+      
+
+      // console.log( {
+      //     restaurant: this.$store.state.restaurant,
+      //     user: this.$store.state.user.username,
+      //     takeaway: this.checkbox,
+      //     prepare_time: this.premare_time,
+      //     food_name: this.foodName,
+      //     total: this.total,
+      //     message: this.message,
+      //     arrival_time: strTime,
+      //   });
+
+      axios.post("/api/v1/foodorders/", {
+        restaurant: this.$store.state.restaurant,
+        user: this.$store.state.user.username,
+        takeaway: this.checkbox,
+        prepare_time: this.premare_time,
+        food_name: this.foodName,
+        total: this.total,
+        message: this.message,
+        arrival_time: strTime,
       });
+
+      this.$router.push("/order");
+
     },
   },
 
-  created() {
+  created: function () {
     this.getMenu();
   },
+
+
 };
 </script>
