@@ -19,6 +19,9 @@
           <span class="title purple--text">Food Orders</span>
         </v-card-title>
         <v-divider></v-divider>
+        <body v-if="foodOrdered==''">
+          No orders to show.
+        </body>
       </v-container>
       <v-container v-for="item,index in foodOrdered" :key="index">
         <div @click="setRestaurant(item.restaurant)">
@@ -164,6 +167,10 @@ export default {
   },
 
   created() {
+    // this.foodOrders();
+  },
+
+  mounted() {
     this.foodOrders();
   },
 };
