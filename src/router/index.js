@@ -4,6 +4,8 @@ import Home from '../views/Home.vue'
 import Menu from '../views/Menu.vue'
 import Order from '../views/OrderDetail.vue'
 import Welcome from '../views/welcomePage.vue'
+import History from '../views/History.vue'
+import Profile from '../views/Profile.vue'
 
 import store from '../store'
 Vue.use(VueRouter)
@@ -39,7 +41,24 @@ const routes = [
     meta: {
       requireLogin: true
     }
-  }
+  },
+  {
+    path: '/history',
+    name: 'History',
+    component: History,
+    meta: {
+      requireLogin: true
+    }
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
+    meta: {
+      requireLogin: true
+    }
+  },
+
 ]
 
 const router = new VueRouter({

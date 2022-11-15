@@ -1,13 +1,12 @@
 <template>
   <v-main>
     <v-slide-group v-model="sliderGroup" center-active show-arrows>
-      <v-slide-item v-for="n in 20" :key="n" v-slot="{ active, toggle }">
+      <v-slide-item v-for="n in 5" :key="n" v-slot="{ active, toggle }">
         <v-card :color="active ? 'transparent' : 'grey lighten-1'" class="ma-1" height="120" width="120"
-          @click="toggle">
+          @click="toggle(); favShop()">
           <v-row class="fill-height" align="center" justify="center">
-            <v-scale-transition>
-              <v-btn v-if="active" color="black" size="20" v-text="'open'" dark></v-btn>
-            </v-scale-transition>
+            <p>hello</p>
+            
           </v-row>
         </v-card>
       </v-slide-item>
@@ -136,9 +135,10 @@ export default {
     menuItem: "",
     restaurantList: [],
     status: "",
-    rest: "",
 
   }),
+
+
   methods: {
     sliderGroup(value) {
       console.log(value);
@@ -180,7 +180,11 @@ export default {
          
         })
 
-    }
+    },
+
+    favShop() {
+      console.log("fav");
+    },
   },
 
 

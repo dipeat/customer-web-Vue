@@ -12,17 +12,27 @@
             color="purple"
             v-if="$store.state.isAuthenticated"
           >
-            <span><v-icon>mdi-home</v-icon></span
+            <span><v-icon color="red">mdi-home</v-icon></span
             >&nbsp;&nbsp;&nbsp;
             <v-list-item-title v-text="'Home'"></v-list-item-title>
           </v-list-item>
           <v-list-item link color="purple" v-if="$store.state.isAuthenticated">
-            <span><v-icon>mdi-wallet</v-icon></span
+            <span><v-icon color="grey">mdi-wallet</v-icon></span
             >&nbsp;&nbsp;&nbsp;
             <v-list-item-title v-text="'Wallet'"></v-list-item-title>
           </v-list-item>
+          <v-list-item to="/history" link color="purple" v-if="$store.state.isAuthenticated">
+            <span><v-icon color="orange">mdi-history</v-icon></span
+            >&nbsp;&nbsp;&nbsp;
+            <v-list-item-title v-text="'History'"></v-list-item-title>
+          </v-list-item>
+          <v-list-item to="/profile" link color="purple" v-if="$store.state.isAuthenticated">
+            <span><v-icon color="blue">mdi-account</v-icon></span
+            >&nbsp;&nbsp;&nbsp;
+            <v-list-item-title v-text="'Profile'"></v-list-item-title>
+          </v-list-item>
           <v-list-item link color="purple">
-            <span><v-icon>mdi-help</v-icon></span
+            <span><v-icon color="green">mdi-help</v-icon></span
             >&nbsp;&nbsp;&nbsp;
             <v-list-item-title v-text="'Help'"></v-list-item-title>
           </v-list-item>
@@ -32,7 +42,7 @@
             @click="logout"
             v-if="$store.state.isAuthenticated"
           >
-            <span><v-icon>mdi-logout</v-icon></span
+            <span><v-icon color="black">mdi-logout</v-icon></span
             >&nbsp;&nbsp;&nbsp;
             <v-list-item-title v-text="'Logout'"></v-list-item-title>
           </v-list-item>
@@ -58,7 +68,7 @@
         <v-icon>mdi-heart</v-icon>
       </v-btn>
 
-      <v-btn icon v-if="$store.state.isAuthenticated">
+      <v-btn to="/history" icon v-if="$store.state.isAuthenticated">
         <v-icon>mdi-history</v-icon>
       </v-btn>
       &nbsp;&nbsp;&nbsp;
