@@ -17,6 +17,15 @@
           <v-chip color="white align-bottom">
             <v-card-title v-text="$store.state.restaurant" class="purple--text">
             </v-card-title>
+            <v-btn icon small @click="likeShop($store.state.restaurant)">
+              <v-icon :color=likeColor >mdi-heart</v-icon>
+            </v-btn>
+          </v-chip>
+          <v-chip color="white">
+            
+            <v-btn icon small>
+              <v-icon color="blue">mdi-share-variant</v-icon>
+            </v-btn>
           </v-chip>
         </v-container>
       </v-img>
@@ -50,61 +59,6 @@
     <br />
 
     <v-card class="mx-auto overflow-hidden" max-width="550" height="500">
-      <!-- <v-bottom-navigation absolute horizontal>
-        <v-text-field placeholder="Type message ..." filled rounded dense class="mt-2"></v-text-field>
-
-        <v-bottom-sheet v-model="sheet">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn @click="ok" color="black" dark v-bind="attrs" v-on="on">
-              <span class="white--text">Ok</span>
-            </v-btn>
-          </template>
-
-          <v-sheet class="mx-auto overflow-hidden" height="200px" max-width="550" align="center">
-            <v-row>
-              <v-col cols="10" sm="10" md="10">
-                <v-subheader>Minimum prepare time = 48 mins</v-subheader>
-              </v-col>
-
-              <v-col cols="1" sm="1" md="1">
-                <v-btn class="ml-2" text small color="error" @click="sheet = !sheet">
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
-              </v-col>
-            </v-row>
-
-
-            <v-row>
-              <v-col cols="6" sm="6" md="6">
-
-
-                <v-dialog ref="dialog" v-model="modal2" :return-value.sync="time" width="290px">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field v-model="time" label="Select arrival time" prepend-icon="mdi-clock-time-four-outline"
-                      readonly v-bind="attrs" v-on="on"></v-text-field>
-                  </template>
-                  <v-time-picker v-if="modal2" v-model="time" full-width ampm-in-title>
-                    <v-spacer></v-spacer>
-                    <v-btn text color="primary" @click="modal2 = false">
-                      Cancel
-                    </v-btn>
-                    <v-btn text color="primary" @click="$refs.dialog.save(time)">
-                      OK
-                    </v-btn>
-                  </v-time-picker>
-                </v-dialog>
-              </v-col>
-
-              <v-col cols="6" sm="6" md="6">
-                <v-subheader>Total = Rs.430/-</v-subheader>
-              </v-col>
-
-            </v-row>
-
-            <v-btn text color="purple" dark>Checkout</v-btn>
-          </v-sheet>
-        </v-bottom-sheet>
-      </v-bottom-navigation> -->
 
       <v-sheet id="scroll-threshold-example" class="overflow-y-auto pb-16" max-height="480">
         <v-responsive height="auto">
@@ -213,11 +167,11 @@
 
                       <v-dialog ref="dialog" v-model="modal2" :return-value.sync="time" width="290px">
                         <template v-slot:activator="{ on, attrs }">
-                          <v-text-field v-model="time" label="Arrival time"
-                            prepend-icon="mdi-clock-time-four-outline" readonly v-bind="attrs" v-on="on"></v-text-field>
+                          <v-text-field v-model="time" label="Arrival time" prepend-icon="mdi-clock-time-four-outline"
+                            readonly v-bind="attrs" v-on="on"></v-text-field>
                         </template>
                         <v-time-picker v-if="modal2" v-model="time" full-width ampm-in-title>
-                          
+
                           <v-spacer></v-spacer>
                           <v-btn text color="primary" @click="modal2 = false">
                             Cancel
@@ -229,11 +183,7 @@
                       </v-dialog>
                     </v-col>
                     <v-col cols="6" sm="6">
-                      <v-checkbox
-                        v-model="checkbox"
-                        label="Take Away"
-                        color="primary"
-                      >
+                      <v-checkbox v-model="checkbox" label="Take Away" color="primary">
                       </v-checkbox>
                     </v-col>
                   </v-row>
@@ -280,12 +230,15 @@ export default {
       premare_time: 0,
       message: "",
       checkbox: false,
-      
+      likeColor: "",
+      likeBoolShop: true,
+
       foodName: [],
       menuList: [],
       menu: [],
       foodOrder: [],
       displayOrder: [],
+      likedShops: [],
     };
   },
 
@@ -351,7 +304,7 @@ export default {
       this.dialog = false;
       // add all name of food in one string
       for (let i = 0; i < this.displayOrder.length; i++) {
-        this.foodName += this.displayOrder[i].name + "@" + this.displayOrder[i].value + "$$" + this.displayOrder[i].final_price +"||";
+        this.foodName += this.displayOrder[i].name + "@" + this.displayOrder[i].value + "$$" + this.displayOrder[i].final_price + "||";
       }
 
       // convert 24 hour to 12 hour
@@ -363,7 +316,7 @@ export default {
       hours = hours ? hours : 12;
       minutes = minutes < 10 ? "0" + minutes : minutes;
       let strTime = hours + ":" + minutes + " " + ampm;
-      
+
 
       // console.log( {
       //     restaurant: this.$store.state.restaurant,
@@ -390,10 +343,86 @@ export default {
       this.$router.push("/order");
 
     },
+
+    likeShop(item) {
+
+      const slug_customer = this.$store.state.user.username + this.$store.state.restaurant;
+      
+      if (this.likeColor === "red") {
+        this.likeColor = "";
+        this.likeBoolShop = false;
+
+        axios
+        .patch(`/api/v1/editlikedshop/${slug_customer}/`, {
+          liked: this.likeBoolShop,
+        })
+
+        // console.log("white");
+
+      } else {
+        this.likeColor = "red";
+        this.likeBoolShop = true;
+
+        axios
+        .patch(`/api/v1/editlikedshop/${slug_customer}/`, {
+          customer: this.$store.state.user.username,
+          user: this.$store.state.user.id,
+          shop: item,
+          liked: this.likeBoolShop,
+          slug: slug_customer,
+        })
+        // console.log("red");
+
+
+      }
+      // console.log(item);
+
+      // const slug_customer = this.$store.state.user.username + this.$store.state.restaurant;
+
+      // axios
+      //   .patch(`/api/v1/editlikedshop/${slug_customer}/`, {
+      //     customer: this.$store.state.user.username,
+      //     user: this.$store.state.user.id,
+      //     shop: item,
+      //     liked: this.likeBoolShop,
+      //     slug: slug_customer,
+      //   })
+      //   .then((response) => {
+      //     console.log(response.data);
+      //   });
+    },
+
+    getLikedShop() {  
+      axios
+        .get("/api/v1/likedshop/")
+        .then((response) => {
+          // filter on basis of customer
+          this.likedShops = response.data.filter(
+            (item) => item.customer === this.$store.state.user.username
+          );
+          // console.log(this.likedShops);
+          for (let i = 0; i < this.likedShops.length; i++) {
+          if (this.likedShops[i].shop === this.$store.state.restaurant && this.likedShops[i].liked === true) {
+            this.likeColor = "red";
+          }
+        }
+        });
+
+        
+
+        // if (this.likedShops.shop === this.$store.state.restaurant &&  this.likedShops.liked === true) {
+        //   this.likeColor = "red";
+        // } else {
+        //   this.likeColor = "";
+        // }
+    },
+
   },
 
   created: function () {
     this.getMenu();
+    this.getLikedShop();
+
   },
 
 

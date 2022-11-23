@@ -1,12 +1,26 @@
 <template>
   <v-main>
-    <v-slide-group v-model="sliderGroup" center-active show-arrows>
-      <v-slide-item v-for="n in 5" :key="n" v-slot="{ active, toggle }">
+    <h4 v-if="likedShops!=''">Favorite Shops</h4>
+    <v-slide-group v-model="sliderGroup" center-active v-if="likedShops!=''">
+      <v-slide-item v-for="shops, index in likedShops" :key="index+0.0011" v-slot="{ active, toggle }">
         <v-card :color="active ? 'transparent' : 'grey lighten-1'" class="ma-1" height="120" width="120"
-          @click="toggle(); favShop()">
-          <v-row class="fill-height" align="center" justify="center">
-            <p>hello</p>
-            
+          @click="toggle(); favShop(shops.shop)" to="/menu">
+          <v-row class="fill-height">
+
+            <v-scale-transition>
+
+              <v-avatar class="ma-2" size="125" tile>
+                <v-img :src="'https://cdn.vuetifyjs.com/images/cards/house.jpg'">
+                  <v-row align="end" justify="center">
+                    <v-chip color="black" small size="48" label class="white--text ma-3 ">{{ shops.shop }}
+                    </v-chip>
+                  </v-row>
+
+                </v-img>
+
+              </v-avatar>
+            </v-scale-transition>
+
           </v-row>
         </v-card>
       </v-slide-item>
@@ -61,40 +75,27 @@
     </v-container>
 
     <v-container>
-      <v-row  >
-        <v-col cols="12" sm="12">
-          <v-sheet rounded="lg" min-height="268" v-for="item, index in status" :key="index">
-            <v-card class="mx-auto" max-width="400" >
+      <v-row>
+        <v-col cols="6" sm="4" v-for="item, index in status" :key="index">
+          <v-sheet rounded="lg" min-height="268">
+            <v-card class="mx-auto" max-width="400">
               <v-row dense>
                 <v-col :cols="12">
                   <v-img :src="'https://cdn.vuetifyjs.com/images/cards/house.jpg'" class="white--text align-end"
-                    gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px">
+                    gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" max-height="200px">
                     <v-card-title> {{ item.restaurant }}</v-card-title>
                   </v-img>
 
                   <v-card-actions @click="setRestaurant(item.restaurant)">
                     <div v-if="item.open_close">
-                      <v-btn color="blue" dark to="/menu" > Menu  </v-btn>
+                      <v-btn small outlined color="blue" dark to="/menu">Menu </v-btn>
                     </div>
                     <div v-else>
-                      <h4 class="red--text" >Shop is closed.</h4>
+                      <h4 class="red--text">Closed {{ item.restaurant }}</h4>
                     </div>
-                    
+
                     <v-spacer></v-spacer>
 
-
-
-                    <v-btn icon>
-                      <v-icon>mdi-heart</v-icon>
-                    </v-btn>
-
-                    <v-btn icon>
-                      <v-icon>mdi-bookmark</v-icon>
-                    </v-btn>
-
-                    <v-btn icon>
-                      <v-icon>mdi-share-variant</v-icon>
-                    </v-btn>
                   </v-card-actions>
                 </v-col>
               </v-row>
@@ -107,6 +108,8 @@
 
       </v-row>
     </v-container>
+
+
 
 
 
@@ -132,16 +135,19 @@ export default {
 
     slides: ["First", "Second", "Third", "Fourth", "Fifth"],
 
+    likeColor: "",
     menuItem: "",
-    restaurantList: [],
     status: "",
+
+    restaurantList: [],
+    likedShops: [],
 
   }),
 
 
   methods: {
     sliderGroup(value) {
-      console.log(value);
+      // console.log(value);
     },
 
 
@@ -168,29 +174,46 @@ export default {
     setRestaurant(item) {
       this.$store.state.restaurant = item;
       // console.log(item);
-      
+
     },
 
     shopStatus() {
-      
+
       axios.get(`/api/v1/shopstatus/`)
         .then(res => {
           this.status = res.data
-          
-         
+
+
         })
 
     },
 
-    favShop() {
-      console.log("fav");
+    favShop(shop) {
+      this.$store.state.restaurant = shop;
     },
+
+    
+
+    getLikedShop() {
+      axios
+        .get("/api/v1/likedshop/")
+        .then((response) => {
+          this.likedShops = response.data.filter(
+            (item) => item.customer === this.$store.state.user.username && item.liked === true
+           
+
+          );
+          // console.log(this.likedShops);
+        });
+    },
+
   },
 
 
   created() {
     this.getMenu();
     this.shopStatus();
+    this.getLikedShop();
 
   },
 };
