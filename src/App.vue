@@ -64,7 +64,7 @@
 
       <!--  -->
 
-      <v-btn icon color="pink" v-if="$store.state.isAuthenticated">
+      <v-btn icon color="red" v-if="$store.state.isAuthenticated" to="/likedshop">
         <v-icon>mdi-heart</v-icon>
       </v-btn>
 

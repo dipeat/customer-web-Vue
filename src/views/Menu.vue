@@ -377,19 +377,7 @@ export default {
       }
       // console.log(item);
 
-      // const slug_customer = this.$store.state.user.username + this.$store.state.restaurant;
-
-      // axios
-      //   .patch(`/api/v1/editlikedshop/${slug_customer}/`, {
-      //     customer: this.$store.state.user.username,
-      //     user: this.$store.state.user.id,
-      //     shop: item,
-      //     liked: this.likeBoolShop,
-      //     slug: slug_customer,
-      //   })
-      //   .then((response) => {
-      //     console.log(response.data);
-      //   });
+     
     },
 
     getLikedShop() {  
@@ -408,13 +396,7 @@ export default {
         }
         });
 
-        
-
-        // if (this.likedShops.shop === this.$store.state.restaurant &&  this.likedShops.liked === true) {
-        //   this.likeColor = "red";
-        // } else {
-        //   this.likeColor = "";
-        // }
+     
     },
 
   },

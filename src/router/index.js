@@ -6,6 +6,7 @@ import Order from '../views/OrderDetail.vue'
 import Welcome from '../views/welcomePage.vue'
 import History from '../views/History.vue'
 import Profile from '../views/Profile.vue'
+import LikedShop from '../views/LikedShop.vue'
 
 import store from '../store'
 Vue.use(VueRouter)
@@ -54,6 +55,14 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: Profile,
+    meta: {
+      requireLogin: true
+    }
+  },
+  {
+    path: '/likedshop',
+    name: 'LikedShop',
+    component: LikedShop,
     meta: {
       requireLogin: true
     }

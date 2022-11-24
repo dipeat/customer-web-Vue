@@ -1,8 +1,8 @@
 <template>
   <v-main>
-    <h4 v-if="likedShops!=''">Favorite Shops</h4>
-    <v-slide-group v-model="sliderGroup" center-active v-if="likedShops!=''">
-      <v-slide-item v-for="shops, index in likedShops" :key="index+0.0011" v-slot="{ active, toggle }">
+    <h4 v-if="likedShops != ''">Favorite Shops</h4>
+    <v-slide-group v-model="sliderGroup" center-active v-if="likedShops != ''">
+      <v-slide-item v-for="shops, index in likedShops" :key="index + 0.0011" v-slot="{ active, toggle }">
         <v-card :color="active ? 'transparent' : 'grey lighten-1'" class="ma-1" height="120" width="120"
           @click="toggle(); favShop(shops.shop)" to="/menu">
           <v-row class="fill-height">
@@ -38,29 +38,40 @@
       </v-carousel>
     </v-container>
 
-    <v-container>
+    <v-container v-if="foodOrdered!=''">
       <v-card class="mx-auto">
         <v-row>
           <v-col cols="9" md="10" sm="10">
             <h3 class="ml-4">Order Details</h3>
             <v-container>
               <v-row justify="center">
-                <v-col></v-col>
-                <v-col cols="10" sm="10">
-                  <v-card class="mx-auto" align="center" color="purple darken-2" dark>
-                    <h4 class="yellow--text">Western City</h4>
-                    <div align="center" justify="center">
-                      <v-subheader class=" justify-center">
-                        10:00 AM - 11:00 AM</v-subheader>
-                      <v-row>
-                        <v-col>
-                          <h5>Dine-In</h5>
+                <v-col cols="10" sm="6" v-for="item, index in foodOrdered" :key="index + 0.55">
+                  <v-card class="mx-auto" align="center" max-width="auto" color="grey lighten-5" elevation="5">
+                    <h4><u>{{ item.restaurant }}</u></h4>
+
+                    <body>
+                      <v-row class="mt-1">
+
+                        <v-col cols="12" sm="4">
+                          <span>Arrival: {{ item.arrival_time }}</span>
                         </v-col>
-                        <v-col>
-                          <h5>Total = 348</h5>
+                        <v-col cols="12" sm="4">
+                          <v-chip outlined color="primary"  v-if="item.takeaway == true">
+                            <span>Takeaway</span>
+                          </v-chip>
+                          <v-chip outlined color="orange darken-4"  v-else>
+                            <span>Dine-In</span>
+                          </v-chip>
                         </v-col>
+                        <v-col cols="12" sm="4">
+                          <span>Total =<v-icon>mdi-currency-inr</v-icon>{{ item.total }}</span>
+                        </v-col>
+                        
+
+
                       </v-row>
-                    </div>
+
+                    </body>
                   </v-card>
                 </v-col>
               </v-row>
@@ -141,6 +152,7 @@ export default {
 
     restaurantList: [],
     likedShops: [],
+    foodOrdered: [],
 
   }),
 
@@ -192,7 +204,7 @@ export default {
       this.$store.state.restaurant = shop;
     },
 
-    
+
 
     getLikedShop() {
       axios
@@ -200,11 +212,19 @@ export default {
         .then((response) => {
           this.likedShops = response.data.filter(
             (item) => item.customer === this.$store.state.user.username && item.liked === true
-           
+
 
           );
           // console.log(this.likedShops);
         });
+    },
+
+    async foodOrders() {
+      const response = await axios.get('/api/v1/foodorders/');
+      const filteredData = response.data.filter((item) => item.user === this.$store.state.user.username);
+      // console.log(filteredData);
+      this.foodOrdered = filteredData;
+
     },
 
   },
@@ -214,6 +234,7 @@ export default {
     this.getMenu();
     this.shopStatus();
     this.getLikedShop();
+    this.foodOrders();
 
   },
 };
