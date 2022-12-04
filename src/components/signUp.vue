@@ -43,6 +43,7 @@
             hint="At least 8 characters"
             counter
             @click:append="show2 = !show2"
+            @keyup.enter="signUp"
             maxlength="20"
           ></v-text-field>
         </form>

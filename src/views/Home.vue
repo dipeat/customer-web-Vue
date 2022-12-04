@@ -46,7 +46,7 @@
             <v-container>
               <v-row justify="center">
                 <v-col cols="10" sm="6" v-for="item, index in foodOrdered" :key="index + 0.55">
-                  <v-card class="mx-auto" align="center" max-width="auto" color="grey lighten-5" elevation="5">
+                  <v-card class="mx-auto" to="/order" align="center" max-width="auto" color="grey lighten-5" elevation="5">
                     <h4><u>{{ item.restaurant }}</u></h4>
 
                     <body>
@@ -66,11 +66,7 @@
                         <v-col cols="12" sm="4">
                           <span>Total =<v-icon>mdi-currency-inr</v-icon>{{ item.total }}</span>
                         </v-col>
-                        
-
-
                       </v-row>
-
                     </body>
                   </v-card>
                 </v-col>

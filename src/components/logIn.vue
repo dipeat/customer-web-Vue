@@ -23,6 +23,7 @@
             hint="At least 8 characters"
             counter
             @click:append="show3 = !show3"
+            @keyup.enter="logIn"
             maxlength="20"
           ></v-text-field>
         </form>
