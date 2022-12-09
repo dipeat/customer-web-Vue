@@ -63,7 +63,7 @@
       <v-sheet id="scroll-threshold-example" class="overflow-y-auto pb-16" max-height="480">
         <v-responsive height="auto">
           <v-container v-for="(cat, index) in menu" :key="index + 0.1">
-            <v-chip v-if="cat.restaurant == $store.state.restaurant" color="grey lighten-3">{{ cat.name }}</v-chip>
+            <v-chip outlined v-if="cat.restaurant == $store.state.restaurant" color="red">{{ cat.name }}</v-chip>
 
             <div v-for="(item, index) in menuList" :key="index">
               <div v-if="cat.name == item.category">
@@ -74,18 +74,18 @@
                       <v-subheader> {{ item.prepare_time }} mins</v-subheader>
                     </v-col>
                     <v-col cols="3" sm="3" md="3">
-                      <span class="text-decoration-line-through">
+                      <span class="text-decoration-line-through" v-if="item.original_price > item.final_price">
                         {{ item.original_price }}
                       </span>
                       &nbsp; <span> {{ item.final_price }}</span>
                     </v-col>
                     <v-col align="center" cols="5" sm="4" md="4">
                       <div>
-                        <v-chip dark link color="black" v-if="item.value > 0" @click="minusOne(item)">
+                        <v-chip small dark link color="black" v-if="item.value > 0" @click="minusOne(item)">
                           <v-icon small dark>mdi-minus</v-icon>
                         </v-chip>
-                        <v-chip>{{ item.value }}</v-chip>
-                        <v-chip dark link color="black" @click="plusOne(item)">
+                        <v-chip outlined color="blue darken-2">{{ item.value }}</v-chip>
+                        <v-chip small dark link color="black" @click="plusOne(item)">
                           <v-icon small dark>mdi-plus</v-icon>
                         </v-chip>
                       </div>
@@ -375,7 +375,7 @@ export default {
 
 
       }
-      // console.log(item);
+      console.log(item);
 
      
     },

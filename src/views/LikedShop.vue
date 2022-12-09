@@ -43,9 +43,9 @@ export default {
             axios.get('/api/v1/likedshop/')
                 .then(response => {
                     this.likedShops = response.data.filter(
-                        (item) => item.customer === this.$store.state.user.username
+                        (item) => item.customer === this.$store.state.user.username && item.liked === true
                     );
-                    console.log(this.likedShops)
+                    // console.log(this.likedShops)
                 })
         },
     },

@@ -140,6 +140,8 @@ export default {
 
       this.dialog = false;
 
+      this.getCustomerProfile();
+
     },
 
     getCustomerProfile() {
@@ -151,6 +153,10 @@ export default {
           this.get_profile.mobile_number = response.data[0].phone;
           this.get_profile.email = response.data[0].email;
           this.get_profile.introduction = response.data[0].intro;
+
+          this.mobile_number = response.data[0].phone;
+          this.email = response.data[0].email;
+          this.introduction = response.data[0].intro;
         })
         // .catch((error) => {
         //   console.log(error);

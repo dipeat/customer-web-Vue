@@ -89,6 +89,7 @@
                 <v-list color="yellow lighten-5" v-if="getSearch !=''">
                   <v-list-item v-for="query, index in getSearch" :key="index + 0.0001" link to="/menu">
                     <v-list-item-title v-text="query.slug" @click="setRestaurant(query.slug)"></v-list-item-title>
+                    <v-list-item-action-text>{{ query.address }}</v-list-item-action-text>
                   </v-list-item>
                 </v-list>
               </v-menu>
@@ -176,8 +177,6 @@ export default {
 
       this.getSearch == "";
 
-      // console.log(this.search);
-
       // remove space from this.search
       let search = this.search.replace(/^[ ]+/g, "");
 
@@ -186,7 +185,6 @@ export default {
         axios
           .get(`/api/v1/clientprofilesearch/${search}`)
           .then((response) => {
-            // console.log(response.data);
             this.getSearch = response.data;
           })
           .catch((error) => {
