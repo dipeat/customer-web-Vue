@@ -46,7 +46,7 @@
             <v-container>
               <v-row justify="center">
                 <v-col cols="10" sm="6" v-for="item, index in foodOrdered" :key="index + 0.55">
-                  <v-card class="mx-auto" to="/order" align="center" max-width="auto" color="grey lighten-5" elevation="5">
+                  <v-card class="mx-auto" v-if="item.delivered===false" to="/order" align="center" max-width="auto" color="grey lighten-5" elevation="5">
                     <h4><u>{{ item.restaurant }}</u></h4>
 
                     <body>
@@ -219,7 +219,7 @@ export default {
       const response = await axios.get('/api/v1/foodorders/');
       const filteredData = response.data.filter((item) => item.user === this.$store.state.user.username);
       // console.log(filteredData);
-      this.foodOrdered = filteredData;
+      this.foodOrdered = filteredData.reverse().filter((item) => item.delivered === false);
 
     },
 
