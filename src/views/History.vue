@@ -44,13 +44,15 @@
         <span> Arrival: {{ item.arrival_time }}</span>
       </v-chip>
       &nbsp;&nbsp;
+      <v-chip outlined color="orange" class="mt-1">
+        <span>{{ item.order_date.slice(4,16) }}</span>
+      </v-chip>
+      
+      &nbsp;&nbsp;
       <v-chip outlined color="purple" class="mt-1">
         <span>Total =<v-icon>mdi-currency-inr</v-icon>{{ item.total}}</span>
       </v-chip>
-      &nbsp;&nbsp;
-      <v-chip outlined color="orange" class="mt-1">
-        <span>{{ item.order_date.split('T')[0]}}</span>
-      </v-chip>
+      
       
     </v-container>
     <v-divider color="red"></v-divider>

@@ -44,7 +44,11 @@
           </v-list-item>
         </v-list>
       </v-menu>
-      <v-toolbar-title>Crispicy</v-toolbar-title>
+      <v-toolbar-title v-if="!$store.state.isAuthenticated">Crispicy</v-toolbar-title>
+      <v-toolbar-title v-if="$store.state.isAuthenticated"
+        ><v-btn to="/home" text>Crispicy
+        </v-btn></v-toolbar-title
+      >
 
       <v-spacer></v-spacer>
 
@@ -60,6 +64,8 @@
 
       <!--  -->
 
+     
+
       <v-btn icon color="red" v-if="$store.state.isAuthenticated" to="/likedshop">
         <v-icon>mdi-heart</v-icon>
       </v-btn>
@@ -67,6 +73,8 @@
       <v-btn to="/history" icon v-if="$store.state.isAuthenticated">
         <v-icon>mdi-history</v-icon>
       </v-btn>
+
+      
       &nbsp;&nbsp;&nbsp;
 
       <span link v-if="$store.state.isAuthenticated">

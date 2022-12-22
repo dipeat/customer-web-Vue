@@ -419,12 +419,12 @@ export default {
         arrival_time: strTime,
         slug: this.$store.state.user.username + "a-_a" + Date.now(),   // to remove conflict
       })
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        // .then((response) => {
+        //   console.log(response);
+        // })
+        // .catch((error) => {
+        //   console.log(error);
+        // });
 
       this.$router.push("/order");
     },
