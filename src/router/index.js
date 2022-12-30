@@ -7,6 +7,7 @@ import Welcome from '../views/welcomePage.vue'
 import History from '../views/History.vue'
 import Profile from '../views/Profile.vue'
 import LikedShop from '../views/LikedShop.vue'
+import SearchPage from '../views/SearchPage.vue'
 
 import store from '../store'
 Vue.use(VueRouter)
@@ -14,17 +15,18 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/welcome',
     name: 'Welcome',
     component: Welcome
   },
   {
-    path: '/home',
+    path: '/',
     name: 'Home',
     component: Home,
     meta: {
       requireLogin: true
     }
+    
   },
  
   {
@@ -67,6 +69,15 @@ const routes = [
       requireLogin: true
     }
   },
+  {
+    path: '/search',
+    name: 'SearchPage',
+    component: SearchPage,
+    meta: {
+      requireLogin: true
+    }
+  },
+
 
 ]
 
@@ -77,8 +88,9 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+
   if (to.matched.some(record => record.meta.requireLogin) && !store.state.isAuthenticated) {
-    next('/home')
+    next('/')
   } else {
     next()
   }

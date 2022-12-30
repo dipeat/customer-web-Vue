@@ -1,12 +1,12 @@
 <template>
   <v-app id="app">
     <v-app-bar absolute color="deep-purple accent-4" dark elevate-on-scroll>
-      <v-menu transition="slide-y-transition">
+      <v-menu transition="slide-y-transition" v-if="$store.state.isAuthenticated">
         <template v-slot:activator="{ on, attrs }">
           <v-app-bar-nav-icon v-bind="attrs" v-on="on"></v-app-bar-nav-icon>
         </template>
         <v-list class="mt-10" rounded>
-          <v-list-item link to="/home" color="purple" v-if="$store.state.isAuthenticated">
+          <v-list-item link to="/" color="purple" v-if="$store.state.isAuthenticated">
             <span>
               <v-icon color="red">mdi-home</v-icon>
             </span>&nbsp;&nbsp;&nbsp;
@@ -46,7 +46,7 @@
       </v-menu>
       <v-toolbar-title v-if="!$store.state.isAuthenticated">Crispicy</v-toolbar-title>
       <v-toolbar-title v-if="$store.state.isAuthenticated"
-        ><v-btn to="/home" text>Crispicy
+        ><v-btn to="/" text>Crispicy
         </v-btn></v-toolbar-title
       >
 
@@ -91,15 +91,10 @@
                 <template v-slot:activator="{ attrs, on }">
 
                   <v-text-field v-model="search" v-bind="attrs" v-on="on" class="mx-7 mt-2" flat hide-details
-                    label="Search" prepend-inner-icon="mdi-magnify" solo-inverted @input="searchBar" rounded>
+                    label="Search" prepend-inner-icon="mdi-magnify" solo-inverted @keyup.enter="searchBar()" rounded>
                   </v-text-field>
                 </template>
-                <v-list color="yellow lighten-5" v-if="getSearch !=''">
-                  <v-list-item v-for="query, index in getSearch" :key="index + 0.0001" link to="/menu">
-                    <v-list-item-title v-text="query.slug" @click="setRestaurant(query.slug)"></v-list-item-title>
-                    <v-list-item-action-text>{{ query.address }}</v-list-item-action-text>
-                  </v-list-item>
-                </v-list>
+                
               </v-menu>
             </v-col>
           </v-row>
@@ -118,6 +113,7 @@ import axios from "axios";
 
 import signUp from "./components/signUp.vue";
 import logIn from "./components/logIn.vue";
+import router from './router';
 
 export default {
   name: "App",
@@ -168,7 +164,7 @@ export default {
           localStorage.removeItem("token");
 
           this.$store.commit("removeToken");
-          this.$router.push("/");
+          window.location.reload();
         })
         .catch((error) => {
           if (error.response) {
@@ -183,37 +179,21 @@ export default {
 
     searchBar() {
 
-      this.getSearch == "";
+      
+      this.$store.state.searchText = this.search;
+      // console.log(this.$store.state.searchText);
 
-      // remove space from this.search
-      let search = this.search.replace(/^[ ]+/g, "");
-
-      if (search != "") {
-        // console.log(search);
-        axios
-          .get(`/api/v1/clientprofilesearch/${search}`)
-          .then((response) => {
-            this.getSearch = response.data;
-          })
-          .catch((error) => {
-            if (error.response) {
-              alert('Please search again');
-            } else if (error.request) {
-              alert(JSON.stringify(error.request));
-            } else {
-              alert(JSON.stringify(error.message));
-            }
-          });
-      }
-
-      // empty getSearch
-
+      this.$eventBus.$emit("callMethodSearchBarRef");
+      
+      this.$router.push("/search").catch(()=>{});
+      // this.$router.go(0);
 
     },
 
     setRestaurant(query) {
+      
       this.$store.state.restaurant = query;
-      // console.log(query);
+      // console.log(this.$store.state.restaurant);
 
     },
 

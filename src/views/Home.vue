@@ -75,7 +75,7 @@
           </v-col>
           <v-col cols="2" md="2" sm="2" align="end">
             <v-btn color="black" dark to="/order"> View </v-btn><br>
-            <v-icon class="mdi-48px mt-8" color="red">mdi-rice</v-icon>
+            <v-icon class="mdi-48px mt-8" color="red">mdi-food</v-icon>
           </v-col>
         </v-row>
       </v-card>
@@ -94,11 +94,17 @@
                   </v-img>
 
                   <v-card-actions @click="setRestaurant(item.restaurant)">
-                    <div v-if="item.open_close">
+                    <div>
                       <v-btn small outlined color="blue" dark to="/menu">Menu </v-btn>
                     </div>
-                    <div v-else>
-                      <h4 class="red--text">Closed {{ item.restaurant }}</h4>
+                    
+                    <v-spacer></v-spacer>
+                    
+                    <div v-for="shopDiscount,index in maxDiscount" :key="index+0.003">
+                      <v-chip small outlined color="purple" dark v-if="item.restaurant==shopDiscount.restaurant && shopDiscount.discount>0 && item.open_close">{{ shopDiscount.discount }}% off</v-chip>
+                    </div>
+                    <div  v-if="!item.open_close">
+                      <strong class="red--text">Shop Closed</strong>
                     </div>
 
                     <v-spacer></v-spacer>
@@ -109,15 +115,8 @@
             </v-card>
           </v-sheet>
         </v-col>
-
-
-
-
       </v-row>
     </v-container>
-
-
-
 
 
 
@@ -146,10 +145,11 @@ export default {
     menuItem: "",
     status: "",
 
+
     restaurantList: [],
     likedShops: [],
     foodOrdered: [],
-
+    maxDiscount: [],
   }),
 
 
@@ -166,6 +166,30 @@ export default {
         .then((response) => {
 
           this.menuItem = response.data;
+          // console.log(this.menuItem);
+
+          for (let i = 0; i < response.data.length; i++) {
+            if (this.maxDiscount.indexOf(response.data[i].restaurant) === -1) {
+              this.maxDiscount.push({
+                restaurant: response.data[i].restaurant,
+                discount: response.data[i].discount
+              });
+             
+            } 
+          }
+          const max = this.maxDiscount.reduce((prev, current) => (prev.discount > current.discount) ? prev : current)
+            for (let i = 0; i < this.maxDiscount.length; i++) {
+              if (this.maxDiscount[i].restaurant === max.restaurant) {
+                this.maxDiscount[i].discount = max.discount;
+              }
+            }
+            for (let i = 0; i < this.maxDiscount.length; i++) {
+              for (let j = i; j < this.maxDiscount.length; j++) {
+                if (this.maxDiscount[i].restaurant === this.maxDiscount[j].restaurant) {
+                  this.maxDiscount.splice(j, 1);
+                }
+              }
+            } 
 
           // for (let i = 0; i < response.data.length; i++) {
           //   console.log(response.data[i]);
@@ -181,7 +205,6 @@ export default {
 
     setRestaurant(item) {
       this.$store.state.restaurant = item;
-      // console.log(item);
 
     },
 
@@ -190,10 +213,7 @@ export default {
       axios.get(`/api/v1/shopstatus/`)
         .then(res => {
           this.status = res.data
-
-
         })
-
     },
 
     favShop(shop) {

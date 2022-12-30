@@ -6,6 +6,8 @@ import vuetify from './plugins/vuetify'
 import '@babel/polyfill'
 import axios from 'axios'
 
+Vue.prototype.$eventBus = new Vue();
+
 Vue.config.productionTip = false
 axios.defaults.baseURL = 'http://127.0.0.1:8000'
 

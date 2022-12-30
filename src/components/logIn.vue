@@ -97,7 +97,8 @@ export default {
               // console.log(response);
               // console.log(response.data.token);
               this.dialog1 = false;
-              this.$router.push("/home");
+              // this.$router.push("/");
+              window.location.reload();
 
 
 
@@ -110,6 +111,8 @@ export default {
           console.log(error);
           this.errors.push(error);
         });
+
+        
     },
  
   },

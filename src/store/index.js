@@ -12,6 +12,7 @@ export default new Vuex.Store({
     isAuthenticated: false,
     token: '',
     restaurant:'',
+    searchText:'',
   },
   mutations: {
     initializeStore(state) {

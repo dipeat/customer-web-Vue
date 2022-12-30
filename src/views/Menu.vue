@@ -77,13 +77,9 @@
       >
         <v-responsive height="auto">
           <v-container v-for="(cat, index) in menu" :key="index + 0.0001">
-            <v-chip
-              outlined
-              color="blue darken-2"
-              >{{ cat }}</v-chip
-            >
+            <v-chip outlined color="blue darken-2">{{ cat }}</v-chip>
 
-            <div v-for="(item, index) in menuList" :key="index+0.001">
+            <div v-for="(item, index) in menuList" :key="index + 0.001">
               <div v-if="cat == item.category">
                 <v-container v-if="item.restaurant == $store.state.restaurant">
                   <v-row>
@@ -143,8 +139,10 @@
       class="mx-auto overflow-hidden mt-2"
       max-width="550"
       height="40"
+      v-for="stat, index in status" :key="index + 0.007"
     >
-      <v-row>
+    <div v-if="$store.state.restaurant==stat.restaurant">
+      <v-row v-if="stat.open_close">
         <v-col sm="10" cols="9">
           <v-text-field
             v-model="message"
@@ -279,6 +277,8 @@
           </v-dialog>
         </v-col>
       </v-row>
+      <v-container class="text-center red--text" v-else><h4>Shop closed</h4></v-container>
+    </div>
     </v-card>
   </v-main>
 </template>
@@ -304,6 +304,7 @@ export default {
       checkbox: false,
       likeColor: "",
       likeBoolShop: true,
+      status: "",
 
       foodName: [],
       menuList: [],
@@ -417,14 +418,14 @@ export default {
         total: this.total,
         message: this.message,
         arrival_time: strTime,
-        slug: this.$store.state.user.username + "a-_a" + Date.now(),   // to remove conflict
-      })
-        // .then((response) => {
-        //   console.log(response);
-        // })
-        // .catch((error) => {
-        //   console.log(error);
-        // });
+        slug: this.$store.state.user.username + "a-_a" + Date.now(), // to remove conflict
+      });
+      // .then((response) => {
+      //   console.log(response);
+      // })
+      // .catch((error) => {
+      //   console.log(error);
+      // });
 
       this.$router.push("/order");
     },
@@ -475,11 +476,23 @@ export default {
         }
       });
     },
+
+    shopStatus() {
+      axios.get(`/api/v1/shopstatus/`).then((res) => {
+        this.status = res.data;
+        // filter on basis of this.$store.state.restaurant
+        this.status = this.status.filter(
+          (item) => item.restaurant === this.$store.state.restaurant
+        );
+        // console.log(this.status);
+      });
+    },
   },
 
   created: function () {
     this.getMenu();
     this.getLikedShop();
+    this.shopStatus();
   },
 };
 </script>
