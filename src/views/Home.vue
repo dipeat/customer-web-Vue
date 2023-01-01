@@ -42,21 +42,21 @@
     <v-container v-if="foodOrdered!=''">
       <v-card class="mx-auto">
         <v-row>
-          <v-col cols="9" md="10" sm="10">
+          <v-col cols="12" md="12" sm="12">
             <h3 class="ml-4">Order Details</h3>
             <v-container>
               <v-row justify="center">
-                <v-col cols="10" sm="6" v-for="item, index in foodOrdered" :key="index + 0.55">
+                <v-col cols="12" sm="4" v-for="item, index in foodOrdered" :key="index + 0.55">
                   <v-card class="mx-auto" v-if="item.delivered===false" to="/order" align="center" max-width="auto" color="grey lighten-5" elevation="5">
                     <h4><u>{{ item.restaurant }}</u></h4>
 
                     <body>
                       <v-row class="mt-1">
 
-                        <v-col cols="12" sm="4">
-                          <span>Arrival: {{ item.arrival_time }}</span>
+                        <v-col cols="4" sm="4">
+                          <span>At: {{ item.arrival_time }}</span>
                         </v-col>
-                        <v-col cols="12" sm="4">
+                        <v-col cols="4" sm="4">
                           <v-chip outlined color="primary"  v-if="item.takeaway == true">
                             <span>Takeaway</span>
                           </v-chip>
@@ -64,8 +64,8 @@
                             <span>Dine-In</span>
                           </v-chip>
                         </v-col>
-                        <v-col cols="12" sm="4">
-                          <span>Total =<v-icon>mdi-currency-inr</v-icon>{{ item.total }}</span>
+                        <v-col cols="4" sm="4">
+                          <span><v-icon>mdi-currency-inr</v-icon>{{ item.total }}</span>
                         </v-col>
                       </v-row>
                     </body>
@@ -74,10 +74,7 @@
               </v-row>
             </v-container>
           </v-col>
-          <v-col cols="2" md="2" sm="2" align="end">
-            <v-btn color="black" dark to="/order"> View </v-btn><br>
-            <v-icon class="mdi-48px mt-8" color="red">mdi-food</v-icon>
-          </v-col>
+          
         </v-row>
       </v-card>
     </v-container>
