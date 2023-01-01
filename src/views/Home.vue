@@ -6,20 +6,21 @@
         <v-card :color="active ? 'transparent' : 'grey lighten-1'" class="ma-1" height="120" width="120"
           @click="toggle(); favShop(shops.shop)" to="/menu">
           <v-row class="fill-height">
-
+            <div v-for="image, index in shopProfileImage" :key="index+0.0019">
             <v-scale-transition>
 
-              <v-avatar class="ma-2" size="125" tile>
-                <v-img :src="'https://cdn.vuetifyjs.com/images/cards/house.jpg'">
+              <v-avatar class="ma-2" size="125" tile  v-if="image.slug==shops.shop">
+                
+                <v-img :src=image.shop_image>
                   <v-row align="end" justify="center">
-                    <v-chip color="black" small size="48" label class="white--text ma-3 ">{{ shops.shop }}
+                    <v-chip color="black" small size="58" label class="white--text ma-3 ">{{ shops.shop }}
                     </v-chip>
                   </v-row>
-
                 </v-img>
 
               </v-avatar>
             </v-scale-transition>
+          </div>
 
           </v-row>
         </v-card>
@@ -88,10 +89,12 @@
             <v-card class="mx-auto" max-width="400">
               <v-row dense>
                 <v-col :cols="12">
-                  <v-img :src="'https://cdn.vuetifyjs.com/images/cards/house.jpg'" class="white--text align-end"
+                  <div v-for="image, index in shopProfileImage" :key="index+0.009">
+                  <v-img :src=image.shop_image v-if="image.slug==item.restaurant" class="white--text align-end"
                     gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" max-height="200px">
                     <v-card-title> {{ item.restaurant }}</v-card-title>
                   </v-img>
+                </div>
 
                   <v-card-actions @click="setRestaurant(item.restaurant)">
                     <div>
@@ -104,11 +107,9 @@
                       <v-chip small outlined color="purple" dark v-if="item.restaurant==shopDiscount.restaurant && shopDiscount.discount>0 && item.open_close">{{ shopDiscount.discount }}% off</v-chip>
                     </div>
                     <div  v-if="!item.open_close">
-                      <strong class="red--text">Shop Closed</strong>
+                      <strong class="red--text">Closed</strong>
                     </div>
-
-                    <v-spacer></v-spacer>
-
+                    
                   </v-card-actions>
                 </v-col>
               </v-row>
@@ -150,6 +151,7 @@ export default {
     likedShops: [],
     foodOrdered: [],
     maxDiscount: [],
+    shopProfileImage:[],
   }),
 
 
@@ -168,28 +170,15 @@ export default {
           this.menuItem = response.data;
           // console.log(this.menuItem);
 
-          for (let i = 0; i < response.data.length; i++) {
-            if (this.maxDiscount.indexOf(response.data[i].restaurant) === -1) {
-              this.maxDiscount.push({
-                restaurant: response.data[i].restaurant,
-                discount: response.data[i].discount
-              });
-             
-            } 
-          }
-          const max = this.maxDiscount.reduce((prev, current) => (prev.discount > current.discount) ? prev : current)
-            for (let i = 0; i < this.maxDiscount.length; i++) {
-              if (this.maxDiscount[i].restaurant === max.restaurant) {
-                this.maxDiscount[i].discount = max.discount;
-              }
+          this.maxDiscount = response.data.reduce((acc, cur) => {
+            const found = acc.find((el) => el.restaurant === cur.restaurant);
+            if (!found) {
+              return acc.concat([cur]);
+            } else if (found.discount < cur.discount) {
+              found.discount = cur.discount;
             }
-            for (let i = 0; i < this.maxDiscount.length; i++) {
-              for (let j = i; j < this.maxDiscount.length; j++) {
-                if (this.maxDiscount[i].restaurant === this.maxDiscount[j].restaurant) {
-                  this.maxDiscount.splice(j, 1);
-                }
-              }
-            } 
+            return acc;
+          }, []);
 
           // for (let i = 0; i < response.data.length; i++) {
           //   console.log(response.data[i]);
@@ -243,6 +232,14 @@ export default {
 
     },
 
+    getShopProfileImage(){
+      axios.get(`/api/v1/ClientProfile4Image/`)
+      .then(res => {
+        this.shopProfileImage = res.data
+        // console.log(this.shopProfileImage);
+      })
+    },
+
   },
 
 
@@ -251,6 +248,7 @@ export default {
     this.shopStatus();
     this.getLikedShop();
     this.foodOrders();
+    this.getShopProfileImage();
 
   },
 };

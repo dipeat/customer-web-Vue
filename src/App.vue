@@ -91,7 +91,7 @@
                 <template v-slot:activator="{ attrs, on }">
 
                   <v-text-field v-model="search" v-bind="attrs" v-on="on" class="mx-7 mt-2" flat hide-details
-                    label="Search" prepend-inner-icon="mdi-magnify" solo-inverted @keyup.enter="searchBar()" rounded>
+                    label="Search" prepend-inner-icon="mdi-magnify" solo-inverted @input="searchBar()" rounded>
                   </v-text-field>
                 </template>
                 

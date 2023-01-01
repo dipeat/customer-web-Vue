@@ -58,7 +58,7 @@
                   <v-btn color="blue darken-1" text @click="dialog = false">
                     Close
                   </v-btn>
-                  <v-btn color="blue darken-1" text @click="submit_profile">
+                  <v-btn color="blue darken-1" text @click.prevent="submit_profile">
                     Save
                   </v-btn>
                 </v-card-actions>

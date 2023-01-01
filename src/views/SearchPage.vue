@@ -12,13 +12,25 @@
               <v-row dense>
                 <v-col :cols="12">
                   <v-img
-                    :src="'https://cdn.vuetifyjs.com/images/cards/house.jpg'"
+                    :src=item.shop_image
                     class="white--text align-end"
                     gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                     max-height="200px"
                   >
-                    <v-card-title> {{ item.slug }}</v-card-title>
                   </v-img>
+
+                  <v-card-actions>
+                    <div>
+                      <h4>{{ item.slug }}</h4>
+                    </div>
+                    <v-spacer></v-spacer>
+                    &nbsp;
+                    <div v-for="shopDiscount,index in maxDiscount" :key="index+0.003">
+                      <v-chip small outlined color="purple" dark v-if="item.slug==shopDiscount.restaurant && shopDiscount.discount>0">{{ shopDiscount.discount }}% off</v-chip>
+                    </div>
+                    
+                    
+                  </v-card-actions>
                 </v-col>
               </v-row>
             </v-card>
@@ -38,6 +50,7 @@ export default {
 
   data: () => ({
     getSearch: "",
+    maxDiscount: [],
   }),
 
   methods: {
@@ -57,7 +70,7 @@ export default {
         // console.log(search);
         axios.get(`/api/v1/clientprofilesearch/${search}`).then((response) => {
           this.getSearch = response.data;
-        //   console.log(this.getSearch);
+          // console.log(this.getSearch);
         });
         // .catch((error) => {
         //   if (error.response) {
@@ -68,8 +81,30 @@ export default {
         //     alert(JSON.stringify(error.message));
         //   }
         // });
+
+
+        axios.get("/api/v1/menu/")
+        .then((response) => {
+
+          this.maxDiscount = response.data.reduce((acc, cur) => {
+            const found = acc.find((el) => el.restaurant === cur.restaurant);
+            if (!found) {
+              return acc.concat([cur]);
+            } else if (found.discount < cur.discount) {
+              found.discount = cur.discount;
+            }
+            return acc;
+          }, []);
+
+
+        })
+
+
       }
+
     },
+
+
   },
 
   created() {

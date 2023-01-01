@@ -7,14 +7,17 @@
             <v-card class="mx-auto" max-width="400" @click="setRestaurant(item.shop)" to="/menu">
               <v-row dense>
                 <v-col :cols="12">
+                  <div v-for="image, index in shopProfileImage" :key="index+0.0019">
                   <v-img
-                    :src="'https://cdn.vuetifyjs.com/images/cards/house.jpg'"
+                    :src="image.shop_image"
+                    v-if="image.slug==item.shop"
                     class="white--text align-end"
                     gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                     max-height="200px"
                   >
                     <v-card-title> {{ item.shop }}</v-card-title>
                   </v-img>
+                </div>
                 </v-col>
               </v-row>
             </v-card>
@@ -33,6 +36,7 @@ export default {
 
   data: () => ({
     likedShops: [],
+    shopProfileImage: [],
   }),
 
   methods: {
@@ -51,10 +55,21 @@ export default {
       this.$store.state.restaurant = item;
       // console.log(this.$store.state.restaurant);
     },
+
+    getShopProfileImage(){
+      axios.get(`/api/v1/ClientProfile4Image/`)
+      .then(res => {
+        this.shopProfileImage = res.data
+        // console.log(this.shopProfileImage);
+      })
+    },
+
+
   },
 
   created() {
     this.getLikedShops();
+    this.getShopProfileImage();
   },
 };
 </script>

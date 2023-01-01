@@ -1,18 +1,5 @@
 <template>
   <v-main>
-    <v-container class="mt-4">
-      <v-row justify="center">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3557.794052246003!2d75.81813531554864!3d26.910030466682688!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db7e6c95cea9f%3A0xd1891eab8cb0afe0!2sMasala%20Chowk!5e0!3m2!1sen!2sin!4v1658497777698!5m2!1sen!2sin"
-          width="550"
-          height="180"
-          style="border: 2px solid #000000"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        ></iframe>
-      </v-row>
-    </v-container>
 
     <v-card max-width="550" class="mx-auto mt-5" elevation="5">
       <v-container>
