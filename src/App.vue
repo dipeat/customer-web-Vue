@@ -202,5 +202,12 @@ export default {
 
 
   },
+
+  mounted() {
+    // this.$eventBus.$on("callMethodSearchBar", this.searchBar);
+    // this.$eventBus.$on("callMethodSetRestaurant", this.setRestaurant);
+
+    this.$store.dispatch("getWallet");
+  },
 };
 </script>

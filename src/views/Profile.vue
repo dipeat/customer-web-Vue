@@ -234,13 +234,13 @@ export default {
       // });
     },
 
-    getWallet() {
-      const slug = this.$store.state.user.username;
-      axios.get(`/api/v1/customerwallet/${slug}/`).then((response) => {
-        // console.log(response.data);
-        this.$store.state.walletBalance = response.data[0].total_amount;
-      });
-    },
+    // getWallet() {
+    //   const slug = this.$store.state.user.username;
+    //   axios.get(`/api/v1/customerwallet/${slug}/`).then((response) => {
+    //     // console.log(response.data);
+    //     this.$store.state.walletBalance = response.data[0].total_amount;
+    //   });
+    // },
 
     postWallet() {
       if (this.validity == true) {
@@ -254,7 +254,7 @@ export default {
           .patch(`/api/v1/customerwallet/${slug}/`, data)
           .then((response) => {
             // console.log(response.data);
-            this.getWallet();
+            this.$store.dispatch("getWallet");
           });
 
       }

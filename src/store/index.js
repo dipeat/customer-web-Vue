@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from "axios";
 
 Vue.use(Vuex)
 
@@ -43,10 +44,26 @@ export default new Vuex.Store({
     setUser(state, user) {
       state.user = user
     },
+
+    setWallet(state, setWallet) {
+      state.walletBalance = setWallet
+    },
       
     
   },
   actions: {
+
+    async getWallet({ commit,state }) {
+      const slug = state.user.username;
+      const response = await axios.get(`/api/v1/customerwallet/${slug}/`);
+      commit("setWallet", response.data[0].total_amount);
+      
+      // .then((response) => {
+      //   // console.log(response.data);
+      //   this.$store.state.walletBalance = response.data[0].total_amount;
+      // });
+    },
+
     
   },
   modules: {
