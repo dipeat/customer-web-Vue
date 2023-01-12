@@ -12,7 +12,7 @@
             </span>&nbsp;&nbsp;&nbsp;
             <v-list-item-title v-text="'Home'"></v-list-item-title>
           </v-list-item>
-          <v-list-item link color="purple" v-if="$store.state.isAuthenticated">
+          <v-list-item link to="/wallet" color="purple" v-if="$store.state.isAuthenticated">
             <span>
               <v-icon color="grey">mdi-wallet</v-icon>
             </span>&nbsp;&nbsp;&nbsp;
@@ -115,12 +115,15 @@ import signUp from "./components/signUp.vue";
 import logIn from "./components/logIn.vue";
 import router from './router';
 
+
+
 export default {
   name: "App",
 
   components: {
     signUp,
     logIn,
+    
   },
 
   data: () => ({

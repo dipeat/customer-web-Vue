@@ -3,8 +3,8 @@
     <v-card-actions class="justify-center">
       <v-chip color="grey lighten-3">
         <v-avatar> <v-icon>mdi-wallet</v-icon> &nbsp; &nbsp; </v-avatar>
-        <span> Balance</span>&nbsp; &nbsp; <span> = Rs 110</span>&nbsp; &nbsp;
-        <v-btn small rounded dark color="purple">Add</v-btn>
+        <span>Balance: <v-icon>mdi-currency-inr</v-icon> {{ this.$store.state.walletBalance }}</span>&nbsp; &nbsp;
+        <v-btn small outlined rounded dark color="purple">Add</v-btn>
       </v-chip>
     </v-card-actions>
 

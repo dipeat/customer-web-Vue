@@ -13,6 +13,7 @@ export default new Vuex.Store({
     token: '',
     restaurant:'',
     searchText:'',
+    walletBalance:'',
   },
   mutations: {
     initializeStore(state) {
