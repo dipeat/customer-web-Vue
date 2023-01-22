@@ -1,28 +1,20 @@
 <template>
   <v-main>
     <v-card-actions class="justify-center">
-      <v-chip color="grey lighten-3">
+      <v-chip color="grey lighten-3" v-if="$store.state.isAuthenticated">
         <v-avatar> <v-icon>mdi-wallet</v-icon> &nbsp; &nbsp; </v-avatar>
         <span
           >Balance: <v-icon>mdi-currency-inr</v-icon>
           {{ this.$store.state.walletBalance }}</span
         >&nbsp; &nbsp;
-        <v-btn
-          small
-          outlined
-          rounded
-          dark
-          color="purple"
-          @click.stop="dialog1 = true"
+        <v-btn small outlined rounded dark color="purple" @click.stop="dialog1 = true"
           >Add</v-btn
         >
       </v-chip>
     </v-card-actions>
     <v-dialog v-model="dialog1" max-width="290">
       <v-card>
-        <v-card-title class="text-h5 brown--text">
-          Add Money to Wallet
-        </v-card-title>
+        <v-card-title class="text-h5 brown--text"> Add Money to Wallet </v-card-title>
 
         <v-card-text>
           <form>
@@ -39,9 +31,7 @@
             color="blue"
             outlined
             @click.prevent="pay"
-            :disabled="
-              amount == '' || amount < 200 || amount != parseInt(amount)
-            "
+            :disabled="amount == '' || amount < 200 || amount != parseInt(amount)"
           >
             Pay
           </v-btn>
@@ -59,10 +49,7 @@
         >
           <v-container>
             <v-chip color="white align-bottom">
-              <v-card-title
-                v-text="$store.state.restaurant"
-                class="purple--text"
-              >
+              <v-card-title v-text="$store.state.restaurant" class="purple--text">
               </v-card-title>
               <v-btn
                 icon
@@ -157,16 +144,8 @@
                         >
                           <v-icon small dark>mdi-minus</v-icon>
                         </v-chip>
-                        <v-chip outlined color="orange darken-3">{{
-                          item.value
-                        }}</v-chip>
-                        <v-chip
-                          small
-                          dark
-                          link
-                          color="black"
-                          @click="plusOne(item)"
-                        >
+                        <v-chip outlined color="orange darken-3">{{ item.value }}</v-chip>
+                        <v-chip small dark link color="black" @click="plusOne(item)">
                           <v-icon small dark>mdi-plus</v-icon>
                         </v-chip>
                       </div>
@@ -191,7 +170,12 @@
       v-for="(stat, index) in status"
       :key="index + 0.007"
     >
-      <div v-if="$store.state.restaurant == stat.restaurant">
+      <div
+        v-if="
+          $store.state.restaurant == stat.restaurant &&
+          $store.state.isAuthenticated != false
+        "
+      >
         <v-row v-if="stat.open_close">
           <v-col sm="10" cols="9">
             <v-text-field
@@ -212,6 +196,7 @@
                   dark
                   v-bind="attrs"
                   v-on="on"
+                  :disabled="$store.state.isAuthenticated == false ? true : false"
                 >
                   Ok
                 </v-btn>
@@ -222,10 +207,7 @@
                 <v-card-text style="height: auto">
                   <div v-for="(order, index) in displayOrder" :key="index">
                     <v-container
-                      v-if="
-                        displayOrder != '' &&
-                        $store.state.walletBalance >= total
-                      "
+                      v-if="displayOrder != '' && $store.state.walletBalance >= total"
                     >
                       <v-row>
                         <v-col>
@@ -243,19 +225,14 @@
                   <v-divider color="red"></v-divider>
                   <div>
                     <v-container
-                      v-if="
-                        displayOrder != '' &&
-                        $store.state.walletBalance >= total
-                      "
+                      v-if="displayOrder != '' && $store.state.walletBalance >= total"
                     >
                       <v-row>
                         <v-col>
                           <div>Total</div>
                         </v-col>
                         <v-col>
-                          <div>
-                            <v-icon>mdi-currency-inr</v-icon> {{ total }}
-                          </div>
+                          <div><v-icon>mdi-currency-inr</v-icon> {{ total }}</div>
                         </v-col>
                       </v-row>
                       <v-divider color="yellow"></v-divider>
@@ -265,9 +242,7 @@
                           <div>Prepare Time</div>
                         </v-col>
                         <v-col>
-                          <div>
-                            <v-icon>mdi-alarm</v-icon> {{ premare_time }} mins
-                          </div>
+                          <div><v-icon>mdi-alarm</v-icon> {{ premare_time }} mins</div>
                         </v-col>
                       </v-row>
 
@@ -296,11 +271,7 @@
                               ampm-in-title
                             >
                               <v-spacer></v-spacer>
-                              <v-btn
-                                text
-                                color="primary"
-                                @click="modal2 = false"
-                              >
+                              <v-btn text color="primary" @click="modal2 = false">
                                 Cancel
                               </v-btn>
                               <v-btn
@@ -324,37 +295,26 @@
                       </v-row>
                     </v-container>
                     <v-container
-                      v-if="
-                        displayOrder == '' &&
-                        $store.state.walletBalance >= total
-                      "
+                      v-if="displayOrder == '' && $store.state.walletBalance >= total"
                     >
                       <h4>Please select items for order or recharge!</h4>
                     </v-container>
                     <v-container
-                      v-if="
-                        displayOrder != '' && $store.state.walletBalance < total
-                      "
+                      v-if="displayOrder != '' && $store.state.walletBalance < total"
                     >
-                      <h4>
-                        You do not have enough money in wallet, please recharge!
-                      </h4>
+                      <h4>You do not have enough money in wallet, please recharge!</h4>
                     </v-container>
                   </div>
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-card-actions>
-                  <v-btn color="red" text @click="dialog = false">
-                    Cancel
-                  </v-btn>
+                  <v-btn color="red" text @click="dialog = false"> Cancel </v-btn>
                   <v-spacer></v-spacer>
                   <v-btn
                     color="primary"
                     text
                     @click="checkout"
-                    v-if="
-                      foodOrder != '' && $store.state.walletBalance >= total
-                    "
+                    v-if="foodOrder != '' && $store.state.walletBalance >= total"
                   >
                     Checkout
                   </v-btn>
@@ -411,7 +371,6 @@ export default {
   },
 
   methods: {
-
     pay() {
       // Send a request to the backend to create a payment
       if (this.amount != "") {
@@ -486,7 +445,6 @@ export default {
       this.dialog1 = false;
     },
 
-    
     postWallet() {
       if (this.validity == true) {
         const slug = this.$store.state.user.username;
@@ -495,16 +453,12 @@ export default {
           user: this.$store.state.user.id,
           slug: this.$store.state.user.username,
         };
-        axios
-          .patch(`/api/v1/customerwallet/${slug}/`, data)
-          .then((response) => {
-            // console.log(response.data);
-            this.$store.dispatch("getWallet");
-          });
-
+        axios.patch(`/api/v1/customerwallet/${slug}/`, data).then((response) => {
+          // console.log(response.data);
+          this.$store.dispatch("getWallet");
+        });
       }
     },
-
 
     getMenu() {
       axios.get("/api/v1/menu/").then((response) => {
@@ -540,8 +494,7 @@ export default {
       // calculate total
       this.total = 0;
       for (let i = 0; i < this.displayOrder.length; i++) {
-        this.total +=
-          this.displayOrder[i].final_price * this.displayOrder[i].value;
+        this.total += this.displayOrder[i].final_price * this.displayOrder[i].value;
       }
 
       // calculate prepare time
@@ -565,70 +518,66 @@ export default {
     },
 
     async checkout() {
+      if (this.displayOrder != "" && this.$store.state.walletBalance >= this.total) {
+        this.dialog = false;
+        // add all name of food in one string
+        for (let i = 0; i < this.displayOrder.length; i++) {
+          this.foodName +=
+            this.displayOrder[i].name +
+            "@" +
+            this.displayOrder[i].value +
+            "$$" +
+            this.displayOrder[i].final_price +
+            "||";
+        }
 
-      if ( this.displayOrder != '' && this.$store.state.walletBalance >= this.total){
-      this.dialog = false;
-      // add all name of food in one string
-      for (let i = 0; i < this.displayOrder.length; i++) {
-        this.foodName +=
-          this.displayOrder[i].name +
-          "@" +
-          this.displayOrder[i].value +
-          "$$" +
-          this.displayOrder[i].final_price +
-          "||";
-      }
+        // convert 24 hour to 12 hour
+        let time = this.time;
+        let hours = time.substring(0, 2);
+        let minutes = time.substring(3, 5);
+        let ampm = hours >= 12 ? "PM" : "AM";
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = minutes < 10 ? minutes : minutes;
+        let strTime = hours + ":" + minutes + " " + ampm;
 
-      // convert 24 hour to 12 hour
-      let time = this.time;
-      let hours = time.substring(0, 2);
-      let minutes = time.substring(3, 5);
-      let ampm = hours >= 12 ? "PM" : "AM";
-      hours = hours % 12;
-      hours = hours ? hours : 12;
-      minutes = minutes < 10 ? minutes : minutes;
-      let strTime = hours + ":" + minutes + " " + ampm;
+        // console.log( {
+        //     restaurant: this.$store.state.restaurant,
+        //     user: this.$store.state.user.username,
+        //     takeaway: this.checkbox,
+        //     prepare_time: this.premare_time,
+        //     food_name: this.foodName,
+        //     total: this.total,
+        //     message: this.message,
+        //     arrival_time: strTime,
+        //   });new Date().toString().slice(0, 16),
 
-      // console.log( {
-      //     restaurant: this.$store.state.restaurant,
-      //     user: this.$store.state.user.username,
-      //     takeaway: this.checkbox,
-      //     prepare_time: this.premare_time,
-      //     food_name: this.foodName,
-      //     total: this.total,
-      //     message: this.message,
-      //     arrival_time: strTime,
-      //   });
+        await axios.post("/api/v1/foodorders/", {
+          restaurant: this.$store.state.restaurant,
+          user: this.$store.state.user.username,
+          takeaway: this.checkbox,
+          order_date: new Date().toString().slice(0, 16),
+          prepare_time: this.premare_time,
+          food_name: this.foodName,
+          total: Number(this.total).toFixed(2),
+          message: this.message,
+          arrival_time: strTime,
+          slug: this.$store.state.user.username + "a-_a" + Date.now(), // to remove conflict
+        });
+        // .then((response) => {
+        //   console.log(response);
+        // })
+        // .catch((error) => {
+        //   console.log(error);
+        // });
 
-      await axios.post("/api/v1/foodorders/", {
-        restaurant: this.$store.state.restaurant,
-        user: this.$store.state.user.username,
-        takeaway: this.checkbox,
-        order_date: new Date().toUTCString().slice(0, 16),
-        prepare_time: this.premare_time,
-        food_name: this.foodName,
-        total: this.total,
-        message: this.message,
-        arrival_time: strTime,
-        slug: this.$store.state.user.username + "a-_a" + Date.now(), // to remove conflict
-      });
-      // .then((response) => {
-      //   console.log(response);
-      // })
-      // .catch((error) => {
-      //   console.log(error);
-      // });
-
-      const slug = this.$store.state.user.username;
-      const data = {
-        total_amount:
-          Number(this.$store.state.walletBalance) - Number(this.total),
-        user: this.$store.state.user.id,
-        slug: this.$store.state.user.username,
-      };
-      await axios
-        .patch(`/api/v1/customerwallet/${slug}/`, data)
-        .then((response) => {
+        const slug = this.$store.state.user.username;
+        const data = {
+          total_amount: Number(this.$store.state.walletBalance) - Number(this.total),
+          user: this.$store.state.user.id,
+          slug: this.$store.state.user.username,
+        };
+        await axios.patch(`/api/v1/customerwallet/${slug}/`, data).then((response) => {
           // console.log(response.data);
           this.$store.dispatch("getWallet");
         });

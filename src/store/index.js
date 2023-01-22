@@ -46,7 +46,7 @@ export default new Vuex.Store({
     },
 
     setWallet(state, setWallet) {
-      state.walletBalance = setWallet
+      state.walletBalance = setWallet.toFixed(2);
     },
       
     
