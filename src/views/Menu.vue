@@ -556,7 +556,7 @@ export default {
           restaurant: this.$store.state.restaurant,
           user: this.$store.state.user.username,
           takeaway: this.checkbox,
-          order_date: new Date().toString().slice(0, 16),
+          order_date: new Date().toString().slice(0, 15),
           prepare_time: this.premare_time,
           food_name: this.foodName,
           total: Number(this.total).toFixed(2),
