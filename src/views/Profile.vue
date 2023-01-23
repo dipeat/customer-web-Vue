@@ -16,11 +16,7 @@
 
         <div class="text-center">
           <div class="text-center">
-            <v-chip
-              outlined
-              color="deep-purple"
-              v-if="$store.state.isAuthenticated"
-            >
+            <v-chip outlined color="deep-purple" v-if="$store.state.isAuthenticated">
               Balance: <v-icon>mdi-currency-inr</v-icon>
               {{ this.$store.state.walletBalance }}
             </v-chip>
@@ -42,9 +38,7 @@
 
         <v-dialog v-model="dialog1" max-width="290">
           <v-card>
-            <v-card-title class="text-h5 brown--text">
-              Add Money to Wallet
-            </v-card-title>
+            <v-card-title class="text-h5 brown--text"> Add Money to Wallet </v-card-title>
 
             <v-card-text>
               <form>
@@ -61,9 +55,7 @@
                 color="blue"
                 outlined
                 @click.prevent="pay"
-                :disabled="
-                  amount == '' || amount < 200 || amount != parseInt(amount)
-                "
+                :disabled="amount == '' || amount < 200 || amount != parseInt(amount)"
               >
                 Pay
               </v-btn>
@@ -131,11 +123,7 @@
                     <v-btn color="blue darken-1" text @click="dialog = false">
                       Close
                     </v-btn>
-                    <v-btn
-                      color="blue darken-1"
-                      text
-                      @click.prevent="submit_profile"
-                    >
+                    <v-btn color="blue darken-1" text @click.prevent="submit_profile">
                       Save
                     </v-btn>
                   </v-card-actions>
@@ -250,13 +238,10 @@ export default {
           user: this.$store.state.user.id,
           slug: this.$store.state.user.username,
         };
-        axios
-          .patch(`/api/v1/customerwallet/${slug}/`, data)
-          .then((response) => {
-            // console.log(response.data);
-            this.$store.dispatch("getWallet");
-          });
-
+        axios.patch(`/api/v1/customerwallet/${slug}/`, data).then((response) => {
+          // console.log(response.data);
+          this.$store.dispatch("getWallet");
+        });
       }
     },
 
@@ -337,7 +322,7 @@ export default {
 
   created() {
     this.getCustomerProfile();
-    this.getWallet();
+    // this.getWallet();
     // this.postWallet();
   },
 };
