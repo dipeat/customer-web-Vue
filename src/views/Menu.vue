@@ -55,12 +55,12 @@
                 icon
                 small
                 @click="likeShop($store.state.restaurant)"
-                v-if="$store.state.restaurant"
+                v-if="$store.state.restaurant && $store.state.isAuthenticated"
               >
                 <v-icon :color="likeColor">mdi-heart</v-icon>
               </v-btn>
             </v-chip>
-            <v-chip color="white">
+            <v-chip color="white" v-if="$store.state.isAuthenticated">
               <v-btn icon small v-if="$store.state.restaurant">
                 <v-icon color="blue">mdi-share-variant</v-icon>
               </v-btn>
@@ -326,6 +326,9 @@
         <v-container class="text-center red--text" v-else
           ><h4>Shop closed</h4></v-container
         >
+      </div>
+      <div class="text-center red--text mt-2" v-else>
+        <strong>Please Log-In to order</strong>
       </div>
     </v-card>
   </v-main>

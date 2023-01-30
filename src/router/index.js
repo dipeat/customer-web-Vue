@@ -9,6 +9,10 @@ import Profile from '../views/Profile.vue'
 import LikedShop from '../views/LikedShop.vue'
 import SearchPage from '../views/SearchPage.vue'
 import Wallet from '../views/Wallet.vue'
+// import About from '../views/About.vue'
+import privacyPolicy from '../views/privacyPolicy.vue'
+import termsConditions from '../views/termsConditions.vue'
+import refundPolicy from '../views/refundPolicy.vue'
 
 import store from '../store'
 Vue.use(VueRouter)
@@ -29,6 +33,15 @@ const routes = [
     }
     
   },
+  // {
+  //   path: '/about',
+  //   name: 'About',
+  //   component: About,
+  //   meta: {
+  //     requireLogin: true
+  //   }
+    
+  // },
  
   {
     path: '/menu',
@@ -82,6 +95,25 @@ const routes = [
     path: '/wallet',
     name: 'Wallet',
     component: Wallet,
+    meta: {
+      requireLogin: true
+    }
+  },
+  {
+    path: '/privacy_policy',
+    name: 'privacyPolicy',
+    component: privacyPolicy,
+  },
+  {
+    path: '/terms_and_conditions',
+    name: 'termsConditions',
+    component: termsConditions,
+    
+  },
+  {
+    path: '/refund_policy',
+    name: 'refundPolicy',
+    component: refundPolicy,
     meta: {
       requireLogin: true
     }

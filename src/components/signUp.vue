@@ -1,59 +1,54 @@
 <template>
   <v-dialog v-model="dialog" max-width="350">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn color="purple accent-4" dark v-bind="attrs" v-on="on">SignUp</v-btn>
-      </template>
-      <v-card class="pa-4">
-        <v-card-title class="text-h5"> Sign Up </v-card-title>
-        <form @submit.prevent="signUp">
-          <v-text-field
-            v-model="username"
-            :rules="[rules0.required, rules0.counter]"
-            label="Username"
-            counter
-            maxlength="10"
-          ></v-text-field>
-          <v-text-field
-            v-model="email"
-            label="Email"
-            counter
-            maxlength="50"
-          ></v-text-field>
-          <v-text-field
-            v-model="password"
-            validate-on-blur
-            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="[rules2.required, rules2.min]"
-            :type="show1 ? 'text' : 'password'"
-            name="input-10-1"
-            label="Password"
-            hint="At least 8 characters"
-            counter
-            @click:append="show1 = !show1"
-            maxlength="20"
-          ></v-text-field>
-          <v-text-field
-            v-model="password1"
-            validate-on-blur
-            :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="[rules3.required, rules3.min]"
-            :type="show2 ? 'text' : 'password'"
-            name="input-10-1"
-            label="Confirm Password"
-            hint="At least 8 characters"
-            counter
-            @click:append="show2 = !show2"
-            @keyup.enter="signUp"
-            maxlength="20"
-          ></v-text-field>
-        </form>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="red" text @click="dialog = false"> Cancel </v-btn>
-          <v-btn color="primary" text @click="signUp"> SignUp </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn color="purple accent-4" rounded dark v-bind="attrs" v-on="on">SignUp</v-btn>
+    </template>
+    <v-card class="pa-4">
+      <v-card-title class="text-h5"> Sign Up </v-card-title>
+      <form @submit.prevent="signUp">
+        <v-text-field
+          v-model="username"
+          :rules="[rules0.required, rules0.counter]"
+          label="Username"
+          counter
+          maxlength="10"
+        ></v-text-field>
+        <v-text-field v-model="email" label="Email" counter maxlength="50"></v-text-field>
+        <v-text-field
+          v-model="password"
+          validate-on-blur
+          :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+          :rules="[rules2.required, rules2.min]"
+          :type="show1 ? 'text' : 'password'"
+          name="input-10-1"
+          label="Password"
+          hint="At least 8 characters"
+          counter
+          @click:append="show1 = !show1"
+          maxlength="20"
+        ></v-text-field>
+        <v-text-field
+          v-model="password1"
+          validate-on-blur
+          :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+          :rules="[rules3.required, rules3.min]"
+          :type="show2 ? 'text' : 'password'"
+          name="input-10-1"
+          label="Confirm Password"
+          hint="At least 8 characters"
+          counter
+          @click:append="show2 = !show2"
+          @keyup.enter="signUp"
+          maxlength="20"
+        ></v-text-field>
+      </form>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="red" text @click="dialog = false"> Cancel </v-btn>
+        <v-btn color="primary" text @click="signUp"> SignUp </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -72,7 +67,7 @@ export default {
     email: "",
     password: "",
     password1: "",
-    
+
     rules0: {
       required: (value) => !!value || "Required.",
       min: (v) => v.length >= 8 || "Min 8 characters",
@@ -94,7 +89,6 @@ export default {
       min: (v) => v.length >= 8 || "Min 8 characters",
       counter: (v) => v.length <= 20 || "Max 20 characters",
     },
-    
   }),
 
   methods: {
@@ -133,9 +127,7 @@ export default {
           .catch((error) => {
             if (error.response) {
               for (const property in error.response.data) {
-                this.errors.push(
-                  `${property}: ${error.response.data[property]}`
-                );
+                this.errors.push(`${property}: ${error.response.data[property]}`);
               }
               console.log(JSON.stringify(error.response.data));
             } else if (error.message) {
@@ -144,10 +136,8 @@ export default {
             }
           });
       }
-      this.dialog = false
+      this.dialog = false;
     },
-
-    
   },
 
   beforeCreate() {
