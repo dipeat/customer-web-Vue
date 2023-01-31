@@ -143,7 +143,7 @@
       </div>
     </div>
 
-    <v-container v-if="foodOrdered != ''">
+    <v-container v-if="foodOrdered != ''" class="mt-4">
       <v-card class="mx-auto">
         <v-row>
           <v-col cols="12" md="12" sm="12">

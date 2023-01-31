@@ -3,20 +3,32 @@
     <template v-slot:activator="{ on, attrs }">
       <v-btn dark rounded color="purple accent-4" v-bind="attrs" v-on="on">LogIn</v-btn>
     </template>
-    <v-card class="pa-4">
-      <v-card-title class="text-h5"> Log In </v-card-title>
-      <form @submit.prevent="logIn">
+    <v-form @submit.prevent="logIn" ref="form1" v-model="valid1" lazy-validation>
+      <v-card class="pa-4">
+        <v-card-title class="text-h5"> Log In </v-card-title>
+        <div>
+          <v-alert
+            border="right"
+            colored-border
+            type="error"
+            elevation="3"
+            class="mt-3"
+            v-if="errorMessages != ''"
+          >
+            {{ errorMessages }}
+          </v-alert>
+        </div>
         <v-text-field
           v-model="loginUsername"
-          :rules="[rules4.required, rules4.counter]"
+          :rules="logInNameRules"
           label="Username"
           counter
-          maxlength="10"
+          maxlength="9"
         ></v-text-field>
         <v-text-field
           v-model="loginPassword"
           :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
-          :rules="[rules5.required, rules5.min]"
+          :rules="logInPasswordRules1"
           :type="show3 ? 'text' : 'password'"
           name="input-10-1"
           label="Password"
@@ -24,15 +36,15 @@
           counter
           @click:append="show3 = !show3"
           @keyup.enter="logIn"
-          maxlength="20"
+          maxlength="30"
         ></v-text-field>
-      </form>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="red" text @click="dialog1 = false"> Cancel </v-btn>
-        <v-btn color="primary" text @click="logIn"> LogIn </v-btn>
-      </v-card-actions>
-    </v-card>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="dialog1 = false"> Cancel </v-btn>
+          <v-btn color="primary" text @click="logIn"> LogIn </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-form>
   </v-dialog>
 </template>
 
@@ -53,53 +65,66 @@ export default {
     loginMobNumber: "",
     loginPassword: "",
 
-    rules4: {
-      required: (value) => !!value || "Required.",
-      min: (v) => v.length >= 8 || "Min 8 characters",
-      counter: (v) => v.length <= 10 || "Max 20 characters",
-    },
-    rules5: {
-      required: (value) => !!value || "Required.",
-      min: (v) => v.length >= 8 || "Min 8 characters",
-      counter: (v) => v.length <= 20 || "Max 20 characters",
-    },
+    errorMessages: "",
+
+    valid1: true,
+
+    logInNameRules: [
+      (v) => !!v || "Username is required",
+      (v) => v.length <= 9 || "Username must be less than 10 characters",
+      (v) => /^[a-zA-Z0-9]+$/.test(v) || "Username must be alphanumeric",
+      (v) => v.length >= 3 || "Username must be atleast 3 characters",
+    ],
+
+    logInPasswordRules1: [
+      (v) => !!v || "Password is required",
+      (v) => v.length <= 30 || "Password must be less than 30 characters",
+      (v) => v.length >= 8 || "Password must be atleast 8 characters",
+      (v) =>
+        /[!@#$%^&*(),.?":{}|<>]/.test(v) || "Password must contain a special character",
+    ],
   }),
 
   methods: {
     logIn() {
-      axios
-        .post("/api/v1/login/", {
-          username: this.loginUsername.toLowerCase(),
-          password: this.loginPassword,
-        })
-        .then((response) => {
-          if (response.data.is_customer == true) {
-            const token = response.data.token;
-            this.$store.commit("setToken", token);
-            axios.defaults.headers.common["Authorization"] = "Token " + token;
-            localStorage.setItem("token", token);
+      if (this.$refs.form1.validate()) {
+        axios
+          .post("/api/v1/login/", {
+            username: this.loginUsername.toLowerCase(),
+            password: this.loginPassword,
+          })
+          .then((response) => {
+            if (response.data.is_customer == true) {
+              const token = response.data.token;
+              this.$store.commit("setToken", token);
+              axios.defaults.headers.common["Authorization"] = "Token " + token;
+              localStorage.setItem("token", token);
 
-            this.$store.commit("setUser", {
-              username: response.data.username,
-              id: response.data.user_id,
-            });
+              this.$store.commit("setUser", {
+                username: response.data.username,
+                id: response.data.user_id,
+              });
 
-            localStorage.setItem("username", response.data.username);
-            localStorage.setItem("userid", response.data.user_id);
+              localStorage.setItem("username", response.data.username);
+              localStorage.setItem("userid", response.data.user_id);
 
-            // console.log(response);
-            // console.log(response.data.token);
-            this.dialog1 = false;
-            // this.$router.push("/");
-            window.location.reload();
-          } else if (response.data.is_customer == false) {
-            alert("You are not a customer");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          this.errors.push(error);
-        });
+              // console.log(response);
+              // console.log(response.data.token);
+              this.dialog1 = false;
+              // this.$router.push("/");
+              window.location.reload();
+            } else if (response.data.is_customer == false) {
+              alert("You are not a customer yet.");
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            this.errorMessages = "Invalid username or password";
+            setTimeout(() => {
+              this.errorMessages = "";
+            }, 5000);
+          });
+      }
     },
   },
 

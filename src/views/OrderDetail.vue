@@ -1,6 +1,5 @@
 <template>
   <v-main>
-
     <v-card max-width="550" class="mx-auto mt-5" elevation="5">
       <v-container>
         <v-card-title>
@@ -13,63 +12,58 @@
         </body>
       </v-container>
       <v-container v-for="(item, index) in foodOrdered" :key="index">
-        <div v-if="item.delivered===false">
-        <div @click="setRestaurant(item.restaurant)">
-          <v-btn color="blue" text small to="/menu">{{
-            item.restaurant
-          }}</v-btn>
+        <div v-if="item.delivered === false">
+          <div @click="setRestaurant(item.restaurant)">
+            <v-btn color="blue" text small to="/menu">{{ item.restaurant }}</v-btn>
+          </div>
+          <v-simple-table fixed-header height="auto">
+            <template v-slot:default primary>
+              <thead>
+                <tr>
+                  <th class="text-left">Item</th>
+                  <th class="text-left">Quantity</th>
+                  <th class="text-left">Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(i, index) in item.food_name
+                    .split('||')
+                    .filter((item) => item !== '')"
+                  :key="index + 0.01"
+                >
+                  <td>{{ i.split("@")[0] }}</td>
+                  <td>{{ i.split("@")[1].split("$$")[0] }}</td>
+                  <td>{{ i.split("$$")[1] * i.split("@")[1].split("$$")[0] }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+          <v-container>
+            <v-chip outlined color="primary" class="mt-1">
+              <span v-if="item.takeaway == true">Takeaway</span>
+              <span v-else>Dine-In</span>
+            </v-chip>
+            &nbsp;&nbsp;
+            <v-chip outlined color="red" class="mt-1">
+              <span> Arrival: {{ item.arrival_time }}</span>
+            </v-chip>
+            &nbsp;&nbsp;
+            <v-chip outlined color="orange" class="mt-1">
+              <span>{{ item.order_date.slice(4, 16) }}</span>
+            </v-chip>
+
+            &nbsp;&nbsp;
+            <v-chip outlined color="purple" class="mt-1">
+              <span>Total =<v-icon>mdi-currency-inr</v-icon>{{ item.total }}</span>
+            </v-chip>
+          </v-container>
+          <v-divider color="red"></v-divider>
         </div>
-        <v-simple-table fixed-header height="auto">
-          <template v-slot:default primary>
-            <thead>
-              <tr>
-                <th class="text-left">Item</th>
-                <th class="text-left">Quantity</th>
-                <th class="text-left">Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(i, index) in item.food_name
-                  .split('||')
-                  .filter((item) => item !== '')"
-                :key="index + 0.01"
-              >
-                <td>{{ i.split("@")[0] }}</td>
-                <td>{{ i.split("@")[1].split("$$")[0] }}</td>
-                <td>{{ i.split("$$")[1] * i.split("@")[1].split("$$")[0] }}</td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
-        <v-container>
-          <v-chip outlined color="primary" class="mt-1">
-            <span v-if="item.takeaway == true">Takeaway</span>
-            <span v-else>Dine-In</span>
-          </v-chip>
-          &nbsp;&nbsp;
-          <v-chip outlined color="red" class="mt-1">
-            <span> Arrival: {{ item.arrival_time }}</span>
-          </v-chip>
-          &nbsp;&nbsp;
-          <v-chip outlined color="orange" class="mt-1">
-            <span>{{ item.order_date.slice(4,16) }}</span>
-          </v-chip>
-          
-          &nbsp;&nbsp;
-          <v-chip outlined color="purple" class="mt-1">
-            <span
-              >Total =<v-icon>mdi-currency-inr</v-icon>{{ item.total }}</span
-            >
-          </v-chip>
-          
-        </v-container>
-        <v-divider color="red"></v-divider>
-      </div>
       </v-container>
     </v-card>
 
-    <v-container class="text-center mt-2">
+    <v-container class="text-center mt-2" v-if="showNow">
       <v-dialog v-model="dialog" scrollable max-width="300px">
         <template v-slot:activator="{ on, attrs }">
           <v-btn color="black" rounded dark v-bind="attrs" v-on="on">
@@ -132,8 +126,7 @@
     </v-container>
     <v-row justify="center">
       <v-subheader>
-        Note: Cancellation will be charged 35% of the total amount, as a food
-        wastage compensation.
+        Note: Cancellation is not allowed in order to avoid food wastage.
       </v-subheader>
     </v-row>
   </v-main>
@@ -146,6 +139,7 @@ export default {
   name: "Order",
   data() {
     return {
+      showNow: false,
       show: false,
       //   data: `<iframe
       //     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3557.794052246003!2d75.81813531554864!3d26.910030466682688!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db7e6c95cea9f%3A0xd1891eab8cb0afe0!2sMasala%20Chowk!5e0!3m2!1sen!2sin!4v1658497777698!5m2!1sen!2sin"
@@ -193,5 +187,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

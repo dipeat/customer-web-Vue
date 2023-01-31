@@ -1,37 +1,36 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import vuetify from './plugins/vuetify'
-import '@babel/polyfill'
-import axios from 'axios'
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
+import vuetify from "./plugins/vuetify";
+import "@babel/polyfill";
+import axios from "axios";
 
 Vue.prototype.$eventBus = new Vue();
 
-Vue.config.productionTip = false
-axios.defaults.baseURL = 'http://127.0.0.1:8000'
+Vue.config.productionTip = false;
+axios.defaults.baseURL = "http://127.0.0.1:8000";
 
 new Vue({
   router,
   store,
   vuetify,
   axios,
-  render: h => h(App)
-}).$mount('#app')
+  render: (h) => h(App),
+}).$mount("#app");
 
+  /*Hamburger Menu Click*/
+  const hamburger = document.querySelector(".hamburger");
+  const navLinks = document.querySelector(".nav-links");
+  const links = document.querySelectorAll(".nav-links li");
 
-/*Hamburger Menu Click*/
-const hamburger = document.querySelector(".hamburger");
-const navLinks = document.querySelector(".nav-links");
-const links = document.querySelectorAll(".nav-links li");
+  hamburger.addEventListener("click", () => {
+    //Animate Links
+    navLinks.classList.toggle("open");
+    links.forEach((link) => {
+      link.classList.toggle("fade");
+    });
 
-hamburger.addEventListener('click', ()=>{
-//Animate Links
-navLinks.classList.toggle("open");
-links.forEach(link => {
-    link.classList.toggle("fade");
-});
-
-//Hamburger Animation
-hamburger.classList.toggle("toggle");
-});
+    //Hamburger Animation
+    hamburger.classList.toggle("toggle");
+  });

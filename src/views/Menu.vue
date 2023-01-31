@@ -262,13 +262,18 @@
                                 readonly
                                 v-bind="attrs"
                                 v-on="on"
+                                @click="refreshClock"
                               ></v-text-field>
                             </template>
+
                             <v-time-picker
                               v-if="modal2"
                               v-model="time"
                               full-width
                               ampm-in-title
+                              scrollable
+                              :min="minClock"
+                              @change="refreshClock"
                             >
                               <v-spacer></v-spacer>
                               <v-btn text color="primary" @click="modal2 = false">
@@ -294,6 +299,18 @@
                         </v-col>
                       </v-row>
                     </v-container>
+                    <div>
+                      <v-alert
+                        border="right"
+                        colored-border
+                        type="error"
+                        elevation="3"
+                        class="mt-3"
+                        v-if="errorMessages != ''"
+                      >
+                        {{ errorMessages }}
+                      </v-alert>
+                    </div>
                     <v-container
                       v-if="displayOrder == '' && $store.state.walletBalance >= total"
                     >
@@ -346,6 +363,9 @@ export default {
       radios: null,
       rating: 2.5,
       sheet: false,
+
+      errorMessages: "",
+      minClock: "",
 
       time: null,
       menu2: false,
@@ -508,6 +528,19 @@ export default {
       }
     },
 
+    refreshClock() {
+      this.premare_time = 0;
+      for (let i = 0; i < this.displayOrder.length; i++) {
+        this.premare_time +=
+          this.displayOrder[i].prepare_time * this.displayOrder[i].value;
+      }
+
+      this.minClock = new Date(new Date().getTime() + this.premare_time * 60000)
+        .toString()
+        .slice(16, 21);
+      // console.log(this.minClock);
+    },
+
     plusOne(item) {
       item.value++, this.foodOrder.push(item);
       // console.log(this.foodOrder);
@@ -521,20 +554,11 @@ export default {
     },
 
     async checkout() {
-      if (this.displayOrder != "" && this.$store.state.walletBalance >= this.total) {
-        this.dialog = false;
-        // add all name of food in one string
-        for (let i = 0; i < this.displayOrder.length; i++) {
-          this.foodName +=
-            this.displayOrder[i].name +
-            "@" +
-            this.displayOrder[i].value +
-            "$$" +
-            this.displayOrder[i].final_price +
-            "||";
-        }
-
-        // convert 24 hour to 12 hour
+      if (
+        this.displayOrder != "" &&
+        this.$store.state.walletBalance >= this.total &&
+        this.time !== null
+      ) {
         let time = this.time;
         let hours = time.substring(0, 2);
         let minutes = time.substring(3, 5);
@@ -555,38 +579,79 @@ export default {
         //     arrival_time: strTime,
         //   });new Date().toString().slice(0, 16),
 
-        await axios.post("/api/v1/foodorders/", {
-          restaurant: this.$store.state.restaurant,
-          user: this.$store.state.user.username,
-          takeaway: this.checkbox,
-          order_date: new Date().toString().slice(0, 15),
-          prepare_time: this.premare_time,
-          food_name: this.foodName,
-          total: Number(this.total).toFixed(2),
-          message: this.message,
-          arrival_time: strTime,
-          slug: this.$store.state.user.username + "a-_a" + Date.now(), // to remove conflict
-        });
-        // .then((response) => {
-        //   console.log(response);
-        // })
-        // .catch((error) => {
-        //   console.log(error);
-        // });
+        let timeParts = strTime.split(":");
+        let newHours = timeParts[0];
+        let newMinutes = timeParts[1];
 
-        const slug = this.$store.state.user.username;
-        const data = {
-          total_amount: Number(this.$store.state.walletBalance) - Number(this.total),
-          user: this.$store.state.user.id,
-          slug: this.$store.state.user.username,
-        };
-        await axios.patch(`/api/v1/customerwallet/${slug}/`, data).then((response) => {
-          // console.log(response.data);
-          this.$store.dispatch("getWallet");
-        });
+        if (newHours.length === 1) {
+          newHours = "0" + hours;
+        }
+
+        time = `${newHours}:${newMinutes}`;
+
+        if (time.slice(0, 5) >= this.minClock) {
+          for (let i = 0; i < this.displayOrder.length; i++) {
+            this.foodName +=
+              this.displayOrder[i].name +
+              "@" +
+              this.displayOrder[i].value +
+              "$$" +
+              this.displayOrder[i].final_price +
+              "||";
+          }
+
+          await axios.post("/api/v1/foodorders/", {
+            restaurant: this.$store.state.restaurant,
+            user: this.$store.state.user.username,
+            takeaway: this.checkbox,
+            order_date: new Date().toString().slice(0, 15),
+            prepare_time: this.premare_time,
+            food_name: this.foodName,
+            total: Number(this.total).toFixed(2),
+            message: this.message,
+            arrival_time: strTime,
+            slug: this.$store.state.user.username + "a-_a" + Date.now(), // to remove conflict
+          });
+
+          // .then((response) => {
+          //   console.log(response);
+          // })
+          // .catch((error) => {
+          //   console.log(error);
+          // });
+
+          const slug = this.$store.state.user.username;
+          const data = {
+            total_amount: Number(this.$store.state.walletBalance) - Number(this.total),
+            user: this.$store.state.user.id,
+            slug: this.$store.state.user.username,
+          };
+          await axios.patch(`/api/v1/customerwallet/${slug}/`, data).then((response) => {
+            // console.log(response.data);
+            this.$store.dispatch("getWallet");
+          });
+          this.dialog = false;
+          this.$router.push("/order");
+        } else {
+          // console.log("please select time after " + this.minClock);
+          this.errorMessages = "please select time after " + this.minClock;
+          setTimeout(() => {
+            this.errorMessages = "";
+          }, 5000);
+        }
+      } else if (this.$store.state.walletBalance < this.total) {
+        // console.log("please add money to your wallet");
+        this.errorMessages = "please add money to your wallet";
+        setTimeout(() => {
+          this.errorMessages = "";
+        }, 5000);
+      } else if (this.time === null) {
+        // console.log("please select time");
+        this.errorMessages = "please select time";
+        setTimeout(() => {
+          this.errorMessages = "";
+        }, 5000);
       }
-
-      this.$router.push("/order");
     },
 
     likeShop(item) {
@@ -662,6 +727,9 @@ export default {
     this.getLikedShop();
     this.shopStatus();
     this.getShopProfileImage();
+    // console.log(new Date().toString().slice(16, 21));
   },
+
+  mounted() {},
 };
 </script>

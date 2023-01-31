@@ -17,15 +17,6 @@
             <v-list-item-title v-text="'Home'"></v-list-item-title>
           </v-list-item>
           <v-list-item
-            link
-            to="/wallet"
-            color="purple"
-            v-if="$store.state.isAuthenticated"
-          >
-            <span> <v-icon color="grey">mdi-wallet</v-icon> </span>&nbsp;&nbsp;&nbsp;
-            <v-list-item-title v-text="'Wallet'"></v-list-item-title>
-          </v-list-item>
-          <v-list-item
             to="/history"
             link
             color="purple"
