@@ -10,7 +10,8 @@
     </div>
     <v-app-bar
       absolute
-      color="deep-purple accent-4"
+      class="loggedIn-nav"
+      color="deep-purple accent-3"
       dark
       elevate-on-scroll
       v-if="$store.state.isAuthenticated"
@@ -57,10 +58,14 @@
           </v-list-item>
         </v-list>
       </v-menu>
-      <v-toolbar-title v-if="!$store.state.isAuthenticated">Crispicy</v-toolbar-title>
-      <v-toolbar-title v-if="$store.state.isAuthenticated"
-        ><v-btn to="/" text>Crispicy </v-btn></v-toolbar-title
-      >
+      <div class="nav-logo" v-if="$store.state.isAuthenticated">
+        <a href="/">
+          <img
+            src="https://crisp-restaurant-picture.s3.ap-south-1.amazonaws.com/homePage-static-image/simple_logo.png"
+            alt="dipEAT.com"
+          />
+        </a>
+      </div>
 
       <v-spacer></v-spacer>
 
@@ -80,11 +85,7 @@
         <v-icon>mdi-heart</v-icon>
       </v-btn>
 
-      <v-btn to="/history" icon v-if="$store.state.isAuthenticated">
-        <v-icon>mdi-history</v-icon>
-      </v-btn>
-
-      &nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;
 
       <span link v-if="$store.state.isAuthenticated">
         <h4>{{ $store.state.user.username }}</h4>
@@ -93,8 +94,8 @@
     <nav v-else>
       <div class="logo">
         <img
-          src="https://crisp-restaurant-picture.s3.ap-south-1.amazonaws.com/homePage-static-image/burger.png"
-          alt="Logo/Name"
+          src="https://crisp-restaurant-picture.s3.ap-south-1.amazonaws.com/homePage-static-image/simple_logo.png"
+          alt="dipEAT.com"
         />
       </div>
       <div class="hamburger">
@@ -119,7 +120,8 @@
     <v-sheet>
       <v-main class="mt-13">
         <v-toolbar
-          color="deep-purple accent-4"
+          color="deep-purple accent-3"
+          class="loggedIn-searchBar"
           dark
           flat
           v-if="$store.state.isAuthenticated"
@@ -154,7 +156,12 @@
       <section id="footer" v-if="!$store.state.isAuthenticated">
         <div class="main-footer">
           <div class="logoinfo" data-aos="fade-up">
-            <h2>dipEAT</h2>
+            <div class="logo">
+              <img
+                src="https://crisp-restaurant-picture.s3.ap-south-1.amazonaws.com/homePage-static-image/simple_logo.png"
+                alt="dipEAT.com"
+              />
+            </div>
 
             <div class="contact-details">
               <h1>Contact Us</h1>
@@ -211,7 +218,7 @@ window.addEventListener("load", () => {
   document.querySelector(".loading").classList.add("fade-out");
   setTimeout(() => {
     document.querySelector(".loading").style.display = "none";
-  }, 1000);
+  }, 700);
 });
 
 export default {
@@ -390,14 +397,27 @@ export default {
 
 /*Navigation Bar and Hamburger */
 
+.loggedIn-nav {
+  background-image: linear-gradient(135deg, #14011b 0%, #8235cf 100%);
+}
+.loggedIn-searchBar {
+  background-image: linear-gradient(135deg, #14011bde 0%, #8b42d3 100%);
+}
+@media (min-width: 480px) {
+  .loggedIn-searchBar {
+    background-image: linear-gradient(135deg, #14011b 0%, #8235cf 100%);
+  }
+}
+
 nav {
   height: 4rem;
   width: 100vw;
-  background: rgba(150, 102, 196, 0.7);
+  background: rgba(92, 9, 170, 0.644);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(11px);
   -webkit-backdrop-filter: blur(11px);
-  border: 1px solid rgb(188, 122, 255);
+  border: 1px solid rgb(30, 2, 58);
+  background-image: linear-gradient(135deg, #1e0129 0%, #9657d6 100%);
   display: flex;
   position: fixed;
   z-index: 10;
@@ -410,9 +430,20 @@ nav {
   text-align: center;
 }
 .logo img {
-  height: 3rem;
-  width: 3rem;
+  height: 3.4rem;
+  width: 9rem;
   margin-left: 15px;
+}
+
+.nav-logo {
+  padding: 1vh 1vw;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+.nav-logo img {
+  height: 3.4rem;
+  width: 9rem;
 }
 
 /*Styling Links*/
@@ -507,7 +538,7 @@ nav {
 @media screen and (max-width: 800px) {
   .logo img {
     height: 3rem;
-    width: 3rem;
+    width: 10rem;
   }
 
   nav {
@@ -590,7 +621,7 @@ nav {
   padding: 70px 0;
   display: flex;
   justify-content: space-evenly;
-  background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-image: linear-gradient(135deg, #6274c9 0%, #764ba2 100%);
   font-family: "Montserrat", sans-serif;
 }
 
@@ -617,7 +648,7 @@ nav {
 }
 
 footer {
-  background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-image: linear-gradient(135deg, #7a90f5 0%, #a175ce 100%);
   border-top: 2px solid #ffffff;
   font-size: 20px;
   padding: 15px 5px;

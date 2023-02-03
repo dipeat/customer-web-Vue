@@ -196,7 +196,7 @@
       </v-card>
     </v-container>
 
-    <v-container id="about-us">
+    <v-container id="about-us" v-if="!$store.state.isAuthenticated">
       <v-card max-width="1570" class="mx-auto border border-danger" elevation="2">
         <!-- About Us -->
         <v-card-title class="text-start text-h5"><strong>About Us</strong></v-card-title>
@@ -212,12 +212,15 @@
             </v-col>
             <v-col cols="12" sm="8">
               <div>
-                This is the about section. Lorem ipsum dolor sit amet consectetur,
-                adipisicing elit. Blanditiis vitae, fugiat deleniti itaque libero modi,
-                harum quas deserunt iure ad eum. Commodi sit aspernatur et nam, odio
-                dolore molestiae voluptates, numquam doloremque consectetur molestias
-                aperiam maxime placeat animi in consequatur eaque. Temporibus error,
-                molestiae autem skap.
+                We are a team of fooodie❗, who loves the taste of food when our taste-bud
+                explodes🤯. Yes, you guessed us right we are pro chatkara-type eater. The
+                taste of food increase many folds when the meal is served like a pro,
+                on-time, no-waiting. Waiting for food is the only thing which we do not
+                like. Here in dipEAT, we are happy to facilitate you with dine-in and
+                takeaway checkouts. Book your order according to your convenience and
+                time. We all want to receive food as soon as possible when we order food
+                in the restaurant. Our goal is simple, book order before leaving your
+                place and food is served as you put your foot in the restaurant. Peace✌️
               </div>
             </v-col>
           </v-row>
@@ -227,7 +230,7 @@
 
     <v-container>
       <div class="top-orders" id="top-restaurants">
-        <h1><u>Top Restaurants</u></h1>
+        <h1><u>Trending</u></h1>
 
         <v-row>
           <v-col cols="6" sm="4" v-for="(item, index) in status" :key="index">
