@@ -223,28 +223,35 @@
                     </v-container>
                   </div>
                   <v-divider color="red"></v-divider>
-                  <div>
+                  <div class="text-center">
                     <v-container
                       v-if="displayOrder != '' && $store.state.walletBalance >= total"
                     >
-                      <v-row>
-                        <v-col>
-                          <div>Total</div>
-                        </v-col>
-                        <v-col>
-                          <div><v-icon>mdi-currency-inr</v-icon> {{ total }}</div>
-                        </v-col>
-                      </v-row>
-                      <v-divider color="yellow"></v-divider>
-
-                      <v-row>
-                        <v-col>
-                          <div>Prepare Time</div>
-                        </v-col>
-                        <v-col>
-                          <div><v-icon>mdi-alarm</v-icon> {{ premare_time }} mins</div>
-                        </v-col>
-                      </v-row>
+                      <v-chip outlined color="pink">
+                        <div>
+                          Total:&nbsp;
+                          <span><v-icon>mdi-currency-inr</v-icon>{{ total }}</span>
+                        </div>
+                      </v-chip>
+                      <v-chip outlined color="blue" class="mt-1">
+                        <div>
+                          Prepare Time:&nbsp;
+                          <span><v-icon>mdi-alarm</v-icon>{{ premare_time }} mins</span>
+                        </div>
+                      </v-chip>
+                      <v-chip
+                        outlined
+                        color="purple"
+                        v-if="packagingCharges != 0 && checkbox"
+                        class="mt-1"
+                      >
+                        <div>
+                          Packaging charge:&nbsp;
+                          <span
+                            ><v-icon>mdi-currency-inr</v-icon>{{ packagingCharges }}</span
+                          >
+                        </div>
+                      </v-chip>
 
                       <v-row>
                         <v-col cols="6" sm="6">
@@ -294,6 +301,7 @@
                             v-model="checkbox"
                             label="Take Away"
                             color="primary"
+                            @click="oK"
                           >
                           </v-checkbox>
                         </v-col>
@@ -377,6 +385,7 @@ export default {
       likeColor: "",
       likeBoolShop: true,
       status: "",
+      packagingCharges: 0,
 
       shopProfileImage: [],
       foodName: [],
@@ -518,6 +527,10 @@ export default {
       this.total = 0;
       for (let i = 0; i < this.displayOrder.length; i++) {
         this.total += this.displayOrder[i].final_price * this.displayOrder[i].value;
+      }
+
+      if (this.checkbox == true) {
+        this.total += this.packagingCharges;
       }
 
       // calculate prepare time
@@ -720,6 +733,14 @@ export default {
         // console.log(this.shopProfileImage);
       });
     },
+    getPackagingCharges() {
+      const slug = this.$store.state.restaurant;
+      axios.get(`/api/v1/takeaway/${slug}/`).then((response) => {
+        this.packagingCharges = response.data[0].packaging_charge;
+        // console.log(response.data);
+      });
+      // console.log(this.$store.state.restaurant);
+    },
   },
 
   created: function () {
@@ -730,6 +751,10 @@ export default {
     // console.log(new Date().toString().slice(16, 21));
   },
 
-  mounted() {},
+  mounted() {
+    setTimeout(() => {
+      this.getPackagingCharges();
+    }, 1000);
+  },
 };
 </script>

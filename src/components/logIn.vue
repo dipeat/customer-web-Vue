@@ -1,7 +1,15 @@
 <template>
   <v-dialog v-model="dialog1" max-width="350">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn dark rounded color="purple accent-4" v-bind="attrs" v-on="on">LogIn</v-btn>
+      <v-btn
+        class="button-style"
+        dark
+        rounded
+        color="purple accent-4"
+        v-bind="attrs"
+        v-on="on"
+        >LogIn</v-btn
+      >
     </template>
     <v-form @submit.prevent="logIn" ref="form1" v-model="valid1" lazy-validation>
       <v-card class="pa-4">
@@ -139,3 +147,8 @@ export default {
   },
 };
 </script>
+<style>
+.button-style {
+  background-image: linear-gradient(135deg, #4d0875 0%, #9123ff 100%);
+}
+</style>

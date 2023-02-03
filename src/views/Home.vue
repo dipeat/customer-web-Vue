@@ -197,7 +197,12 @@
     </v-container>
 
     <v-container id="about-us" v-if="!$store.state.isAuthenticated">
-      <v-card max-width="1570" class="mx-auto border border-danger" elevation="2">
+      <v-card
+        max-width="1570"
+        class="loggedIn-nav mx-auto border border-danger"
+        elevation="2"
+        dark
+      >
         <!-- About Us -->
         <v-card-title class="text-start text-h5"><strong>About Us</strong></v-card-title>
         <v-card-actions>
@@ -220,7 +225,8 @@
                 takeaway checkouts. Book your order according to your convenience and
                 time. We all want to receive food as soon as possible when we order food
                 in the restaurant. Our goal is simple, book order before leaving your
-                place and food is served as you put your foot in the restaurant. Peace✌️
+                place and food is served as you put your foot in the restaurant.<br />
+                Peace✌️
               </div>
             </v-col>
           </v-row>
@@ -416,6 +422,9 @@ export default {
 </script>
 
 <style scoped>
+.loggedIn-nav {
+  background-image: linear-gradient(135deg, #0e0414 0%, #5905a7 100%);
+}
 /*Background Image for Large Devices*/
 .bg-large-image {
   position: relative;

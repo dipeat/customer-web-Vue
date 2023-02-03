@@ -140,7 +140,7 @@
                     label="Search"
                     prepend-inner-icon="mdi-magnify"
                     solo-inverted
-                    @input="searchBar()"
+                    @keyup.enter="searchBar()"
                     rounded
                   >
                   </v-text-field>
@@ -405,7 +405,7 @@ export default {
 }
 @media (min-width: 480px) {
   .loggedIn-searchBar {
-    background-image: linear-gradient(135deg, #14011b 0%, #8235cf 100%);
+    background-image: linear-gradient(135deg, #14011b 0%, #8435d3 100%);
   }
 }
 
@@ -417,7 +417,7 @@ nav {
   backdrop-filter: blur(11px);
   -webkit-backdrop-filter: blur(11px);
   border: 1px solid rgb(30, 2, 58);
-  background-image: linear-gradient(135deg, #1e0129 0%, #9657d6 100%);
+  background-image: linear-gradient(135deg, #1e0129 0%, #ac5cfc3a 100%);
   display: flex;
   position: fixed;
   z-index: 10;

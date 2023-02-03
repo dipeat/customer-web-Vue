@@ -31,7 +31,14 @@
             @click.stop="dialog1 = true"
             >Add</v-btn
           >
-          <v-btn text small rounded dark color="brown lighten-1" class="ma-2"
+          <v-btn
+            text
+            small
+            rounded
+            dark
+            color="brown lighten-1"
+            class="ma-2"
+            v-if="showNow"
             ><v-icon>mdi-history</v-icon></v-btn
           >
         </div>
@@ -160,6 +167,7 @@ export default {
   name: "Profile",
 
   data: () => ({
+    showNow: false,
     dialog: false,
     dialog1: false,
 
