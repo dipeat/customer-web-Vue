@@ -196,8 +196,37 @@
       </v-card>
     </v-container>
 
+    <v-container id="about-us">
+      <v-card max-width="1570" class="mx-auto border border-danger" elevation="2">
+        <!-- About Us -->
+        <v-card-title class="text-start text-h5"><strong>About Us</strong></v-card-title>
+        <v-card-actions>
+          <v-row>
+            <v-col cols="12" sm="4">
+              <div class="menu-item text-center">
+                <v-img
+                  src="https://crisp-restaurant-picture.s3.ap-south-1.amazonaws.com/homePage-static-image/pexels-skitterphoto-877220.jpg"
+                  alt=""
+                />
+              </div>
+            </v-col>
+            <v-col cols="12" sm="8">
+              <div>
+                This is the about section. Lorem ipsum dolor sit amet consectetur,
+                adipisicing elit. Blanditiis vitae, fugiat deleniti itaque libero modi,
+                harum quas deserunt iure ad eum. Commodi sit aspernatur et nam, odio
+                dolore molestiae voluptates, numquam doloremque consectetur molestias
+                aperiam maxime placeat animi in consequatur eaque. Temporibus error,
+                molestiae autem skap.
+              </div>
+            </v-col>
+          </v-row>
+        </v-card-actions>
+      </v-card>
+    </v-container>
+
     <v-container>
-      <div class="top-orders">
+      <div class="top-orders" id="top-restaurants">
         <h1><u>Top Restaurants</u></h1>
 
         <v-row>

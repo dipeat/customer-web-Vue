@@ -1,5 +1,13 @@
 <template>
   <v-app id="app">
+    <div class="loading" v-if="!$store.state.isAuthenticated">
+      <div class="loader-box">
+        <div class="b b1"></div>
+        <div class="b b2"></div>
+        <div class="b b3"></div>
+        <div class="b b4"></div>
+      </div>
+    </div>
     <v-app-bar
       absolute
       color="deep-purple accent-4"
@@ -95,10 +103,10 @@
         <div class="line3"></div>
       </div>
       <ul class="nav-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#res-del">Menu</a></li>
-        <li><a href="#offer-section">Offers</a></li>
-        <li><a href="#footer">About Us</a></li>
+        <li><a href="#">Intro</a></li>
+        <li><a href="#how-it-works">Workflow</a></li>
+        <li><a href="#about-us">About Us</a></li>
+        <li><a href="#top-restaurants">Restaurants</a></li>
         <li>
           <a><logIn /></a>
         </li>
@@ -146,7 +154,7 @@
       <section id="footer" v-if="!$store.state.isAuthenticated">
         <div class="main-footer">
           <div class="logoinfo" data-aos="fade-up">
-            <h2>Food Project</h2>
+            <h2>dipEAT</h2>
 
             <div class="contact-details">
               <h1>Contact Us</h1>
@@ -158,8 +166,8 @@
           </div>
           <div class="com" data-aos="fade-up">
             <ul>
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">Pricing</a></li>
+              <li><a href="#about-us">About Us</a></li>
+              <li><a href="#how-it-works">Pricing</a></li>
               <li><a href="/privacy_policy">Privacy Policy</a></li>
               <li><a href="/terms_and_conditions">Terms & Conditions</a></li>
               <li><a href="/refund_policy">Cancellation/Refund Policy</a></li>
@@ -169,9 +177,18 @@
             <h1>Social Media</h1>
             <div class="sociallogos">
               <div class="logobox">
-                <a href="#"><span class="mdi mdi-instagram"></span></a>
-                <a href="#"><span class="mdi mdi-linkedin"></span></a>
-                <a href="#"><span class="mdi mdi-facebook"></span></a>
+                <a href="https://www.instagram.com/dipeat_com/"
+                  ><span class="mdi mdi-instagram"></span
+                ></a>
+                <a href="https://www.linkedin.com/company/dipeat-com/"
+                  ><span class="mdi mdi-linkedin"></span
+                ></a>
+                <a href="https://www.facebook.com/profile.php?id=100089998780762"
+                  ><span class="mdi mdi-facebook"></span
+                ></a>
+                <a href="https://twitter.com/dipEAT_com"
+                  ><span class="mdi mdi-twitter"></span
+                ></a>
               </div>
             </div>
           </div>
@@ -188,6 +205,14 @@ import axios from "axios";
 import signUp from "./components/signUp.vue";
 import logIn from "./components/logIn.vue";
 import router from "./router";
+
+window.addEventListener("load", () => {
+  // Page Loader
+  document.querySelector(".loading").classList.add("fade-out");
+  setTimeout(() => {
+    document.querySelector(".loading").style.display = "none";
+  }, 1000);
+});
 
 export default {
   name: "App",
@@ -285,6 +310,82 @@ export default {
   margin: 0;
   padding: 0;
   scroll-behavior: smooth;
+}
+
+/* loading screen */
+
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  transition: opacity 500ms ease-in-out;
+}
+.loading .fade-out {
+  opacity: 0;
+}
+.loader-box {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+}
+.loader-box .b {
+  border-radius: 50%;
+  border-left: 4px solid;
+  border-right: 4px solid;
+  border-top: 4px solid transparent !important;
+  border-bottom: 4px solid transparent !important;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: ro 2s infinite;
+}
+.loader-box .b1 {
+  border-color: #e38b29;
+  width: 120px;
+  height: 120px;
+}
+.loader-box .b2 {
+  border-color: #fdeedc;
+  width: 100px;
+  height: 100px;
+  animation-delay: 0.1s;
+}
+.loader-box .b3 {
+  border-color: #f1a661;
+  width: 80px;
+  height: 80px;
+  animation-delay: 0.2s;
+}
+.loader-box .b4 {
+  border-color: #ffd8a9;
+  width: 60px;
+  height: 60px;
+  animation-delay: 0.4s;
+}
+@keyframes ro {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) rotate(-180deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
 }
 
 /*Navigation Bar and Hamburger */

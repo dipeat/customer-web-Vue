@@ -34,3 +34,14 @@ new Vue({
     //Hamburger Animation
     hamburger.classList.toggle("toggle");
   });
+
+  // navbar animation
+  links.forEach(link => {
+    link.addEventListener("click", () => {
+      navLinks.classList.remove("open");
+      links.forEach(link => {
+        link.classList.remove("fade");
+      });
+      hamburger.classList.remove("toggle");
+    });
+  });
