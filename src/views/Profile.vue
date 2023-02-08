@@ -268,7 +268,7 @@ export default {
               key: "rzp_test_BLtsjnAxhyqY38",
               currency: "INR",
               amount: this.amount * 100,
-              name: "Crispicy",
+              name: "dipEAT",
               description: "Payment for your wallet",
               order_id: response.data.payment_id,
               handler: (response) => {

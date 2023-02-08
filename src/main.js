@@ -9,7 +9,8 @@ import axios from "axios";
 Vue.prototype.$eventBus = new Vue();
 
 Vue.config.productionTip = false;
-axios.defaults.baseURL = "http://127.0.0.1:8000";
+axios.defaults.baseURL = "http://44.198.193.74:8000";
+
 
 new Vue({
   router,
@@ -19,6 +20,7 @@ new Vue({
   render: (h) => h(App),
 }).$mount("#app");
 
+if(!store.state.isAuthenticated){
   /*Hamburger Menu Click*/
   const hamburger = document.querySelector(".hamburger");
   const navLinks = document.querySelector(".nav-links");
@@ -45,3 +47,4 @@ new Vue({
       hamburger.classList.remove("toggle");
     });
   });
+}

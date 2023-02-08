@@ -183,6 +183,8 @@
               placeholder="Type message ..."
               filled
               dense
+              maxlength="200"
+              counter
             ></v-text-field>
           </v-col>
 
@@ -369,7 +371,7 @@ export default {
       dialog1: false,
       show: false,
       radios: null,
-      rating: 2.5,
+      rating: 4.0,
       sheet: false,
 
       errorMessages: "",
@@ -418,7 +420,7 @@ export default {
               key: "rzp_test_BLtsjnAxhyqY38",
               currency: "INR",
               amount: this.amount * 100,
-              name: "Crispicy",
+              name: "dipEAT",
               description: "Payment for your wallet",
               order_id: response.data.payment_id,
               handler: (response) => {

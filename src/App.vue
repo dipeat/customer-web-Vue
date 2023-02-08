@@ -142,6 +142,7 @@
                     solo-inverted
                     @keyup.enter="searchBar()"
                     rounded
+                    maxlength="30"
                   >
                   </v-text-field>
                 </template>
@@ -269,6 +270,7 @@ export default {
           localStorage.removeItem("token");
 
           this.$store.commit("removeToken");
+          this.$router.push("/").catch(() => {});
           window.location.reload();
         })
         .catch((error) => {
