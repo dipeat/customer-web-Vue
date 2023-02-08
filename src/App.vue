@@ -93,10 +93,12 @@
     </v-app-bar>
     <nav v-else>
       <div class="logo">
-        <img
-          src="https://crisp-restaurant-picture.s3.ap-south-1.amazonaws.com/homePage-static-image/simple_logo.png"
-          alt="dipEAT.com"
-        />
+        <a href="/">
+          <img
+            src="https://crisp-restaurant-picture.s3.ap-south-1.amazonaws.com/homePage-static-image/simple_logo.png"
+            alt="dipEAT.com"
+          />
+        </a>
       </div>
       <div class="hamburger">
         <div class="line1"></div>
@@ -158,10 +160,12 @@
         <div class="main-footer">
           <div class="logoinfo" data-aos="fade-up">
             <div class="logo">
-              <img
-                src="https://crisp-restaurant-picture.s3.ap-south-1.amazonaws.com/homePage-static-image/simple_logo.png"
-                alt="dipEAT.com"
-              />
+              <a href="/">
+                <img
+                  src="https://crisp-restaurant-picture.s3.ap-south-1.amazonaws.com/homePage-static-image/simple_logo.png"
+                  alt="dipEAT.com"
+                />
+              </a>
             </div>
 
             <div class="contact-details">
