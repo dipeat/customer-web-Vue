@@ -216,7 +216,7 @@
                           <div>{{ order.name }}</div>
                         </v-col>
                         <v-col>
-                          <div>{{ order.final_price * order.value }}</div>
+                          <div>{{ (order.final_price * order.value).toFixed(2) }}</div>
                         </v-col>
                         <v-col>
                           <div>{{ order.value }}</div>

@@ -34,7 +34,9 @@
                 >
                   <td>{{ i.split("@")[0] }}</td>
                   <td>{{ i.split("@")[1].split("$$")[0] }}</td>
-                  <td>{{ i.split("$$")[1] * i.split("@")[1].split("$$")[0] }}</td>
+                  <td>
+                    {{ (i.split("$$")[1] * i.split("@")[1].split("$$")[0]).toFixed(2) }}
+                  </td>
                 </tr>
               </tbody>
             </template>
