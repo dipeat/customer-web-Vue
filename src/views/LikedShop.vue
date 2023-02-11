@@ -7,8 +7,10 @@
             <v-card
               class="mx-auto"
               max-width="400"
-              @click="setRestaurant(item.shop)"
-              to="/menu"
+              @click="
+                setRestaurant(item.shop);
+                navigateMenu();
+              "
             >
               <v-row dense>
                 <v-col :cols="12">
@@ -66,6 +68,9 @@ export default {
         this.shopProfileImage = res.data;
         // console.log(this.shopProfileImage);
       });
+    },
+    navigateMenu() {
+      this.$router.push("/menu");
     },
   },
 
