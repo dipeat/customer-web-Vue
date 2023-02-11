@@ -243,7 +243,9 @@
                       <v-chip outlined color="pink">
                         <div>
                           Total:&nbsp;
-                          <span><v-icon>mdi-currency-inr</v-icon>{{ total }}</span>
+                          <span
+                            ><v-icon>mdi-currency-inr</v-icon>{{ total.toFixed(2) }}</span
+                          >
                         </div>
                       </v-chip>
                       <v-chip outlined color="blue" class="mt-1">

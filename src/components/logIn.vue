@@ -121,6 +121,7 @@ export default {
               this.dialog1 = false;
               this.$router.push("/");
               this.$eventBus.$emit("callMethodLoginHomeRefresh");
+              this.$store.dispatch("getWallet");
               // window.location.reload();
             } else if (response.data.is_customer == false) {
               alert("You are not a customer yet.");
