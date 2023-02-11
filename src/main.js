@@ -9,7 +9,7 @@ import axios from "axios";
 Vue.prototype.$eventBus = new Vue();
 
 Vue.config.productionTip = false;
-axios.defaults.baseURL = "http://54.174.231.79:8000";
+axios.defaults.baseURL = "http://3.80.85.33";
 
 
 new Vue({
