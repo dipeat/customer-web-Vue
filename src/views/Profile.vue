@@ -204,8 +204,6 @@ export default {
     valid1: true,
     mobileRules: [
       (v) => !!v || "Mobile number is required",
-      (v) => v.length > 9 || "Mobile number must be 10 digits",
-      (v) => v.length < 11 || "Mobile number must be less than 10 digits",
       (v) => /^[0-9]+$/.test(v) || "Phone must be numbers only",
     ],
     emailRules: [

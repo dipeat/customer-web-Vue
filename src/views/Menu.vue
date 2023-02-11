@@ -138,18 +138,24 @@
                     <v-col align="center" cols="5" sm="4" md="4">
                       <div v-if="item.availablity == true">
                         <v-chip outlined color="pink darken-2">{{ item.value }}</v-chip>
-                        <v-chip small dark link color="black">
+                        <v-chip small dark link color="purple darken-4">
                           <v-chip
                             small
                             dark
                             link
-                            color="black"
+                            color="purple darken-4"
                             v-if="item.value > 0"
                             @click="minusOne(item)"
                           >
                             <v-icon small dark>mdi-minus</v-icon>
                           </v-chip>
-                          <v-chip small dark link color="black" @click="plusOne(item)">
+                          <v-chip
+                            small
+                            dark
+                            link
+                            color="purple darken-4"
+                            @click="plusOne(item)"
+                          >
                             <v-icon small dark>mdi-plus</v-icon>
                           </v-chip>
                         </v-chip>
@@ -181,27 +187,19 @@
           $store.state.restaurant == stat.restaurant &&
           $store.state.isAuthenticated != false
         "
+        class="text-center cart-style"
       >
         <v-row v-if="stat.open_close">
-          <v-col sm="10" cols="9">
-            <v-text-field
-              v-model="message"
-              placeholder="Type message ..."
-              filled
-              :readable="enableMessage"
-              @mouseup="changeEnableMessage"
-              dense
-              maxlength="200"
-              counter
-            ></v-text-field>
-          </v-col>
-
-          <v-col sm="2" cols="2">
+          <v-col>
             <v-dialog v-model="dialog" scrollable max-width="350px">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
-                  color="black"
-                  @click="oK"
+                  class="cart-style"
+                  @click="
+                    oK();
+                    refreshClock();
+                  "
+                  elevation="9"
                   rounded
                   text
                   dark
@@ -209,12 +207,12 @@
                   v-on="on"
                   :disabled="$store.state.isAuthenticated == false ? true : false"
                 >
-                  Ok
+                  Next
                 </v-btn>
               </template>
               <v-card>
                 <v-card-title>Orders</v-card-title>
-                <v-divider></v-divider>
+                <v-divider color="purple"></v-divider>
                 <v-card-text style="height: auto">
                   <div v-for="(order, index) in displayOrder" :key="index">
                     <v-container
@@ -235,7 +233,7 @@
                       </v-row>
                     </v-container>
                   </div>
-                  <v-divider color="red"></v-divider>
+                  <v-divider color="orange"></v-divider>
                   <div class="text-center">
                     <v-container
                       v-if="displayOrder != '' && $store.state.walletBalance >= total"
@@ -322,6 +320,16 @@
                           </v-checkbox>
                         </v-col>
                       </v-row>
+                      <v-text-field
+                        v-model="message"
+                        placeholder="Type message ..."
+                        filled
+                        :readable="enableMessage"
+                        @mouseup="changeEnableMessage"
+                        dense
+                        maxlength="200"
+                        counter
+                      ></v-text-field>
                     </v-container>
                     <div>
                       <v-alert
