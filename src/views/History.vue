@@ -12,8 +12,17 @@
         </body>
       </v-container>
       <v-container v-for="(item, index) in foodOrdered" :key="index">
-        <div @click="setRestaurant(item.restaurant)">
-          <v-btn color="blue" text small to="/menu">{{ item.restaurant }}</v-btn>
+        <div>
+          <v-btn
+            color="blue"
+            text
+            small
+            @click="
+              setRestaurant(item.restaurant);
+              navigateMenu();
+            "
+            >{{ item.restaurant }}</v-btn
+          >
         </div>
         <v-simple-table fixed-header height="auto">
           <template v-slot:default primary>
@@ -87,6 +96,10 @@ export default {
     setRestaurant(item) {
       this.$store.state.restaurant = item;
       // console.log(item);
+    },
+
+    navigateMenu() {
+      this.$router.push("/menu");
     },
   },
 

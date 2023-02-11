@@ -2,12 +2,14 @@
   <v-main>
     <v-card-actions class="justify-center">
       <v-chip color="grey lighten-3" v-if="$store.state.isAuthenticated">
-        <v-avatar> <v-icon>mdi-wallet</v-icon> &nbsp; &nbsp; </v-avatar>
+        <v-avatar>
+          <v-icon color="orange darken-4">mdi-wallet</v-icon> &nbsp; &nbsp;
+        </v-avatar>
         <span
           >Balance: <v-icon>mdi-currency-inr</v-icon>
-          {{ this.$store.state.walletBalance }}</span
-        >&nbsp; &nbsp;
-        <v-btn small outlined rounded dark color="purple" @click.stop="dialog1 = true"
+          {{ $store.state.walletBalance }}</span
+        >&nbsp;&nbsp;|
+        <v-btn small text rounded dark color="purple" @click.stop="dialog1 = true"
           >Add</v-btn
         >
       </v-chip>
@@ -60,7 +62,7 @@
                 <v-icon :color="likeColor">mdi-heart</v-icon>
               </v-btn>
             </v-chip>
-            <v-chip color="white" v-if="$store.state.isAuthenticated">
+            <v-chip color="white" v-if="$store.state.isAuthenticated && showNow">
               <v-btn icon small v-if="$store.state.restaurant">
                 <v-icon color="blue">mdi-share-variant</v-icon>
               </v-btn>
@@ -71,6 +73,7 @@
 
       <v-card-actions>
         <v-rating
+          v-if="showNow"
           v-model="rating"
           background-color="purple lighten-3"
           color="purple"
@@ -78,7 +81,7 @@
         ></v-rating>
 
         <v-spacer></v-spacer>
-        <v-btn color="orange lighten-2" text> Details </v-btn>
+        <v-btn color="orange lighten-1" text> Details </v-btn>
 
         <v-btn icon @click="show = !show">
           <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
@@ -134,19 +137,21 @@
                     </v-col>
                     <v-col align="center" cols="5" sm="4" md="4">
                       <div v-if="item.availablity == true">
-                        <v-chip
-                          small
-                          dark
-                          link
-                          color="black"
-                          v-if="item.value > 0"
-                          @click="minusOne(item)"
-                        >
-                          <v-icon small dark>mdi-minus</v-icon>
-                        </v-chip>
-                        <v-chip outlined color="orange darken-3">{{ item.value }}</v-chip>
-                        <v-chip small dark link color="black" @click="plusOne(item)">
-                          <v-icon small dark>mdi-plus</v-icon>
+                        <v-chip outlined color="pink darken-2">{{ item.value }}</v-chip>
+                        <v-chip small dark link color="black">
+                          <v-chip
+                            small
+                            dark
+                            link
+                            color="black"
+                            v-if="item.value > 0"
+                            @click="minusOne(item)"
+                          >
+                            <v-icon small dark>mdi-minus</v-icon>
+                          </v-chip>
+                          <v-chip small dark link color="black" @click="plusOne(item)">
+                            <v-icon small dark>mdi-plus</v-icon>
+                          </v-chip>
                         </v-chip>
                       </div>
                       <div v-else>
@@ -167,6 +172,7 @@
       class="mx-auto overflow-hidden mt-2"
       max-width="550"
       height="40"
+      elevation="5"
       v-for="(stat, index) in status"
       :key="index + 0.007"
     >
@@ -182,6 +188,8 @@
               v-model="message"
               placeholder="Type message ..."
               filled
+              :readable="enableMessage"
+              @mouseup="changeEnableMessage"
               dense
               maxlength="200"
               counter
@@ -195,6 +203,7 @@
                   color="black"
                   @click="oK"
                   rounded
+                  text
                   dark
                   v-bind="attrs"
                   v-on="on"
@@ -216,7 +225,9 @@
                           <div>{{ order.name }}</div>
                         </v-col>
                         <v-col>
-                          <div>{{ (order.final_price * order.value).toFixed(2) }}</div>
+                          <div>
+                            {{ (order.final_price * order.value).toFixed(2) }}
+                          </div>
                         </v-col>
                         <v-col>
                           <div>{{ order.value }}</div>
@@ -280,6 +291,7 @@
                               v-model="time"
                               full-width
                               ampm-in-title
+                              format="24hr"
                               scrollable
                               :min="minClock"
                               @change="refreshClock"
@@ -334,12 +346,13 @@
                   </div>
                 </v-card-text>
                 <v-divider></v-divider>
-                <v-card-actions>
-                  <v-btn color="red" text @click="dialog = false"> Cancel </v-btn>
+                <v-card-actions class="cart-style">
+                  <v-btn color="white" text @click="dialog = false"> Cancel </v-btn>
                   <v-spacer></v-spacer>
                   <v-btn
-                    color="primary"
+                    color="white"
                     text
+                    dark
                     @click="checkout"
                     v-if="foodOrder != '' && $store.state.walletBalance >= total"
                   >
@@ -373,6 +386,9 @@ export default {
       radios: null,
       rating: 4.0,
       sheet: false,
+      enableMessage: true,
+
+      showNow: false,
 
       errorMessages: "",
       minClock: "",
@@ -594,17 +610,30 @@ export default {
         //     arrival_time: strTime,
         //   });new Date().toString().slice(0, 16),
 
-        let timeParts = strTime.split(":");
-        let newHours = timeParts[0];
-        let newMinutes = timeParts[1];
+        // let timeParts = strTime.split(":");
+        // let newHours = timeParts[0];
+        // let newMinutes = timeParts[1];
 
-        if (newHours.length === 1) {
-          newHours = "0" + hours;
-        }
+        // if (newHours.length === 1) {
+        //   newHours = "0" + hours;
+        // }
 
-        time = `${newHours}:${newMinutes}`;
+        // time = `${newHours}:${newMinutes}`;
+        // console.log(time);
+        // console.log(this.minClock);
+        // console.log(this.time);
 
-        if (time.slice(0, 5) >= this.minClock) {
+        // let times = this.minClock;
+        // let hourss = times.substring(0, 2);
+        // let minutess = times.substring(3, 5);
+        // let ampms = hourss >= 12 ? "PM" : "AM";
+        // hourss = hourss % 12;
+        // hourss = hourss ? hourss : 12;
+        // minutess = minutess < 10 ? minutess : minutess;
+        // let strTimesss = hourss + ":" + minutess + " " + ampms;
+        // console.log(strTimesss.slice(0, 5));
+
+        if (this.time >= this.minClock) {
           for (let i = 0; i < this.displayOrder.length; i++) {
             this.foodName +=
               this.displayOrder[i].name +
@@ -716,6 +745,12 @@ export default {
       });
     },
 
+    changeEnableMessage() {
+      if (this.enableMessage === true) {
+        this.enableMessage = false;
+      }
+    },
+
     shopStatus() {
       axios.get(`/api/v1/shopstatus/`).then((res) => {
         this.status = res.data;
@@ -754,9 +789,17 @@ export default {
   },
 
   mounted() {
-    setTimeout(() => {
-      this.getPackagingCharges();
-    }, 1000);
+    if (this.$store.state.restaurant != "") {
+      setTimeout(() => {
+        this.getPackagingCharges();
+      }, 1000);
+    }
   },
 };
 </script>
+
+<style>
+.cart-style {
+  background-image: linear-gradient(135deg, #5900ff 0%, #0d0146 100%);
+}
+</style>

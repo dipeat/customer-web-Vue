@@ -8,6 +8,7 @@ import History from '../views/History.vue'
 import Profile from '../views/Profile.vue'
 import LikedShop from '../views/LikedShop.vue'
 import SearchPage from '../views/SearchPage.vue'
+import Help from '../views/Help.vue'
 // import About from '../views/About.vue'
 import privacyPolicy from '../views/privacyPolicy.vue'
 import termsConditions from '../views/termsConditions.vue'
@@ -30,6 +31,12 @@ const routes = [
     meta: {
       requireLogin: true
     }
+    
+  },
+  {
+    path: '/help',
+    name: 'Help',
+    component: Help,
     
   },
   // {

@@ -43,7 +43,7 @@
             <span> <v-icon color="blue">mdi-account</v-icon> </span>&nbsp;&nbsp;&nbsp;
             <v-list-item-title v-text="'Profile'"></v-list-item-title>
           </v-list-item>
-          <v-list-item link color="purple">
+          <v-list-item link to="/help" color="purple">
             <span> <v-icon color="green">mdi-help</v-icon> </span>&nbsp;&nbsp;&nbsp;
             <v-list-item-title v-text="'Help'"></v-list-item-title>
           </v-list-item>
@@ -307,8 +307,9 @@ export default {
   mounted() {
     // this.$eventBus.$on("callMethodSearchBar", this.searchBar);
     // this.$eventBus.$on("callMethodSetRestaurant", this.setRestaurant);
-
-    this.$store.dispatch("getWallet");
+    if (this.$store.state.isAuthenticated) {
+      this.$store.dispatch("getWallet");
+    }
   },
 };
 </script>
@@ -416,7 +417,7 @@ export default {
 }
 
 nav {
-  height: 4rem;
+  height: 4.5rem;
   width: 100vw;
   background: rgba(92, 9, 170, 0.644);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -437,7 +438,7 @@ nav {
 }
 .logo img {
   height: 3.4rem;
-  width: 9rem;
+  width: 8.5rem;
   margin-left: 15px;
 }
 
@@ -449,7 +450,7 @@ nav {
 }
 .nav-logo img {
   height: 3.4rem;
-  width: 9rem;
+  width: 8.5rem;
 }
 
 /*Styling Links*/
@@ -544,7 +545,12 @@ nav {
 @media screen and (max-width: 800px) {
   .logo img {
     height: 3rem;
-    width: 10rem;
+    width: 8rem;
+  }
+
+  .nav-logo img {
+    height: 3rem;
+    width: 8rem;
   }
 
   nav {

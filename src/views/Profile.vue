@@ -94,35 +94,48 @@
                     <span class="text-h5">Customer Profile</span>
                   </v-card-title>
                   <v-card-text>
-                    <v-container>
-                      <v-row>
-                        <v-col cols="12">
-                          <v-text-field
-                            v-model="mobile_number"
-                            label="Mobile*"
-                            hint="Mobile/Phone number"
-                            required
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-text-field
-                            v-model="email"
-                            label="Email*"
-                            hint="Email address"
-                            required
-                          ></v-text-field>
-                        </v-col>
-                        <v-col>
-                          <v-textarea
-                            auto-grow
-                            v-model="introduction"
-                            rows="2"
-                            label="Introduction"
-                            hint="Introduce yourself"
-                          ></v-textarea>
-                        </v-col>
-                      </v-row>
-                    </v-container>
+                    <v-form
+                      @submit.prevent="submitCategory"
+                      ref="form1"
+                      v-model="valid1"
+                      lazy-validation
+                    >
+                      <v-container>
+                        <v-row>
+                          <v-col cols="12">
+                            <v-text-field
+                              v-model="mobile_number"
+                              :rules="mobileRules"
+                              label="Mobile*"
+                              hint="Mobile/Phone number"
+                              maxlength="10"
+                              required
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12">
+                            <v-text-field
+                              v-model="email"
+                              :rules="emailRules"
+                              label="Email*"
+                              hint="Email address"
+                              maxlength="50"
+                              required
+                            ></v-text-field>
+                          </v-col>
+                          <v-col>
+                            <v-textarea
+                              auto-grow
+                              v-model="introduction"
+                              :rules="introductionRules"
+                              rows="2"
+                              maxlength="200"
+                              label="Introduction"
+                              hint="Introduce yourself"
+                            ></v-textarea>
+                          </v-col>
+                        </v-row>
+                      </v-container>
+                    </v-form>
                     <small>*indicates required field</small>
                   </v-card-text>
                   <v-card-actions>
@@ -187,30 +200,48 @@ export default {
       email: "",
       introduction: "",
     },
+
+    valid1: true,
+    mobileRules: [
+      (v) => !!v || "Mobile number is required",
+      (v) => v.length > 9 || "Mobile number must be 10 digits",
+      (v) => v.length < 11 || "Mobile number must be less than 10 digits",
+      (v) => /^[0-9]+$/.test(v) || "Phone must be numbers only",
+    ],
+    emailRules: [
+      (v) => !!v || "E-mail is required",
+      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+    ],
+    introductionRules: [
+      (v) => !!v || "Introduction is required",
+      (v) => v.length <= 200 || "Introduction must be less than 200 characters",
+    ],
   }),
 
   methods: {
     submit_profile() {
-      const formData = new FormData();
-      formData.append("phone", this.mobile_number);
-      formData.append("email", this.email);
-      formData.append("intro", this.introduction);
-      formData.append("user", this.$store.state.user.id);
-      formData.append("slug", this.$store.state.user.username);
+      if (this.$refs.form1.validate()) {
+        const formData = new FormData();
+        formData.append("phone", this.mobile_number);
+        formData.append("email", this.email);
+        formData.append("intro", this.introduction);
+        formData.append("user", this.$store.state.user.id);
+        formData.append("slug", this.$store.state.user.username);
 
-      const slug = this.$store.state.user.username;
+        const slug = this.$store.state.user.username;
 
-      axios.patch(`/api/v1/customerprofile/${slug}/`, formData);
-      // .then((response) => {
-      //   console.log(response);
-      // })
-      // .catch((error) => {
-      //   console.log(error);
-      // });
+        axios.patch(`/api/v1/customerprofile/${slug}/`, formData);
+        // .then((response) => {
+        //   console.log(response);
+        // })
+        // .catch((error) => {
+        //   console.log(error);
+        // });
 
-      this.dialog = false;
+        this.dialog = false;
 
-      this.getCustomerProfile();
+        this.getCustomerProfile();
+      }
     },
 
     getCustomerProfile() {

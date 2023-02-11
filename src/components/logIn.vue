@@ -120,7 +120,8 @@ export default {
               // console.log(response.data.token);
               this.dialog1 = false;
               this.$router.push("/");
-              window.location.reload();
+              this.$eventBus.$emit("callMethodLoginHomeRefresh");
+              // window.location.reload();
             } else if (response.data.is_customer == false) {
               alert("You are not a customer yet.");
             }

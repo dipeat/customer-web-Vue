@@ -22,7 +22,7 @@
             <div v-for="(image, index) in shopProfileImage" :key="index + 0.0019">
               <v-scale-transition>
                 <v-avatar class="ma-2" size="125" tile v-if="image.slug == shops.shop">
-                  <v-img :src="image.shop_image">
+                  <v-img :src="image.shop_image" @click="favShop(shops.shop)">
                     <v-row align="end" justify="center">
                       <v-chip color="black" small size="58" label class="white--text ma-3"
                         >{{ shops.shop }}
@@ -105,7 +105,7 @@
       <v-carousel-item v-for="(slide, i) in slides" :key="i">
         <v-sheet :color="colors[i]" height="100%">
           <v-row class="fill-height" align="center" justify="center">
-            <div class="text-h3 pa-3">{{ slide }}</div>
+            <div class="text-h3 pa-3 text-center">{{ slide }}</div>
           </v-row>
         </v-sheet>
       </v-carousel-item>
@@ -241,7 +241,12 @@
         <v-row>
           <v-col cols="6" sm="4" v-for="(item, index) in status" :key="index">
             <v-sheet rounded="lg" min-height="268">
-              <v-card class="mx-auto" max-width="400">
+              <v-card
+                class="mx-auto"
+                max-width="400"
+                @click="setRestaurant(item.restaurant)"
+                to="/menu"
+              >
                 <v-row dense>
                   <v-col :cols="12">
                     <div v-for="(image, index) in shopProfileImage" :key="index + 0.009">
@@ -251,16 +256,15 @@
                         class="white--text align-end"
                         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                         max-height="200px"
+                        @click="setRestaurant(item.restaurant)"
                       >
-                        <v-card-title> {{ item.restaurant }}</v-card-title>
                       </v-img>
                     </div>
 
                     <v-card-actions @click="setRestaurant(item.restaurant)">
                       <div>
-                        <v-btn small outlined color="blue" dark to="/menu">Menu </v-btn>
+                        <strong>{{ item.restaurant }}</strong>
                       </div>
-
                       <v-spacer></v-spacer>
 
                       <div
@@ -409,6 +413,16 @@ export default {
         // console.log(this.shopProfileImage);
       });
     },
+  },
+
+  mounted() {
+    this.$eventBus.$on("callMethodLoginHomeRefresh", () => {
+      this.getMenu();
+      this.shopStatus();
+      this.getLikedShop();
+      this.foodOrders();
+      this.getShopProfileImage();
+    });
   },
 
   created() {
