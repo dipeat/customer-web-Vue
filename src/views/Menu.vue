@@ -174,6 +174,7 @@
     </v-card>
 
     <v-card
+      color="deep-purple lighten-1"
       shaped
       class="mx-auto overflow-hidden mt-2"
       max-width="550"
@@ -187,7 +188,7 @@
           $store.state.restaurant == stat.restaurant &&
           $store.state.isAuthenticated != false
         "
-        class="text-center cart-style"
+        class="text-center"
       >
         <v-row v-if="stat.open_close">
           <v-col>
