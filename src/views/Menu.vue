@@ -179,7 +179,6 @@
       class="mx-auto overflow-hidden mt-2"
       max-width="550"
       height="40"
-      elevation="5"
       v-for="(stat, index) in status"
       :key="index + 0.007"
     >
@@ -200,6 +199,7 @@
                     oK();
                     refreshClock();
                   "
+                  large
                   elevation="9"
                   rounded
                   text
