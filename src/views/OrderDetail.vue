@@ -59,7 +59,7 @@
             <v-chip outlined color="red" class="mt-1">
               <span> Arrival: {{ item.arrival_time }}</span>
             </v-chip>
-            &nbsp;&nbsp;
+            &nbsp;&nbsp;<br />
             <v-chip outlined color="orange" class="mt-1">
               <span>{{ item.order_date.slice(4, 16) }}</span>
             </v-chip>

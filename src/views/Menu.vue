@@ -374,11 +374,11 @@
             </v-dialog>
           </v-col>
         </v-row>
-        <v-container class="text-center red--text" v-else
+        <v-container class="text-center white--text" v-else
           ><h4>Shop closed</h4></v-container
         >
       </div>
-      <div class="text-center red--text mt-2" v-else>
+      <div class="text-center white--text mt-2" v-else>
         <strong>Please Log-In to order</strong>
       </div>
     </v-card>

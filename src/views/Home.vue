@@ -217,11 +217,11 @@
             </v-col>
             <v-col cols="12" sm="8">
               <div>
-                We are a team of fooodie❗, who loves the taste of food when our taste-bud
-                explodes🤯. Yes, you guessed us right we are pro chatkara-type eater. The
-                taste of food increase many folds when the meal is served like a pro,
-                on-time, no-waiting. Waiting for food is the only thing which we do not
-                like. Here in dipEAT, we are happy to facilitate you with dine-in and
+                We are a team of fooodiess❗, who loves the taste of food when our
+                taste-bud explodes🤯. Yes, you guessed us right we are pro chatkara-type
+                eater. The taste of food increase many folds when the meal is served like
+                a pro, on-time, no-waiting. Waiting for food is the only thing which we do
+                not like. Here in dipEAT, we are happy to facilitate you with dine-in and
                 takeaway checkouts. Book your order according to your convenience and
                 time. We all want to receive food as soon as possible when we order food
                 in the restaurant. Our goal is simple, book order before leaving your

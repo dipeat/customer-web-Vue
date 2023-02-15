@@ -124,7 +124,7 @@ export default {
               this.$store.dispatch("getWallet");
               // window.location.reload();
             } else if (response.data.is_customer == false) {
-              alert("You are not a customer yet.");
+              alert("You are not a customer yet. Please sign-up.");
             }
           })
           .catch((error) => {
