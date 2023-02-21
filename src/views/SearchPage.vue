@@ -49,7 +49,8 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
+import api from "@/main";
 import router from "../router";
 
 export default {
@@ -75,7 +76,7 @@ export default {
 
       if (search != "") {
         // console.log(search);
-        axios.get(`/api/v1/clientprofilesearch/${search}`).then((response) => {
+        api.get(`/api/v1/clientprofilesearch/${search}`).then((response) => {
           this.getSearch = response.data;
           // console.log(this.getSearch);
         });
@@ -89,7 +90,7 @@ export default {
         //   }
         // });
 
-        axios.get("/api/v1/menu/").then((response) => {
+        api.get("/api/v1/menu/").then((response) => {
           this.maxDiscount = response.data.reduce((acc, cur) => {
             const found = acc.find((el) => el.restaurant === cur.restaurant);
             if (!found) {

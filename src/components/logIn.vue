@@ -57,7 +57,8 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
+import api from "@/main";
 
 export default {
   name: "logIn",
@@ -96,7 +97,7 @@ export default {
   methods: {
     logIn() {
       if (this.$refs.form1.validate()) {
-        axios
+        api
           .post("/api/v1/login/", {
             username: this.loginUsername.toLowerCase(),
             password: this.loginPassword,
@@ -105,7 +106,7 @@ export default {
             if (response.data.is_customer == true) {
               const token = response.data.token;
               this.$store.commit("setToken", token);
-              axios.defaults.headers.common["Authorization"] = "Token " + token;
+              api.defaults.headers.common["Authorization"] = "Token " + token;
               localStorage.setItem("token", token);
 
               this.$store.commit("setUser", {
@@ -142,9 +143,9 @@ export default {
     this.$store.commit("initializeStore");
     const token = this.$store.state.token;
     if (token) {
-      axios.defaults.headers.common["Authorization"] = "Token " + token;
+      api.defaults.headers.common["Authorization"] = "Token " + token;
     } else {
-      axios.defaults.headers.common["Authorization"] = "";
+      api.defaults.headers.common["Authorization"] = "";
     }
   },
 };

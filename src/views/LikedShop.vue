@@ -37,7 +37,8 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
+import api from "@/main";
 
 export default {
   name: "LikedShop",
@@ -49,7 +50,7 @@ export default {
 
   methods: {
     getLikedShops() {
-      axios.get("/api/v1/likedshop/").then((response) => {
+      api.get("/api/v1/likedshop/").then((response) => {
         this.likedShops = response.data.filter(
           (item) =>
             item.customer === this.$store.state.user.username && item.liked === true
@@ -64,7 +65,7 @@ export default {
     },
 
     getShopProfileImage() {
-      axios.get(`/api/v1/ClientProfile4Image/`).then((res) => {
+      api.get(`/api/v1/ClientProfile4Image/`).then((res) => {
         this.shopProfileImage = res.data;
         // console.log(this.shopProfileImage);
       });

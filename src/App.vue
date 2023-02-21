@@ -180,6 +180,7 @@
             <ul>
               <li><a href="#about-us">About Us</a></li>
               <li><a href="#how-it-works">Pricing</a></li>
+              <li><a href="#">Partner With Us !</a></li>
               <li><a href="/privacy_policy">Privacy Policy</a></li>
               <li><a href="/terms_and_conditions">Terms & Conditions</a></li>
               <li><a href="/refund_policy">Cancellation/Refund Policy</a></li>
@@ -213,6 +214,7 @@
 
 <script>
 import axios from "axios";
+import api from "@/main";
 
 import signUp from "./components/signUp.vue";
 import logIn from "./components/logIn.vue";
@@ -250,9 +252,9 @@ export default {
     const token = this.$store.state.token;
 
     if (token) {
-      axios.defaults.headers.common["Authorization"] = "Token " + token;
+      api.defaults.headers.common["Authorization"] = "Token " + token;
     } else {
-      axios.defaults.headers.common["Authorization"] = null;
+      api.defaults.headers.common["Authorization"] = null;
     }
   },
 
@@ -264,10 +266,10 @@ export default {
 
   methods: {
     logout() {
-      axios
+      api
         .post("/api/v1/logout/")
         .then((response) => {
-          axios.defaults.headers.common["Authorization"] = null;
+          api.defaults.headers.common["Authorization"] = null;
 
           localStorage.removeItem("username");
           localStorage.removeItem("userid");
@@ -714,11 +716,14 @@ footer a {
 }
 
 .mdi-linkedin:hover {
-  color: #0a66c2;
+  color: #0a3bc2;
 }
 
 .mdi-facebook:hover {
-  color: #3b5998;
+  color: #283dff;
+}
+.mdi-twitter:hover {
+  color: #1da1f2;
 }
 
 .com ul li {

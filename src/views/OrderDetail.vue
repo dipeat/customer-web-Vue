@@ -136,7 +136,7 @@
       </v-dialog>
     </v-container>
     <v-row justify="center">
-      <v-subheader>
+      <v-subheader class="mt-3">
         Note: Cancellation is not allowed in order to avoid food wastage.
       </v-subheader>
     </v-row>
@@ -144,7 +144,8 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
+import api from "@/main";
 
 export default {
   name: "Order",
@@ -174,7 +175,7 @@ export default {
 
   methods: {
     async foodOrders() {
-      const response = await axios.get("/api/v1/foodorders/");
+      const response = await api.get("/api/v1/foodorders/");
       const filteredData = response.data.filter(
         (item) => item.user === this.$store.state.user.username
       );

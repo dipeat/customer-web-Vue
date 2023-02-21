@@ -1,15 +1,42 @@
 <template>
-  <div class="text-center">
-    <v-card class="mx-auto my-16" max-width="800" dark
-      ><div class="cart-style">
-        <div class="text-h4 pa-3">
-          Need help, <br />
-          please contact us:
+  <div>
+    <div class="text-center">
+      <v-card class="mx-auto my-16" max-width="800" dark
+        ><div class="cart-style">
+          <div class="text-h4 pa-3">
+            Need help, <br />
+            please contact us:
+          </div>
+          <br />
+          <div class="text-h5 pa-3">Email :&nbsp;&nbsp; contact@dipeat.com</div>
         </div>
-        <br />
-        <div class="text-h5 pa-3">Email :&nbsp;&nbsp; contact@dipeat.com</div>
-      </div></v-card
-    >
+      </v-card>
+    </div>
+
+    <body>
+      <v-container>
+        <div class="pa-7 col-md-6 col-sm-12 mx-auto">
+          <h1 class="text-center">FAQs</h1>
+
+          <v-row class="pa-7">
+            <v-expansion-panels inset focusable>
+              <v-expansion-panel>
+                <v-expansion-panel-header
+                  color="grey darken-2"
+                  class="white--text font-weight-bold"
+                  >Why page is not responding or not showing any
+                  data?</v-expansion-panel-header
+                >
+                <v-expansion-panel-content>
+                  If you are not able to login/logout or page is not responding, please
+                  clear your browser cache/cookies and try again.
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </v-row>
+        </div>
+      </v-container>
+    </body>
   </div>
 </template>
 

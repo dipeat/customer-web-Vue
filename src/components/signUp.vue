@@ -73,7 +73,8 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
+import api from "@/main";
 
 export default {
   name: "signUp",
@@ -127,7 +128,7 @@ export default {
           password: this.password,
           password1: this.password1,
         };
-        axios
+        api
           .post("/api/v1/signup/customer/", formData)
           .then((response) => {
             this.dialog = false;
@@ -176,9 +177,9 @@ export default {
     this.$store.commit("initializeStore");
     const token = this.$store.state.token;
     if (token) {
-      axios.defaults.headers.common["Authorization"] = "Token " + token;
+      api.defaults.headers.common["Authorization"] = "Token " + token;
     } else {
-      axios.defaults.headers.common["Authorization"] = "";
+      api.defaults.headers.common["Authorization"] = "";
     }
   },
 };

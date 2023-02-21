@@ -386,7 +386,9 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
+import api from "@/main";
+
 export default {
   name: "Menu",
   data() {
@@ -435,7 +437,7 @@ export default {
     pay() {
       // Send a request to the backend to create a payment
       if (this.amount != "") {
-        axios
+        api
           .post("/api/v1/create_payment/", {
             amount: this.amount * 100,
             currency: "INR",
@@ -462,7 +464,7 @@ export default {
                   razorpay_order_id: response.razorpay_order_id,
                   razorpay_signature: response.razorpay_signature,
                 };
-                const res = axios
+                const res = api
                   .post("/api/v1/verify_payment/", data, {
                     headers: {
                       "Content-Type": "application/json",
@@ -514,7 +516,7 @@ export default {
           user: this.$store.state.user.id,
           slug: this.$store.state.user.username,
         };
-        axios.patch(`/api/v1/customerwallet/${slug}/`, data).then((response) => {
+        api.patch(`/api/v1/customerwallet/${slug}/`, data).then((response) => {
           // console.log(response.data);
           this.$store.dispatch("getWallet");
         });
@@ -522,7 +524,7 @@ export default {
     },
 
     getMenu() {
-      axios.get("/api/v1/menu/").then((response) => {
+      api.get("/api/v1/menu/").then((response) => {
         for (let i = 0; i < response.data.length; i++) {
           if (this.$store.state.restaurant == response.data[i].restaurant) {
             this.menuList.push(response.data[i]);
@@ -537,7 +539,7 @@ export default {
         // console.log(this.menu);
       });
 
-      // axios.get("/api/v1/menucategory/")
+      // api.get("/api/v1/menucategory/")
       //   .then((response) => {
       //     this.menu = response.data;
 
@@ -655,7 +657,7 @@ export default {
               "||";
           }
 
-          await axios.post("/api/v1/foodorders/", {
+          await api.post("/api/v1/foodorders/", {
             restaurant: this.$store.state.restaurant,
             user: this.$store.state.user.username,
             takeaway: this.checkbox,
@@ -681,7 +683,7 @@ export default {
             user: this.$store.state.user.id,
             slug: this.$store.state.user.username,
           };
-          await axios.patch(`/api/v1/customerwallet/${slug}/`, data).then((response) => {
+          await api.patch(`/api/v1/customerwallet/${slug}/`, data).then((response) => {
             // console.log(response.data);
             this.$store.dispatch("getWallet");
           });
@@ -717,7 +719,7 @@ export default {
         this.likeColor = "";
         this.likeBoolShop = false;
 
-        axios.patch(`/api/v1/editlikedshop/${slug_customer}/`, {
+        api.patch(`/api/v1/editlikedshop/${slug_customer}/`, {
           liked: this.likeBoolShop,
         });
 
@@ -726,7 +728,7 @@ export default {
         this.likeColor = "red";
         this.likeBoolShop = true;
 
-        axios.patch(`/api/v1/editlikedshop/${slug_customer}/`, {
+        api.patch(`/api/v1/editlikedshop/${slug_customer}/`, {
           customer: this.$store.state.user.username,
           user: this.$store.state.user.id,
           shop: item,
@@ -739,7 +741,7 @@ export default {
     },
 
     getLikedShop() {
-      axios.get("/api/v1/likedshop/").then((response) => {
+      api.get("/api/v1/likedshop/").then((response) => {
         // filter on basis of customer
         this.likedShops = response.data.filter(
           (item) => item.customer === this.$store.state.user.username
@@ -763,7 +765,7 @@ export default {
     },
 
     shopStatus() {
-      axios.get(`/api/v1/shopstatus/`).then((res) => {
+      api.get(`/api/v1/shopstatus/`).then((res) => {
         this.status = res.data;
         // filter on basis of this.$store.state.restaurant
         this.status = this.status.filter(
@@ -774,7 +776,7 @@ export default {
     },
 
     getShopProfileImage() {
-      axios.get(`/api/v1/ClientProfile4Image/`).then((res) => {
+      api.get(`/api/v1/ClientProfile4Image/`).then((res) => {
         this.shopProfileImage = res.data.filter(
           (item) => item.slug === this.$store.state.restaurant
         );
@@ -783,7 +785,7 @@ export default {
     },
     getPackagingCharges() {
       const slug = this.$store.state.restaurant;
-      axios.get(`/api/v1/takeaway/${slug}/`).then((response) => {
+      api.get(`/api/v1/takeaway/${slug}/`).then((response) => {
         this.packagingCharges = response.data[0].packaging_charge;
         // console.log(response.data);
       });

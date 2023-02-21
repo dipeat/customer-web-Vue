@@ -9,7 +9,17 @@ import axios from "axios";
 Vue.prototype.$eventBus = new Vue();
 
 Vue.config.productionTip = false;
-axios.defaults.baseURL = "http://100.25.153.119";
+
+const api = axios.create({
+  baseURL: process.env.VUE_APP_BASE_URL,
+});
+
+api.interceptors.response.use(undefined, (error) => {
+  // Suppress the error message and throw a new error with a custom message
+  throw new Error('An error occurred while processing the request.');
+});
+
+export default api;
 
 
 new Vue({
@@ -17,6 +27,7 @@ new Vue({
   store,
   vuetify,
   axios,
+  api,
   render: (h) => h(App),
 }).$mount("#app");
 

@@ -68,7 +68,7 @@
     </div>
 
     <div id="how-it-works" v-if="!$store.state.isAuthenticated">
-      <h2>How It Works</h2>
+      <h2>Workflow</h2>
 
       <div class="container-flex">
         <div class="box">
@@ -147,7 +147,7 @@
       <v-card class="mx-auto">
         <v-row>
           <v-col cols="12" md="12" sm="12">
-            <h3 class="ml-4 text-center brown--text">🍔🍕~~ Order Details ~~🥗🍟</h3>
+            <h3 class="ml-4 text-center brown--text">🍔~~ Order Details ~~🍟</h3>
             <v-container>
               <v-row justify="center">
                 <v-col
@@ -204,19 +204,19 @@
         dark
       >
         <!-- About Us -->
-        <v-card-title class="text-start text-h5"><strong>About Us</strong></v-card-title>
         <v-card-actions>
           <v-row>
             <v-col cols="12" sm="4">
+              <div class="text-start text-h5 ml-2"><strong>About</strong></div>
               <div class="menu-item text-center">
                 <v-img
-                  src="https://crisp-restaurant-picture.s3.ap-south-1.amazonaws.com/homePage-static-image/pexels-skitterphoto-877220.jpg"
+                  src="https://crisp-restaurant-picture.s3.ap-south-1.amazonaws.com/homePage-static-image/simple_logo.png"
                   alt=""
                 />
               </div>
             </v-col>
             <v-col cols="12" sm="8">
-              <div>
+              <div class="mt-5 about-justify">
                 We are a team of fooodiess❗, who loves the taste of food when our
                 taste-bud explodes🤯. Yes, you guessed us right we are pro chatkara-type
                 eater. The taste of food increase many folds when the meal is served like
@@ -225,7 +225,8 @@
                 takeaway checkouts. Book your order according to your convenience and
                 time. We all want to receive food as soon as possible when we order food
                 in the restaurant. Our goal is simple, book order before leaving your
-                place and food is served as you put your foot in the restaurant.<br />
+                place and food is served as you put your foot in the restaurant according
+                to your arrival-time.<br />
                 Peace✌️
               </div>
             </v-col>
@@ -300,7 +301,8 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
+import api from "@/main";
 
 // import image from "../assets/burger.png";
 // import bglargeimage from "../assets/bg-large.gif";
@@ -347,7 +349,7 @@ export default {
 
     // get menu data from backend
     getMenu() {
-      axios.get("/api/v1/menu/").then((response) => {
+      api.get("/api/v1/menu/").then((response) => {
         this.menuItem = response.data;
         // console.log(this.menuItem);
 
@@ -377,7 +379,7 @@ export default {
     },
 
     shopStatus() {
-      axios.get(`/api/v1/shopstatus/`).then((res) => {
+      api.get(`/api/v1/shopstatus/`).then((res) => {
         this.status = res.data;
       });
     },
@@ -387,7 +389,7 @@ export default {
     },
 
     getLikedShop() {
-      axios.get("/api/v1/likedshop/").then((response) => {
+      api.get("/api/v1/likedshop/").then((response) => {
         this.likedShops = response.data.filter(
           (item) =>
             item.customer === this.$store.state.user.username && item.liked === true
@@ -397,7 +399,7 @@ export default {
     },
 
     async foodOrders() {
-      const response = await axios.get("/api/v1/foodorders/");
+      const response = await api.get("/api/v1/foodorders/");
       const filteredData = response.data.filter(
         (item) => item.user === this.$store.state.user.username
       );
@@ -408,7 +410,7 @@ export default {
     },
 
     getShopProfileImage() {
-      axios.get(`/api/v1/ClientProfile4Image/`).then((res) => {
+      api.get(`/api/v1/ClientProfile4Image/`).then((res) => {
         this.shopProfileImage = res.data;
         // console.log(this.shopProfileImage);
       });
@@ -644,6 +646,11 @@ export default {
   width: 100%;
   height: auto;
   border-radius: 20%;
+}
+
+.about-justify {
+  text-align: justify;
+  text-justify: distribute;
 }
 
 .order {

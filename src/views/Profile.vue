@@ -174,7 +174,8 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
+import api from "@/main";
 
 export default {
   name: "Profile",
@@ -228,7 +229,7 @@ export default {
 
         const slug = this.$store.state.user.username;
 
-        axios.patch(`/api/v1/customerprofile/${slug}/`, formData);
+        api.patch(`/api/v1/customerprofile/${slug}/`, formData);
         // .then((response) => {
         //   console.log(response);
         // })
@@ -244,7 +245,7 @@ export default {
 
     getCustomerProfile() {
       const slug = this.$store.state.user.username;
-      axios.get(`/api/v1/customerprofile/${slug}/`).then((response) => {
+      api.get(`/api/v1/customerprofile/${slug}/`).then((response) => {
         // console.log(response.data);
         this.get_profile.mobile_number = response.data[0].phone;
         this.get_profile.email = response.data[0].email;
@@ -261,7 +262,7 @@ export default {
 
     // getWallet() {
     //   const slug = this.$store.state.user.username;
-    //   axios.get(`/api/v1/customerwallet/${slug}/`).then((response) => {
+    //   api.get(`/api/v1/customerwallet/${slug}/`).then((response) => {
     //     // console.log(response.data);
     //     this.$store.state.walletBalance = response.data[0].total_amount;
     //   });
@@ -275,7 +276,7 @@ export default {
           user: this.$store.state.user.id,
           slug: this.$store.state.user.username,
         };
-        axios.patch(`/api/v1/customerwallet/${slug}/`, data).then((response) => {
+        api.patch(`/api/v1/customerwallet/${slug}/`, data).then((response) => {
           // console.log(response.data);
           this.$store.dispatch("getWallet");
         });
@@ -285,7 +286,7 @@ export default {
     pay() {
       // Send a request to the backend to create a payment
       if (this.amount != "") {
-        axios
+        api
           .post("/api/v1/create_payment/", {
             amount: this.amount * 100,
             currency: "INR",
@@ -312,7 +313,7 @@ export default {
                   razorpay_order_id: response.razorpay_order_id,
                   razorpay_signature: response.razorpay_signature,
                 };
-                const res = axios
+                const res = api
                   .post("/api/v1/verify_payment/", data, {
                     headers: {
                       "Content-Type": "application/json",
