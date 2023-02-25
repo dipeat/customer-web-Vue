@@ -180,7 +180,7 @@
             <ul>
               <li><a href="#about-us">About Us</a></li>
               <li><a href="#how-it-works">Pricing</a></li>
-              <li><a href="#">Partner With Us !</a></li>
+              <li><a href="http://partner.dipeat.com/">Partner With Us !</a></li>
               <li><a href="/privacy_policy">Privacy Policy</a></li>
               <li><a href="/terms_and_conditions">Terms & Conditions</a></li>
               <li><a href="/refund_policy">Cancellation/Refund Policy</a></li>
