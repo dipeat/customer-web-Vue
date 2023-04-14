@@ -16,7 +16,12 @@ const api = axios.create({
 
 api.interceptors.response.use(undefined, (error) => {
   // Suppress the error message and throw a new error with a custom message
-  throw new Error('An error occurred while processing the request.');
+  // throw new Error('An error occurred while processing the request.');
+  const newError = new Error(`An error occurred while processing the request: ${error.message}`);
+  newError.stack = error.stack;
+
+  // Throw the new error
+  throw newError;
 });
 
 export default api;

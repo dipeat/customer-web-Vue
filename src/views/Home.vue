@@ -40,55 +40,50 @@
     <div v-if="!$store.state.isAuthenticated" class="mt-3">
       <div class="hero-large-bg">
         <img
-          src="https://crisp-restaurant-picture.s3.ap-south-1.amazonaws.com/homePage-static-image/pizza-ingredients.jpg"
+          src="https://dipeat-s3-bucket-1.s3.amazonaws.com/pizza3.jpg"
           class="bg-large-image"
           alt="BG Image"
         />
         <div class="hero-text-overlay">
-          <h1>
-            It's not just food, <br />
-            It's an Experience
-          </h1>
+          <h1>It's not about food, It's about Experience.</h1>
         </div>
       </div>
 
       <div class="hero-mobile-bg">
         <img
-          src="https://crisp-restaurant-picture.s3.ap-south-1.amazonaws.com/homePage-static-image/pizza-ingredients.jpg"
+          src="https://dipeat-s3-bucket-1.s3.amazonaws.com/pizza3.jpg"
           class="bg-mobile-image"
           alt="BG Image"
         />
         <div class="hero-text-overlay">
           <h1>
-            It's not just food, <br />
-            It's an Experience
+            It's not about food, <br />
+            It's about Experience.
           </h1>
         </div>
       </div>
     </div>
 
     <div id="how-it-works" v-if="!$store.state.isAuthenticated">
-      <h2>Workflow</h2>
-
       <div class="container-flex">
         <div class="box">
-          <h3>Zero Waiting</h3>
-          <v-icon color="red">mdi-food</v-icon>
+          <h3>Zero Waiting Time</h3>
+          <h2 class="red--text text-h1"><strong>0</strong></h2>
+          (apx.)
           <p>Login/SignUp and give order online before leaving your place.</p>
         </div>
         <div class="box">
           <h3>DineIn/ TakeAway</h3>
-          <v-icon color="brown">mdi-seat-recline-normal</v-icon
-          ><v-icon color="black">mdi-run</v-icon>
+          <v-icon x-large color="blue-grey">mdi-silverware-variant</v-icon>
           <p>
-            Choose your preference of DineIn or TakeAway, and get food at your selected
+            Choose your preference of Dine-In or TakeAway, and get food at your selected
             time.
           </p>
         </div>
 
         <div class="box">
           <h3>Pricing</h3>
-          <v-icon color="orange darken-1">mdi-wallet</v-icon>
+          <v-icon x-large color="orange darken-1">mdi-wallet</v-icon>
           <p>Select the cuisine as of your choice at price as low as shop menu.</p>
         </div>
       </div>
@@ -112,33 +107,30 @@
     </v-carousel>
 
     <div class="top-orders" v-if="!$store.state.isAuthenticated">
-      <h1><u>Your choices, Our Service</u></h1>
+      <h1><u>Smart platform, Smart service.</u></h1>
       <div class="restaurant-menu">
         <div class="menu-item">
-          <img
-            src="https://crisp-restaurant-picture.s3.ap-south-1.amazonaws.com/homePage-static-image/piiiza.jpg"
-            alt=""
-          />
+          <img src="https://dipeat-s3-bucket-1.s3.amazonaws.com/pizza.jpg" alt="" />
 
-          <div class="title">Pizza</div>
+          <div class="title grey--text">Pizza</div>
         </div>
 
         <div class="menu-item">
           <img
-            src="https://crisp-restaurant-picture.s3.ap-south-1.amazonaws.com/homePage-static-image/healthyDrinks.jpeg"
+            src="https://dipeat-s3-bucket-1.s3.amazonaws.com/fresh-cold-orange-juice.jpg"
             alt=""
           />
 
-          <div class="title">Healthy Drinks</div>
+          <div class="title grey--text">Healthy Drinks</div>
         </div>
 
         <div class="menu-item">
           <img
-            src="https://crisp-restaurant-picture.s3.ap-south-1.amazonaws.com/homePage-static-image/dosa.jpeg"
+            src="https://dipeat-s3-bucket-1.s3.amazonaws.com/dosa-compressed.jpg"
             alt=""
           />
 
-          <div class="title">Masala Dosa</div>
+          <div class="title grey--text">Masala Dosa</div>
         </div>
       </div>
     </div>
@@ -210,7 +202,7 @@
               <div class="text-start text-h5 ml-2"><strong>About</strong></div>
               <div class="menu-item text-center">
                 <v-img
-                  src="https://crisp-restaurant-picture.s3.ap-south-1.amazonaws.com/homePage-static-image/simple_logo.png"
+                  src="https://dipeat-s3-bucket-1.s3.amazonaws.com/simple_logo.png"
                   alt=""
                 />
               </div>
@@ -220,13 +212,12 @@
                 We are a team of fooodiess❗, who loves the taste of food when our
                 taste-bud explodes🤯. Yes, you guessed us right we are pro chatkara-type
                 eater. The taste of food increase many folds when the meal is served like
-                a pro, on-time, no-waiting. Waiting for food is the only thing which we do
-                not like. Here in dipEAT, we are happy to facilitate you with dine-in and
-                takeaway checkouts. Book your order according to your convenience and
-                time. We all want to receive food as soon as possible when we order food
-                in the restaurant. Our goal is simple, book order before leaving your
-                place and food is served as you put your foot in the restaurant according
-                to your arrival-time.<br />
+                a pro, on-time, no-waiting. Here in dipEAT, we are happy to facilitate you
+                with dine-in and takeaway checkouts. Book your order according to your
+                convenience and time. We all want to receive food as soon as possible when
+                we order food in the restaurant. Our goal is simple, book order before
+                leaving your place and food is served as you put your foot in the
+                restaurant according to your arrival-time.<br />
                 Peace✌️
               </div>
             </v-col>
@@ -480,12 +471,12 @@ export default {
 .hero-large-bg .hero-text-overlay {
   font-size: 2.8em;
   position: absolute;
-  top: 10%;
+  top: 27%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
   text-align: center;
-  color: white;
+  color: rgb(100, 6, 207);
   font-family: "Great Vibes", cursive;
 }
 
@@ -521,18 +512,18 @@ export default {
 .hero-mobile-bg .hero-text-overlay {
   font-size: 0.8em;
   position: absolute;
-  top: 2.5%;
+  top: 6%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
   text-align: center;
-  color: white;
+  color: rgb(100, 6, 207);
   font-family: "Great Vibes", cursive;
 }
 
 @media only screen and (min-width: 1920px) {
   .hero-large-bg .hero-text-overlay {
-    font-size: 3em;
+    font-size: 2em;
   }
 }
 

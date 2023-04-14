@@ -61,7 +61,7 @@
       <div class="nav-logo" v-if="$store.state.isAuthenticated">
         <a href="/">
           <img
-            src="https://crisp-restaurant-picture.s3.ap-south-1.amazonaws.com/homePage-static-image/simple_logo.png"
+            src="https://dipeat-s3-bucket-1.s3.amazonaws.com/simple_logo.png"
             alt="dipEAT.com"
           />
         </a>
@@ -95,7 +95,7 @@
       <div class="logo">
         <a href="/">
           <img
-            src="https://crisp-restaurant-picture.s3.ap-south-1.amazonaws.com/homePage-static-image/simple_logo.png"
+            src="https://dipeat-s3-bucket-1.s3.amazonaws.com/simple_logo.png"
             alt="dipEAT.com"
           />
         </a>
@@ -107,7 +107,7 @@
       </div>
       <ul class="nav-links">
         <li><a href="#">Intro</a></li>
-        <li><a href="#how-it-works">Workflow</a></li>
+        <li><a href="#how-it-works">Benefits</a></li>
         <li><a href="#about-us">About Us</a></li>
         <li><a href="#top-restaurants">Restaurants</a></li>
         <li>
@@ -162,7 +162,7 @@
             <div class="logo">
               <a href="/">
                 <img
-                  src="https://crisp-restaurant-picture.s3.ap-south-1.amazonaws.com/homePage-static-image/simple_logo.png"
+                  src="https://dipeat-s3-bucket-1.s3.amazonaws.com/simple_logo.png"
                   alt="dipEAT.com"
                 />
               </a>
@@ -195,9 +195,6 @@
                 ></a>
                 <a href="https://www.linkedin.com/company/dipeat-com/"
                   ><span class="mdi mdi-linkedin"></span
-                ></a>
-                <a href="https://www.facebook.com/profile.php?id=100089998780762"
-                  ><span class="mdi mdi-facebook"></span
                 ></a>
                 <a href="https://twitter.com/dipEAT_com"
                   ><span class="mdi mdi-twitter"></span
