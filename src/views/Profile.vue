@@ -239,7 +239,9 @@ export default {
 
         this.dialog = false;
 
-        this.getCustomerProfile();
+        setTimeout(() => {
+          this.getCustomerProfile();
+        }, 1000);
       }
     },
 
