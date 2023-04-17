@@ -97,7 +97,7 @@
           <v-divider></v-divider>
 
           <v-card-text>
-            <div><strong>Owner Name:</strong> {{ profile.owner_name }}</div>
+            <div><strong>Restaurant Name:</strong> {{ profile.owner_name }}</div>
             <div><strong>Contact:</strong> {{ profile.phone }}</div>
             <div><strong>Tags:</strong> {{ profile.shop_type }}</div>
             <div><strong>Address:</strong> {{ profile.address }}</div>
