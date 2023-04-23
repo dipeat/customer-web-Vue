@@ -4,26 +4,23 @@
       <v-row>
         <v-col cols="6" sm="4" v-for="(item, index) in likedShops" :key="index">
           <v-sheet rounded="lg" min-height="268">
-            <v-card
-              class="mx-auto"
-              max-width="400"
-              @click="
-                setRestaurant(item.shop);
-                navigateMenu();
-              "
-            >
+            <v-card class="mx-auto" max-width="400" @click="setRestaurant(item.shop)">
               <v-row dense>
                 <v-col :cols="12">
                   <div v-for="(image, index) in shopProfileImage" :key="index + 0.0019">
                     <v-img
                       :src="image.shop_image"
                       v-if="image.slug == item.shop"
-                      class="white--text align-end"
+                      class="white--text align-end text-center"
                       gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                       max-height="200px"
                       @click="setRestaurant(item.shop)"
                     >
-                      <v-card-title> {{ item.shop }}</v-card-title>
+                      <v-chip class="ma-1" color="white align-bottom" small>
+                        <div class="purple--text font-weight-bold">
+                          {{ image.owner_name }}
+                        </div>
+                      </v-chip>
                     </v-img>
                   </div>
                 </v-col>
@@ -63,6 +60,7 @@ export default {
       this.$store.state.restaurant = item;
       // console.log(this.$store.state.restaurant);
       localStorage.setItem("restaurant", item);
+      this.$router.push(`/menu/${item}`);
     },
 
     getShopProfileImage() {
@@ -70,9 +68,6 @@ export default {
         this.shopProfileImage = res.data;
         // console.log(this.shopProfileImage);
       });
-    },
-    navigateMenu() {
-      this.$router.push("/menu");
     },
   },
 

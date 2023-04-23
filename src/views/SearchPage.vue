@@ -1,7 +1,7 @@
 <template>
   <v-main>
     <div>
-      <h2><u>Search:</u> &nbsp;&nbsp;{{ searchedItem }}</h2>
+      <h3><u>Searched:</u>&nbsp;&nbsp;{{ searchedItem }}</h3>
     </div>
     <v-container>
       <v-row>
@@ -12,16 +12,18 @@
                 <v-col :cols="12">
                   <v-img
                     :src="item.shop_image"
-                    class="white--text align-end"
+                    class="white--text align-end text-center"
                     gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                     max-height="200px"
                   >
+                    <v-chip class="ma-1" color="white align-bottom" small>
+                      <div class="purple--text font-weight-bold">
+                        {{ item.owner_name }}
+                      </div>
+                    </v-chip>
                   </v-img>
 
                   <v-card-actions>
-                    <div>
-                      <h4>{{ item.slug }}</h4>
-                    </div>
                     <v-spacer></v-spacer>
                     &nbsp;
                     <div
@@ -70,17 +72,17 @@ export default {
       this.$store.state.restaurant = item;
       // console.log(this.$store.state.restaurant);
       localStorage.setItem("restaurant", item);
-      router.push("/menu");
+      this.$router.push(`/menu/${item}`);
     },
 
     searchBarRef() {
-      this.searchedItem = localStorage.getItem("searchText");
       this.getSearch == "";
 
       // remove space from this.search
       let search = localStorage.getItem("searchText").replace(/^[ ]+/g, "");
 
       if (search != "") {
+        this.searchedItem = search;
         // console.log(search);
         api.get(`/api/v1/clientprofilesearch/${search}`).then((response) => {
           this.getSearch = response.data;

@@ -50,7 +50,7 @@ const routes = [
   // },
  
   {
-    path: '/menu',
+    path: '/menu/:id',
     name: 'Menu',
     component: Menu,
     meta: {

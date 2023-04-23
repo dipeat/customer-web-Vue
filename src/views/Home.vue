@@ -16,7 +16,6 @@
             toggle();
             favShop(shops.shop);
           "
-          to="/menu"
         >
           <v-row class="fill-height">
             <div v-for="(image, index) in shopProfileImage" :key="index + 0.0019">
@@ -25,7 +24,7 @@
                   <v-img :src="image.shop_image" @click="favShop(shops.shop)">
                     <v-row align="end" justify="center">
                       <v-chip color="black" small size="58" label class="white--text ma-3"
-                        >{{ shops.shop }}
+                        >{{ image.owner_name }}
                       </v-chip>
                     </v-row>
                   </v-img>
@@ -148,38 +147,40 @@
                   v-for="(item, index) in foodOrdered"
                   :key="index + 0.55"
                 >
-                  <v-card
-                    class="mx-auto"
-                    v-if="item.delivered === false"
-                    to="/order"
-                    align="center"
-                    max-width="auto"
-                    color="grey lighten-5"
-                    elevation="5"
-                  >
-                    <h4>
-                      <u>{{ item.restaurant }}</u>
-                    </h4>
+                  <div v-for="(shop, index) in shopProfileImage" :key="index + 0.0129">
+                    <v-card
+                      class="mx-auto"
+                      v-if="item.delivered === false && shop.slug == item.restaurant"
+                      to="/order"
+                      align="center"
+                      max-width="auto"
+                      color="grey lighten-5"
+                      elevation="5"
+                    >
+                      <h4>
+                        <u>{{ shop.owner_name }}</u>
+                      </h4>
 
-                    <body>
-                      <v-row class="mt-1">
-                        <v-col cols="4" sm="4">
-                          <span>At: {{ item.arrival_time }}</span>
-                        </v-col>
-                        <v-col cols="4" sm="4">
-                          <v-chip outlined color="primary" v-if="item.takeaway == true">
-                            <span>Takeaway</span>
-                          </v-chip>
-                          <v-chip outlined color="orange darken-4" v-else>
-                            <span>Dine-In</span>
-                          </v-chip>
-                        </v-col>
-                        <v-col cols="4" sm="4">
-                          <span><v-icon>mdi-currency-inr</v-icon>{{ item.total }}</span>
-                        </v-col>
-                      </v-row>
-                    </body>
-                  </v-card>
+                      <body>
+                        <v-row class="mt-1">
+                          <v-col cols="4" sm="4">
+                            <span>At: {{ item.arrival_time }}</span>
+                          </v-col>
+                          <v-col cols="4" sm="4">
+                            <v-chip outlined color="primary" v-if="item.takeaway == true">
+                              <span>Takeaway</span>
+                            </v-chip>
+                            <v-chip outlined color="orange darken-4" v-else>
+                              <span>Dine-In</span>
+                            </v-chip>
+                          </v-col>
+                          <v-col cols="4" sm="4">
+                            <span><v-icon>mdi-currency-inr</v-icon>{{ item.total }}</span>
+                          </v-col>
+                        </v-row>
+                      </body>
+                    </v-card>
+                  </div>
                 </v-col>
               </v-row>
             </v-container>
@@ -237,11 +238,14 @@
                 class="mx-auto"
                 max-width="400"
                 @click="setRestaurant(item.restaurant)"
-                to="/menu"
               >
                 <v-row dense>
                   <v-col :cols="12">
-                    <div v-for="(image, index) in shopProfileImage" :key="index + 0.009">
+                    <div
+                      class="text-center"
+                      v-for="(image, index) in shopProfileImage"
+                      :key="index + 0.009"
+                    >
                       <v-img
                         :src="image.shop_image"
                         v-if="image.slug == item.restaurant"
@@ -250,13 +254,15 @@
                         max-height="200px"
                         @click="setRestaurant(item.restaurant)"
                       >
+                        <v-chip class="mb-1" color="white align-bottom" small>
+                          <div class="purple--text font-weight-bold">
+                            {{ image.owner_name }}
+                          </div>
+                        </v-chip>
                       </v-img>
                     </div>
 
                     <v-card-actions @click="setRestaurant(item.restaurant)">
-                      <div>
-                        <strong>{{ item.restaurant }}</strong>
-                      </div>
                       <v-spacer></v-spacer>
 
                       <div
@@ -370,6 +376,7 @@ export default {
       this.$store.state.restaurant = item;
       localStorage.setItem("restaurant", item);
       // console.log(localStorage.getItem("restaurant"));
+      this.$router.push(`/menu/${item}`);
     },
 
     shopStatus() {
@@ -381,6 +388,7 @@ export default {
     favShop(shop) {
       this.$store.state.restaurant = shop;
       localStorage.setItem("restaurant", shop);
+      this.$router.push(`/menu/${shop}`);
     },
 
     getLikedShop() {
