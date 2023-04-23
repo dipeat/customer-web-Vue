@@ -1,5 +1,8 @@
 <template>
   <v-main>
+    <div>
+      <h2><u>Search:</u> &nbsp;&nbsp;{{ searchedItem }}</h2>
+    </div>
     <v-container>
       <v-row>
         <v-col cols="6" sm="4" v-for="(item, index) in getSearch" :key="index">
@@ -59,20 +62,23 @@ export default {
   data: () => ({
     getSearch: "",
     maxDiscount: [],
+    searchedItem: "",
   }),
 
   methods: {
     setRestaurant(item) {
       this.$store.state.restaurant = item;
       // console.log(this.$store.state.restaurant);
+      localStorage.setItem("restaurant", item);
       router.push("/menu");
     },
 
     searchBarRef() {
+      this.searchedItem = localStorage.getItem("searchText");
       this.getSearch == "";
 
       // remove space from this.search
-      let search = this.$store.state.searchText.replace(/^[ ]+/g, "");
+      let search = localStorage.getItem("searchText").replace(/^[ ]+/g, "");
 
       if (search != "") {
         // console.log(search);

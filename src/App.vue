@@ -290,6 +290,7 @@ export default {
     searchBar() {
       this.$store.state.searchText = this.search;
       // console.log(this.$store.state.searchText);
+      localStorage.setItem("searchText", this.search);
 
       this.$eventBus.$emit("callMethodSearchBarRef");
 

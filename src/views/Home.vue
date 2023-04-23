@@ -366,7 +366,10 @@ export default {
     },
 
     setRestaurant(item) {
+      // localStorage.removeItem("username");
       this.$store.state.restaurant = item;
+      localStorage.setItem("restaurant", item);
+      // console.log(localStorage.getItem("restaurant"));
     },
 
     shopStatus() {
@@ -377,6 +380,7 @@ export default {
 
     favShop(shop) {
       this.$store.state.restaurant = shop;
+      localStorage.setItem("restaurant", shop);
     },
 
     getLikedShop() {

@@ -51,7 +51,7 @@
         >
           <v-container>
             <v-chip color="white align-bottom">
-              <v-card-title v-text="$store.state.restaurant" class="purple--text">
+              <v-card-title v-text="image.owner_name" class="purple--text">
               </v-card-title>
               <v-btn
                 icon
@@ -71,39 +71,37 @@
         </v-img>
       </div>
 
-      <v-card-actions>
-        <v-rating
-          v-if="showNow"
-          v-model="rating"
-          background-color="purple lighten-3"
-          color="purple"
-          half-increments
-        ></v-rating>
+      <div v-for="(profile, index) in shopProfileImage" :key="index + 0.0029">
+        <v-card-actions>
+          <v-rating
+            v-if="showNow"
+            v-model="rating"
+            background-color="purple lighten-3"
+            color="purple"
+            half-increments
+          ></v-rating>
 
-        <v-spacer></v-spacer>
-        <v-btn color="orange lighten-1" text> Details </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="orange lighten-1" text> Details </v-btn>
 
-        <v-btn icon @click="show = !show">
-          <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
-        </v-btn>
-      </v-card-actions>
+          <v-btn icon @click="show = !show">
+            <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
+          </v-btn>
+        </v-card-actions>
 
-      <v-expand-transition>
-        <div
-          v-show="show"
-          v-for="(profile, index) in shopProfileImage"
-          :key="index + 0.0029"
-        >
-          <v-divider></v-divider>
+        <v-expand-transition>
+          <div v-show="show">
+            <v-divider></v-divider>
 
-          <v-card-text>
-            <div><strong>Restaurant Name:</strong> {{ profile.owner_name }}</div>
-            <div><strong>Contact:</strong> {{ profile.phone }}</div>
-            <div><strong>Tags:</strong> {{ profile.shop_type }}</div>
-            <div><strong>Address:</strong> {{ profile.address }}</div>
-          </v-card-text>
-        </div>
-      </v-expand-transition>
+            <v-card-text>
+              <div><strong>Restaurant Name:</strong> {{ profile.owner_name }}</div>
+              <div><strong>Contact:</strong> {{ profile.phone }}</div>
+              <div><strong>Tags:</strong> {{ profile.shop_type }}</div>
+              <div><strong>Address:</strong> {{ profile.address }}</div>
+            </v-card-text>
+          </div>
+        </v-expand-transition>
+      </div>
     </v-card>
 
     <br />
@@ -120,7 +118,7 @@
 
             <div v-for="(item, index) in menuList" :key="index + 0.001">
               <div v-if="cat == item.category">
-                <v-container v-if="item.restaurant == $store.state.restaurant">
+                <v-container v-if="item.restaurant == restaurant_name">
                   <v-row>
                     <v-col cols="4" sm="5" md="5">
                       <span> {{ item.name }}</span>
@@ -183,10 +181,7 @@
       :key="index + 0.007"
     >
       <div
-        v-if="
-          $store.state.restaurant == stat.restaurant &&
-          $store.state.isAuthenticated != false
-        "
+        v-if="restaurant_name == stat.restaurant && $store.state.isAuthenticated != false"
         class="text-center"
       >
         <v-row v-if="stat.open_close">
@@ -417,6 +412,7 @@ export default {
       likeBoolShop: true,
       status: "",
       packagingCharges: 0,
+      restaurant_name: localStorage.getItem("restaurant"),
 
       shopProfileImage: [],
       foodName: [],
@@ -526,7 +522,7 @@ export default {
     getMenu() {
       api.get("/api/v1/menu/").then((response) => {
         for (let i = 0; i < response.data.length; i++) {
-          if (this.$store.state.restaurant == response.data[i].restaurant) {
+          if (localStorage.getItem("restaurant") == response.data[i].restaurant) {
             this.menuList.push(response.data[i]);
 
             // separate the category and push to menu
@@ -713,7 +709,7 @@ export default {
 
     likeShop(item) {
       const slug_customer =
-        this.$store.state.user.username + this.$store.state.restaurant;
+        this.$store.state.user.username + localStorage.getItem("restaurant");
 
       if (this.likeColor === "red") {
         this.likeColor = "";
@@ -749,7 +745,7 @@ export default {
         // console.log(this.likedShops);
         for (let i = 0; i < this.likedShops.length; i++) {
           if (
-            this.likedShops[i].shop === this.$store.state.restaurant &&
+            this.likedShops[i].shop === localStorage.getItem("restaurant") &&
             this.likedShops[i].liked === true
           ) {
             this.likeColor = "red";
@@ -769,7 +765,7 @@ export default {
         this.status = res.data;
         // filter on basis of this.$store.state.restaurant
         this.status = this.status.filter(
-          (item) => item.restaurant === this.$store.state.restaurant
+          (item) => item.restaurant === localStorage.getItem("restaurant")
         );
         // console.log(this.status);
       });
@@ -778,13 +774,13 @@ export default {
     getShopProfileImage() {
       api.get(`/api/v1/ClientProfile4Image/`).then((res) => {
         this.shopProfileImage = res.data.filter(
-          (item) => item.slug === this.$store.state.restaurant
+          (item) => item.slug === localStorage.getItem("restaurant")
         );
         // console.log(this.shopProfileImage);
       });
     },
     getPackagingCharges() {
-      const slug = this.$store.state.restaurant;
+      const slug = localStorage.getItem("restaurant");
       api.get(`/api/v1/takeaway/${slug}/`).then((response) => {
         this.packagingCharges = response.data[0].packaging_charge;
         // console.log(response.data);
@@ -802,7 +798,7 @@ export default {
   },
 
   mounted() {
-    if (this.$store.state.restaurant != "") {
+    if (localStorage.getItem("restaurant") != "") {
       setTimeout(() => {
         this.getPackagingCharges();
       }, 1000);

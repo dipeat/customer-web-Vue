@@ -62,6 +62,7 @@ export default {
     setRestaurant(item) {
       this.$store.state.restaurant = item;
       // console.log(this.$store.state.restaurant);
+      localStorage.setItem("restaurant", item);
     },
 
     getShopProfileImage() {
