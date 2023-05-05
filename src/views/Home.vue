@@ -524,7 +524,7 @@ export default {
 .hero-mobile-bg .hero-text-overlay {
   font-size: 0.8em;
   position: absolute;
-  top: 6%;
+  top: 6.5%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;

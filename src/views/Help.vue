@@ -8,7 +8,7 @@
             please contact us:
           </div>
           <br />
-          <div class="text-h5 pa-3">Email :&nbsp;&nbsp; contact@dipeat.com</div>
+          <div class="text-h5 pa-3">Email :&nbsp;&nbsp; dipeatdotcom@gmail.com</div>
         </div>
       </v-card>
     </div>

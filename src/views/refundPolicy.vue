@@ -6,7 +6,7 @@
     <p>All sales are final and no refund will be issued.</p>
     <h2><p>QUESTIONS</p></h2>
     <p>If you have any questions concerning our refund policy, please contact us at:</p>
-    <p>contact@dipeat.com</p>
+    <p>dipeatdotcom@gmail.com</p>
   </body>
 </template>
 

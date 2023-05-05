@@ -47,6 +47,7 @@
           maxlength="30"
         ></v-text-field>
         <v-card-actions>
+          <a href="">Forgot Password?</a>
           <v-spacer></v-spacer>
           <v-btn color="red" text @click="dialog1 = false"> Cancel </v-btn>
           <v-btn color="primary" text @click="logIn"> LogIn </v-btn>

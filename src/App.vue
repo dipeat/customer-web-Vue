@@ -107,7 +107,7 @@
       </div>
       <ul class="nav-links">
         <li><a href="#">Intro</a></li>
-        <li><a href="#how-it-works">Benefits</a></li>
+        <li><a href="partner.dipeat.com">Partner</a></li>
         <li><a href="#about-us">About Us</a></li>
         <li><a href="#top-restaurants">Restaurants</a></li>
         <li>
@@ -172,7 +172,7 @@
               <h1>Contact Us</h1>
               <li>
                 <v-icon dark>mdi-email-variant</v-icon>&nbsp;&nbsp;
-                <a href="mailto:yourmail@gmail.com">contact@dipeat.com</a>
+                <a href="mailto:yourmail@gmail.com">dipeatdotcom@gmail.com</a>
               </li>
             </div>
           </div>

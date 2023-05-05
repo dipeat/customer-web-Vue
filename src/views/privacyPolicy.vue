@@ -452,7 +452,7 @@
     <p>
     <ul>
       <li>
-        By email: contact@dipeat.com
+        By email: dipeatdotcom@gmail.com
       </li>
       <li>
         

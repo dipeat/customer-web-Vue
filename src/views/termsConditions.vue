@@ -268,6 +268,9 @@
         exclude any of our or your liabilities that may not be excluded under applicable
         law.
       </li>
+      <li>
+        "Zero waiting time" is not guaranteed and may vary based on the time taken to prepare food by restaurants. 
+      </li>
     </ul>
 </p>
 
