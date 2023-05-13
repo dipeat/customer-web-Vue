@@ -107,7 +107,7 @@
       </div>
       <ul class="nav-links">
         <li><a href="#">Intro</a></li>
-        <li><a href="partner.dipeat.com">Partner</a></li>
+        <li><a href="https://partner.dipeat.com">Partner</a></li>
         <li><a href="#about-us">About Us</a></li>
         <li><a href="#top-restaurants">Restaurants</a></li>
         <li>

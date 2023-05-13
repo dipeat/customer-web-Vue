@@ -114,7 +114,9 @@
       >
         <v-responsive height="auto">
           <v-container v-for="(cat, index) in menu" :key="index + 0.0001">
-            <v-chip outlined color="blue darken-2">{{ cat }}</v-chip>
+            <v-chip outlined color="red darken-2"
+              ><strong>{{ cat }}</strong></v-chip
+            >
 
             <div v-for="(item, index) in menuList" :key="index + 0.001">
               <div v-if="cat == item.category">
@@ -163,7 +165,30 @@
                       </div>
                     </v-col>
                   </v-row>
+                  <v-row
+                    justify="center"
+                    v-if="
+                      item.description != '' &&
+                      item.description != null &&
+                      item.description != 'null'
+                    "
+                  >
+                    <v-expansion-panels inset>
+                      <v-expansion-panel>
+                        <v-expansion-panel-header color="grey lighten-4"
+                          >{{ item.description.slice(0, 29) }}
+                          .....
+                          <v-spacer></v-spacer>
+                          Details
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                          {{ item.description }}
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                    </v-expansion-panels>
+                  </v-row>
                 </v-container>
+                <v-divider color="#E0E0E0" class="mt-2"></v-divider>
               </div>
             </div>
           </v-container>
@@ -193,6 +218,7 @@
                   @click="
                     oK();
                     refreshClock();
+                    setDefaultTime();
                   "
                   large
                   elevation="9"
@@ -287,7 +313,6 @@
                               v-model="time"
                               full-width
                               ampm-in-title
-                              format="24hr"
                               scrollable
                               :min="minClock"
                               @change="refreshClock"
@@ -306,12 +331,26 @@
                             </v-time-picker>
                           </v-dialog>
                         </v-col>
-                        <v-col cols="6" sm="6">
+                        <v-col cols="3" sm="3">
+                          <v-checkbox
+                            v-model="dineCheckbox"
+                            label="Dine In"
+                            color="primary"
+                            @click="checkBoxClick"
+                          >
+                          </v-checkbox>
+                        </v-col>
+                        <v-col cols="3" sm="3">
                           <v-checkbox
                             v-model="checkbox"
                             label="Take Away"
                             color="primary"
-                            @click="oK"
+                            @click="
+                              checkBoxClick();
+                              oK();
+                              refreshClock();
+                              setDefaultTime();
+                            "
                           >
                           </v-checkbox>
                         </v-col>
@@ -395,6 +434,8 @@ export default {
       rating: 4.0,
       sheet: false,
       enableMessage: true,
+      dineCheckbox: true,
+      radioGroup: 1,
 
       showNow: false,
 
@@ -531,7 +572,7 @@ export default {
             }
           }
         }
-        // console.log(this.menuList);
+        console.log(this.menuList);
         // console.log(this.menu);
       });
 
@@ -566,6 +607,30 @@ export default {
         this.premare_time +=
           this.displayOrder[i].prepare_time * this.displayOrder[i].value;
       }
+    },
+
+    checkBoxClick() {
+      if (this.checkbox == true) {
+        this.dineCheckbox = false;
+      } else if (this.checkbox == false) {
+        this.dineCheckbox = true;
+      }
+    },
+
+    setDefaultTime() {
+      // calculate prepare time
+      this.premare_time = 0;
+      for (let i = 0; i < this.displayOrder.length; i++) {
+        this.premare_time +=
+          this.displayOrder[i].prepare_time * this.displayOrder[i].value;
+      }
+
+      this.minClock = new Date(new Date().getTime() + this.premare_time * 60000)
+        .toString()
+        .slice(16, 21);
+      // console.log(this.minClock);
+
+      this.time = this.minClock;
     },
 
     refreshClock() {

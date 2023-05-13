@@ -6,7 +6,7 @@
     <v-container>
       <v-row>
         <v-col cols="6" sm="4" v-for="(item, index) in getSearch" :key="index">
-          <v-sheet rounded="lg" min-height="268">
+          <v-sheet rounded="lg" min-height="268" v-if="item.approved == true">
             <v-card class="mx-auto" max-width="400" @click="setRestaurant(item.slug)">
               <v-row dense>
                 <v-col :cols="12">
@@ -87,6 +87,8 @@ export default {
         api.get(`/api/v1/clientprofilesearch/${search}`).then((response) => {
           this.getSearch = response.data;
           // console.log(this.getSearch);
+          // filter out the restaurants that are approved
+          this.getSearch = this.getSearch.filter((item) => item.approved == true);
         });
         // .catch((error) => {
         //   if (error.response) {

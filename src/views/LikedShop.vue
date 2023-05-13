@@ -2,12 +2,17 @@
   <v-main>
     <v-container>
       <v-row>
-        <v-col cols="6" sm="4" v-for="(item, index) in likedShops" :key="index">
-          <v-sheet rounded="lg" min-height="268">
+        <v-col
+          cols="6"
+          sm="4"
+          v-for="(image, index) in shopProfileImage"
+          :key="index + 0.0019"
+        >
+          <v-sheet rounded="lg" min-height="268" v-if="image.approved == true">
             <v-card class="mx-auto" max-width="400" @click="setRestaurant(item.shop)">
               <v-row dense>
                 <v-col :cols="12">
-                  <div v-for="(image, index) in shopProfileImage" :key="index + 0.0019">
+                  <div v-for="(item, index) in likedShops" :key="index">
                     <v-img
                       :src="image.shop_image"
                       v-if="image.slug == item.shop"
@@ -67,6 +72,10 @@ export default {
       api.get(`/api/v1/ClientProfile4Image/`).then((res) => {
         this.shopProfileImage = res.data;
         // console.log(this.shopProfileImage);
+        // filter the shop profile image if approved is true
+        this.shopProfileImage = this.shopProfileImage.filter(
+          (item) => item.approved === true
+        );
       });
     },
   },

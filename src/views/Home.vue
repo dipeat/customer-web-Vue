@@ -1,7 +1,7 @@
 <template>
   <v-main>
-    <h4 v-if="likedShops != ''">Favorite Shops</h4>
-    <v-slide-group v-model="sliderGroup" center-active v-if="likedShops != ''">
+    <h4 v-if="likedShops != '' && shopProfileApproved != ''">Favorite Shops</h4>
+    <!-- <v-slide-group v-model="sliderGroup" center-active v-if="likedShops != ''">
       <v-slide-item
         v-for="(shops, index) in likedShops"
         :key="index + 0.0011"
@@ -34,6 +34,49 @@
           </v-row>
         </v-card>
       </v-slide-item>
+    </v-slide-group> -->
+
+    <v-slide-group v-model="sliderGroup" center-active v-if="likedShops != ''">
+      <span v-for="(image, index) in shopProfileApproved" :key="index + 0.0159">
+        <v-slide-item
+          v-for="(shops, index) in likedShops"
+          :key="index + 0.0011"
+          v-slot="{ active, toggle }"
+        >
+          <v-card
+            :color="active ? 'transparent' : 'grey lighten-1'"
+            class="ma-1"
+            height="120"
+            width="120"
+            @click="
+              toggle();
+              favShop(shops.shop);
+            "
+            v-if="image.approved == '1' && image.slug == shops.shop"
+          >
+            <v-row class="fill-height">
+              <div>
+                <v-scale-transition>
+                  <v-avatar class="ma-2" size="125" tile v-if="image.slug == shops.shop">
+                    <v-img :src="image.shop_image" @click="favShop(shops.shop)">
+                      <v-row align="end" justify="center">
+                        <v-chip
+                          color="black"
+                          small
+                          size="58"
+                          label
+                          class="white--text mb-5"
+                          >{{ image.owner_name }}
+                        </v-chip>
+                      </v-row>
+                    </v-img>
+                  </v-avatar>
+                </v-scale-transition>
+              </div>
+            </v-row>
+          </v-card>
+        </v-slide-item>
+      </span>
     </v-slide-group>
 
     <div v-if="!$store.state.isAuthenticated" class="mt-3">
@@ -227,7 +270,7 @@
       </v-card>
     </v-container>
 
-    <v-container>
+    <!-- <v-container>
       <div class="top-orders" id="top-restaurants">
         <h1><u>Trending</u></h1>
 
@@ -293,6 +336,77 @@
           </v-col>
         </v-row>
       </div>
+    </v-container> -->
+
+    <v-container>
+      <div class="top-orders" id="top-restaurants">
+        <h1><u>Trending</u></h1>
+
+        <v-row>
+          <v-col
+            cols="6"
+            sm="4"
+            v-for="(image, index) in shopProfileApproved"
+            :key="index + 0.0019"
+          >
+            <div v-for="(item, index) in status" :key="index + 0.1101">
+              <v-sheet rounded="lg" min-height="268" v-if="image.slug == item.restaurant">
+                <v-card
+                  class="mx-auto"
+                  max-width="400"
+                  @click="setRestaurant(image.slug)"
+                  v-if="image.approved == true"
+                >
+                  <v-row dense>
+                    <v-col :cols="12">
+                      <div class="text-center">
+                        <v-img
+                          :src="image.shop_image"
+                          class="white--text align-end"
+                          gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                          max-height="200px"
+                          @click="setRestaurant(image.slug)"
+                        >
+                          <v-chip class="mb-1" color="white align-bottom" small>
+                            <div class="purple--text font-weight-bold">
+                              {{ image.owner_name }}
+                            </div>
+                          </v-chip>
+                        </v-img>
+                      </div>
+
+                      <v-card-actions @click="setRestaurant(image.slug)">
+                        <v-spacer></v-spacer>
+
+                        <div
+                          v-for="(shopDiscount, index) in maxDiscount"
+                          :key="index + 0.0043"
+                        >
+                          <v-chip
+                            small
+                            outlined
+                            color="purple"
+                            dark
+                            v-if="
+                              item.restaurant == shopDiscount.restaurant &&
+                              shopDiscount.discount > 0 &&
+                              item.open_close
+                            "
+                            >{{ shopDiscount.discount }}% off</v-chip
+                          >
+                        </div>
+                        <div v-if="!item.open_close">
+                          <strong class="red--text">Closed</strong>
+                        </div>
+                      </v-card-actions>
+                    </v-col>
+                  </v-row>
+                </v-card>
+              </v-sheet>
+            </div>
+          </v-col>
+        </v-row>
+      </div>
     </v-container>
   </v-main>
 </template>
@@ -337,6 +451,7 @@ export default {
     foodOrdered: [],
     maxDiscount: [],
     shopProfileImage: [],
+    shopProfileApproved: [],
   }),
 
   methods: {
@@ -415,7 +530,12 @@ export default {
     getShopProfileImage() {
       api.get(`/api/v1/ClientProfile4Image/`).then((res) => {
         this.shopProfileImage = res.data;
+        this.shopProfileApproved = res.data;
         // console.log(this.shopProfileImage);
+        // filter the data based on if it is approved or not
+        this.shopProfileApproved = this.shopProfileApproved.filter(
+          (item) => item.approved === true
+        );
       });
     },
   },
