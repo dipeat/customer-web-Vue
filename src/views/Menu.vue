@@ -106,11 +106,126 @@
 
     <br />
 
-    <v-card class="mx-auto overflow-hidden" max-width="550" height="500">
+    <v-card class="mx-auto overflow-hidden" max-width="550" height="830">
+      <v-row justify="space-around">
+        <v-col cols="12" sm="10" md="8">
+          <v-sheet elevation="5" class="px-1">
+            <v-chip-group multiple active-class="primary--text">
+              <v-chip
+                filter
+                outlined
+                color="grey darken-2"
+                v-for="(category, index) in menu"
+                :key="index + 0.0321"
+                @click="filterCategory(category)"
+              >
+                {{ category }}
+              </v-chip>
+            </v-chip-group>
+          </v-sheet>
+        </v-col>
+      </v-row>
+
       <v-sheet
         id="scroll-threshold-example"
         class="overflow-y-auto pb-16"
-        max-height="480"
+        max-height="830"
+        v-if="filterCategoryList != ''"
+      >
+        <v-responsive height="auto">
+          <div v-for="(category, index) in filterCategoryList" :key="index + 0.0894">
+            <v-container v-for="(cat, index) in menu" :key="index + 0.0001">
+              <div v-if="category == cat">
+                <v-chip outlined color="red darken-2"
+                  ><strong>{{ cat }}</strong></v-chip
+                >
+
+                <div v-for="(item, index) in menuList" :key="index + 0.001">
+                  <div v-if="cat == item.category && cat == category">
+                    <v-container v-if="item.restaurant == restaurant_name">
+                      <v-row>
+                        <v-col cols="4" sm="5" md="5">
+                          <span> {{ item.name }}</span>
+                          <v-subheader> {{ item.prepare_time }} mins</v-subheader>
+                        </v-col>
+                        <v-col cols="3" sm="3" md="3">
+                          <span
+                            class="text-decoration-line-through"
+                            v-if="item.original_price > item.final_price"
+                          >
+                            {{ item.original_price }}
+                          </span>
+                          &nbsp; <span> {{ item.final_price }}</span>
+                        </v-col>
+                        <v-col align="center" cols="5" sm="4" md="4">
+                          <div v-if="item.availablity == true">
+                            <v-chip outlined color="pink darken-2">{{
+                              item.value
+                            }}</v-chip>
+                            <v-chip small dark link color="purple darken-4">
+                              <v-chip
+                                small
+                                dark
+                                link
+                                color="purple darken-4"
+                                v-if="item.value > 0"
+                                @click="minusOne(item)"
+                              >
+                                <v-icon small dark>mdi-minus</v-icon>
+                              </v-chip>
+                              <v-chip
+                                small
+                                dark
+                                link
+                                color="purple darken-4"
+                                @click="plusOne(item)"
+                              >
+                                <v-icon small dark>mdi-plus</v-icon>
+                              </v-chip>
+                            </v-chip>
+                          </div>
+                          <div v-else>
+                            <v-chip outlined color="red">Not Available</v-chip>
+                          </div>
+                        </v-col>
+                      </v-row>
+                      <v-row
+                        justify="center"
+                        v-if="
+                          item.description != '' &&
+                          item.description != null &&
+                          item.description != 'null'
+                        "
+                      >
+                        <v-expansion-panels inset>
+                          <v-expansion-panel>
+                            <v-expansion-panel-header color="grey lighten-4"
+                              >{{ item.description.slice(0, 29) }}
+                              .....
+                              <v-spacer></v-spacer>
+                              Details
+                            </v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                              {{ item.description }}
+                            </v-expansion-panel-content>
+                          </v-expansion-panel>
+                        </v-expansion-panels>
+                      </v-row>
+                    </v-container>
+                    <v-divider color="#E0E0E0" class="mt-2"></v-divider>
+                  </div>
+                </div>
+              </div>
+            </v-container>
+          </div>
+        </v-responsive>
+      </v-sheet>
+
+      <v-sheet
+        id="scroll-threshold-example"
+        class="overflow-y-auto pb-16"
+        max-height="830"
+        v-else
       >
         <v-responsive height="auto">
           <v-container v-for="(cat, index) in menu" :key="index + 0.0001">
@@ -435,7 +550,7 @@ export default {
       sheet: false,
       enableMessage: true,
       dineCheckbox: true,
-      radioGroup: 1,
+      filterCategoryList: [],
 
       showNow: false,
 
@@ -572,7 +687,7 @@ export default {
             }
           }
         }
-        console.log(this.menuList);
+        // console.log(this.menuList);
         // console.log(this.menu);
       });
 
@@ -851,6 +966,15 @@ export default {
         // console.log(response.data);
       });
       // console.log(this.$store.state.restaurant);
+    },
+
+    filterCategory(category) {
+      if (this.filterCategoryList.includes(category)) {
+        this.filterCategoryList.splice(this.filterCategoryList.indexOf(category), 1);
+      } else {
+        this.filterCategoryList.push(category);
+      }
+      // console.log(this.filterCategoryList);
     },
   },
 
