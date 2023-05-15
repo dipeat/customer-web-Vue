@@ -80,6 +80,17 @@
             color="purple"
             half-increments
           ></v-rating>
+          <div v-if="filterCategoryList != ''">Category:</div>
+          <v-badge
+            :content="filterCategoryList.length"
+            value="2"
+            color="blue"
+            overlap
+            left
+            inline
+            v-if="filterCategoryList != ''"
+          >
+          </v-badge>
 
           <v-spacer></v-spacer>
           <v-btn color="orange lighten-1" text> Details </v-btn>
@@ -109,7 +120,7 @@
     <v-card class="mx-auto overflow-hidden" max-width="550" height="830">
       <v-row justify="space-around">
         <v-col cols="12" sm="10" md="8">
-          <v-sheet elevation="5" class="px-1">
+          <v-sheet elevation="5" class="py-2 px-1">
             <v-chip-group multiple active-class="primary--text">
               <v-chip
                 filter
