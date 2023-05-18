@@ -14,7 +14,7 @@
           >{{ $store.state.user.username }}
         </v-card-title>
 
-        <div class="text-center">
+        <div class="text-center" v-if="showNow">
           <div class="text-center">
             <v-chip outlined color="deep-purple" v-if="$store.state.isAuthenticated">
               Balance: <v-icon>mdi-currency-inr</v-icon>
@@ -43,7 +43,7 @@
           >
         </div>
 
-        <v-dialog v-model="dialog1" max-width="290">
+        <v-dialog v-model="dialog1" max-width="290" v-if="showNow">
           <v-card>
             <v-card-title class="text-h5 brown--text"> Add Money to Wallet </v-card-title>
 

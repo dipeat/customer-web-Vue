@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <v-card-actions class="justify-center">
+    <v-card-actions class="justify-center" v-if="showNow == true">
       <v-chip color="grey lighten-3" v-if="$store.state.isAuthenticated">
         <v-avatar>
           <v-icon color="orange darken-4">mdi-wallet</v-icon> &nbsp; &nbsp;
@@ -14,7 +14,7 @@
         >
       </v-chip>
     </v-card-actions>
-    <v-dialog v-model="dialog1" max-width="290">
+    <v-dialog v-model="dialog1" max-width="290" v-if="showNow == true">
       <v-card>
         <v-card-title class="text-h5 brown--text"> Add Money to Wallet </v-card-title>
 
@@ -357,9 +357,7 @@
                 <v-divider color="purple"></v-divider>
                 <v-card-text style="height: auto">
                   <div v-for="(order, index) in displayOrder" :key="index">
-                    <v-container
-                      v-if="displayOrder != '' && $store.state.walletBalance >= total"
-                    >
+                    <v-container v-if="displayOrder != ''">
                       <v-row>
                         <v-col>
                           <div>{{ order.name }}</div>
@@ -377,9 +375,7 @@
                   </div>
                   <v-divider color="orange"></v-divider>
                   <div class="text-center">
-                    <v-container
-                      v-if="displayOrder != '' && $store.state.walletBalance >= total"
-                    >
+                    <v-container v-if="displayOrder != ''">
                       <v-chip outlined color="pink">
                         <div>
                           Total:&nbsp;
@@ -498,29 +494,21 @@
                         {{ errorMessages }}
                       </v-alert>
                     </div>
-                    <v-container
-                      v-if="displayOrder == '' && $store.state.walletBalance >= total"
-                    >
-                      <h4>Please select items for order or recharge!</h4>
+                    <v-container v-if="displayOrder == ''">
+                      <h4>Please select items for order!</h4>
                     </v-container>
-                    <v-container
+                    <!-- <v-container
                       v-if="displayOrder != '' && $store.state.walletBalance < total"
                     >
                       <h4>You do not have enough money in wallet, please recharge!</h4>
-                    </v-container>
+                    </v-container> -->
                   </div>
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-card-actions class="cart-style">
                   <v-btn color="white" text @click="dialog = false"> Cancel </v-btn>
                   <v-spacer></v-spacer>
-                  <v-btn
-                    color="white"
-                    text
-                    dark
-                    @click="checkout"
-                    v-if="foodOrder != '' && $store.state.walletBalance >= total"
-                  >
+                  <v-btn color="white" text dark @click="checkout" v-if="foodOrder != ''">
                     Checkout
                   </v-btn>
                 </v-card-actions>
@@ -822,11 +810,7 @@ export default {
     },
 
     async checkout() {
-      if (
-        this.displayOrder != "" &&
-        this.$store.state.walletBalance >= this.total &&
-        this.time !== null
-      ) {
+      if (this.displayOrder != "" && this.time !== null) {
         let time = this.time;
         let hours = time.substring(0, 2);
         let minutes = time.substring(3, 5);
@@ -922,13 +906,14 @@ export default {
             this.errorMessages = "";
           }, 5000);
         }
-      } else if (this.$store.state.walletBalance < this.total) {
-        // console.log("please add money to your wallet");
-        this.errorMessages = "please add money to your wallet";
-        setTimeout(() => {
-          this.errorMessages = "";
-        }, 5000);
-      } else if (this.time === null) {
+      }
+      // else if (this.$store.state.walletBalance < this.total) {
+      //   this.errorMessages = "please add money to your wallet";
+      //   setTimeout(() => {
+      //     this.errorMessages = "";
+      //   }, 5000);
+      // }
+      else if (this.time === null) {
         // console.log("please select time");
         this.errorMessages = "please select time";
         setTimeout(() => {

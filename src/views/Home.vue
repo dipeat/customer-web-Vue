@@ -79,7 +79,7 @@
       </span>
     </v-slide-group>
 
-    <v-container>
+    <!-- <v-container>
       <v-text-field
         v-model="amount"
         label="Amount*"
@@ -87,7 +87,7 @@
         required
       ></v-text-field>
       <v-btn @click="phonePe">Pay</v-btn>
-    </v-container>
+    </v-container> -->
 
     <div v-if="!$store.state.isAuthenticated" class="mt-3">
       <div class="hero-large-bg">
