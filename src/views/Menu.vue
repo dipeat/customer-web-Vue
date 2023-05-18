@@ -591,6 +591,49 @@ export default {
   },
 
   methods: {
+    phonePe() {
+      console.log(Number(this.total).toFixed(2));
+
+      api
+        .post("/api/v1/phonepe_payment/", {
+          transactionId: Date.now(),
+          customerName: this.$store.state.user.username,
+          amount: Number(this.total).toFixed(2) * 100,
+        })
+        .then((response) => {
+          console.log(response.data);
+          console.log(response.data.response.success);
+
+          localStorage.setItem(
+            "transactionId",
+            response.data.response.data.merchantTransactionId.slice(11, 30)
+          );
+
+          // redirect to phonepe payment page
+          if (response.data.response.success == true) {
+            window.location.href =
+              response.data.response.data.instrumentResponse.redirectInfo.url;
+          }
+        });
+    },
+
+    phonePeValidation() {
+      api
+        .post("/api/v1/phonepe_validation/", {
+          transactionId: localStorage.getItem("transactionId"),
+        })
+        .then((response) => {
+          console.log(response.data);
+          console.log(response.data.response.success);
+
+          // redirect to phonepe payment page
+          // if (response.data.response.success == true) {
+          //   window.location.href =
+          //     response.data.response.data.instrumentResponse.redirectInfo.url;
+          // }
+        });
+    },
+
     pay() {
       // Send a request to the backend to create a payment
       if (this.amount != "") {
@@ -857,6 +900,8 @@ export default {
           // .catch((error) => {
           //   console.log(error);
           // });
+
+          this.phonePe();
 
           const slug = this.$store.state.user.username;
           const data = {

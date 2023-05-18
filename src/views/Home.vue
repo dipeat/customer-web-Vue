@@ -79,6 +79,16 @@
       </span>
     </v-slide-group>
 
+    <v-container>
+      <v-text-field
+        v-model="amount"
+        label="Amount*"
+        hint="Amount"
+        required
+      ></v-text-field>
+      <v-btn @click="phonePe">Pay</v-btn>
+    </v-container>
+
     <div v-if="!$store.state.isAuthenticated" class="mt-3">
       <div class="hero-large-bg">
         <img
@@ -438,6 +448,8 @@ export default {
       "Hurry Up! Food is waiting for you!",
     ],
 
+    amount: "",
+
     // image: image,
     // bglargeimage: bglargeimage,
     // bgmobileimage: bgmobileimage,
@@ -457,6 +469,32 @@ export default {
   methods: {
     sliderGroup(value) {
       // console.log(value);
+    },
+
+    phonePe() {
+      console.log(this.amount);
+
+      api
+        .post("/api/v1/phonepe_payment/", {
+          transactionId: Date.now(),
+          customerName: this.$store.state.user.username,
+          amount: this.amount * 100,
+        })
+        .then((response) => {
+          console.log(response.data);
+          console.log(response.data.response.data.merchantTransactionId.slice(11, 30));
+
+          localStorage.setItem(
+            "transactionId",
+            response.data.response.data.merchantTransactionId.slice(11, 30)
+          );
+
+          // redirect to phonepe payment page
+          // if (response.data.response.success == true) {
+          //   window.location.href =
+          //     response.data.response.data.instrumentResponse.redirectInfo.url;
+          // }
+        });
     },
 
     // get menu data from backend
