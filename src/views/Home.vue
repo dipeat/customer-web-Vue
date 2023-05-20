@@ -566,15 +566,31 @@ export default {
     },
 
     getShopProfileImage() {
-      api.get(`/api/v1/ClientProfile4Image/`).then((res) => {
-        this.shopProfileImage = res.data;
-        this.shopProfileApproved = res.data;
-        // console.log(this.shopProfileImage);
-        // filter the data based on if it is approved or not
-        this.shopProfileApproved = this.shopProfileApproved.filter(
-          (item) => item.approved === true
-        );
-      });
+      api
+        .get(`/api/v1/ClientProfile4Image/`)
+        .then((res) => {
+          this.shopProfileImage = res.data;
+          this.shopProfileApproved = res.data;
+          // console.log(this.shopProfileImage);
+          // filter the data based on if it is approved or not
+          this.shopProfileApproved = this.shopProfileApproved.filter(
+            (item) => item.approved === true
+          );
+        })
+        .catch((err) => {
+          // console.log("error is:" + err);
+          if (this.$store.state.isAuthenticated && err != "") {
+            localStorage.removeItem("token");
+          }
+          // else if (
+          //   this.$store.state.isAuthenticated &&
+          //   err == "Request failed with status code 401"
+          // ) {
+          //   localStorage.removeItem("token");
+          // } else if (this.$store.state.isAuthenticated && err === 401) {
+          //   localStorage.removeItem("token");
+          // }
+        });
     },
   },
 

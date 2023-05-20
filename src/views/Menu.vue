@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <v-card-actions class="justify-center" v-if="showNow == true">
+    <!-- <v-card-actions class="justify-center" v-if="showNow == true">
       <v-chip color="grey lighten-3" v-if="$store.state.isAuthenticated">
         <v-avatar>
           <v-icon color="orange darken-4">mdi-wallet</v-icon> &nbsp; &nbsp;
@@ -39,9 +39,9 @@
           </v-btn>
         </v-card-actions>
       </v-card>
-    </v-dialog>
+    </v-dialog> -->
 
-    <v-card class="mx-auto" max-width="550">
+    <!-- <v-card class="mx-auto" max-width="550">
       <div v-for="(image, index) in shopProfileImage" :key="index + 0.0019">
         <v-img
           :src="image.shop_image"
@@ -115,9 +115,528 @@
       </div>
     </v-card>
 
-    <br />
+    <br /> -->
 
-    <v-card class="mx-auto overflow-hidden" max-width="550" height="830">
+    <template>
+      <v-row class="mt-1">
+        <v-col cols="12" sm="12" md="6" offset-md="3">
+          <v-card class="mx-auto">
+            <v-toolbar
+              extended
+              v-for="(image, index) in shopProfileImage"
+              :key="index + 0.0019"
+            >
+              <v-list-item-avatar tile size="99" color="grey">
+                <v-img :src="image.shop_image" height="99px"> </v-img>
+              </v-list-item-avatar>
+              <v-list-item three-line>
+                <v-list-item-content>
+                  <v-list-item-title class="text-h6 mt-3">{{
+                    image.owner_name
+                  }}</v-list-item-title>
+                  <v-list-item-subtitle class="mt-2"
+                    ><v-icon>mdi-phone</v-icon>: {{ image.phone }}</v-list-item-subtitle
+                  >
+                </v-list-item-content>
+              </v-list-item>
+              <template v-slot:extension>
+                <v-fab-transition>
+                  <v-menu
+                    transition="slide-y-transition"
+                    bottom
+                    offset-y
+                    auto
+                    rounded="b-xl"
+                    min-width="auto"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        color="purple"
+                        fab
+                        dark
+                        small
+                        absolute
+                        bottom
+                        left
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        <v-icon> mdi-format-list-bulleted-square</v-icon>
+                      </v-btn>
+                      <v-btn
+                        color="blue-grey lighten-3"
+                        fab
+                        dark
+                        small
+                        absolute
+                        bottom
+                        outlined
+                        right
+                        @click="likeShop($store.state.restaurant)"
+                        v-if="$store.state.restaurant && $store.state.isAuthenticated"
+                      >
+                        <v-icon :color="likeColor">mdi-heart</v-icon>
+                      </v-btn>
+                    </template>
+                    <v-list>
+                      <v-list-item
+                        v-for="(category, index) in menu"
+                        :key="index + 0.0321"
+                        @click="filterCategory(category)"
+                      >
+                        <v-list-item-title
+                          ><v-checkbox
+                            color="info"
+                            :value="true ? category : false"
+                            hide-details
+                            dense
+                            :label="category"
+                          ></v-checkbox
+                        ></v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                  </v-menu>
+                </v-fab-transition>
+              </template>
+            </v-toolbar>
+            <v-card-text style="height: 610px" class="grey lighten-5">
+              <div>
+                <v-sheet
+                  id="scroll-threshold-example"
+                  class="overflow-y-auto pb-16"
+                  max-height="610"
+                  v-if="filterCategoryList != ''"
+                >
+                  <v-responsive height="auto">
+                    <div v-for="(cat, index) in filterCategoryList" :key="index + 0.0001">
+                      <v-chip outlined color="red darken-2 mt-2"
+                        ><strong>{{ cat }}</strong></v-chip
+                      >
+
+                      <div v-for="(item, index) in menuList" :key="index + 0.001">
+                        <div v-if="cat == item.category">
+                          <v-container v-if="item.restaurant == restaurant_name">
+                            <v-row>
+                              <v-col cols="4" sm="5" md="5">
+                                <span> {{ item.name }}</span>
+                                <v-subheader> {{ item.prepare_time }} mins</v-subheader>
+                              </v-col>
+                              <v-col cols="3" sm="3" md="3">
+                                <span
+                                  class="text-decoration-line-through"
+                                  v-if="item.original_price > item.final_price"
+                                >
+                                  {{ item.original_price }}
+                                </span>
+                                &nbsp; <span> {{ item.final_price }}</span>
+                              </v-col>
+                              <v-col align="center" cols="5" sm="4" md="4">
+                                <div v-if="item.availablity == true">
+                                  <v-chip outlined color="pink darken-2">{{
+                                    item.value
+                                  }}</v-chip>
+                                  <v-chip small dark link color="purple darken-4">
+                                    <v-chip
+                                      small
+                                      dark
+                                      link
+                                      color="purple darken-4"
+                                      v-if="item.value > 0"
+                                      @click="minusOne(item)"
+                                    >
+                                      <v-icon small dark>mdi-minus</v-icon>
+                                    </v-chip>
+                                    <v-chip
+                                      small
+                                      dark
+                                      link
+                                      color="purple darken-4"
+                                      @click="plusOne(item)"
+                                    >
+                                      <v-icon small dark>mdi-plus</v-icon>
+                                    </v-chip>
+                                  </v-chip>
+                                </div>
+                                <div v-else>
+                                  <v-chip outlined color="red">Not Available</v-chip>
+                                </div>
+                              </v-col>
+                            </v-row>
+                            <v-row
+                              justify="center"
+                              v-if="
+                                item.description != '' &&
+                                item.description != null &&
+                                item.description != 'null'
+                              "
+                            >
+                              <v-expansion-panels inset>
+                                <v-expansion-panel>
+                                  <v-expansion-panel-header color="grey lighten-4"
+                                    >{{ item.description.slice(0, 29) }}
+                                    .....
+                                    <v-spacer></v-spacer>
+                                    Details
+                                  </v-expansion-panel-header>
+                                  <v-expansion-panel-content>
+                                    {{ item.description }}
+                                  </v-expansion-panel-content>
+                                </v-expansion-panel>
+                              </v-expansion-panels>
+                            </v-row>
+                          </v-container>
+                          <v-divider color="#E0E0E0" class="mt-2"></v-divider>
+                        </div>
+                      </div>
+                    </div>
+                  </v-responsive>
+                </v-sheet>
+
+                <v-sheet
+                  id="scroll-threshold-example"
+                  class="overflow-y-auto pb-16"
+                  max-height="610"
+                  v-else
+                >
+                  <v-responsive height="auto">
+                    <div v-for="(cat, index) in menu" :key="index + 0.0001">
+                      <v-chip outlined color="red darken-2 mt-2"
+                        ><strong>{{ cat }}</strong></v-chip
+                      >
+
+                      <div v-for="(item, index) in menuList" :key="index + 0.001">
+                        <div v-if="cat == item.category">
+                          <v-container v-if="item.restaurant == restaurant_name">
+                            <v-row>
+                              <v-col cols="4" sm="5" md="5">
+                                <span> {{ item.name }}</span>
+                                <v-subheader> {{ item.prepare_time }} mins</v-subheader>
+                              </v-col>
+                              <v-col cols="3" sm="3" md="3">
+                                <span
+                                  class="text-decoration-line-through"
+                                  v-if="item.original_price > item.final_price"
+                                >
+                                  {{ item.original_price }}
+                                </span>
+                                &nbsp; <span> {{ item.final_price }}</span>
+                              </v-col>
+                              <v-col align="center" cols="5" sm="4" md="4">
+                                <div v-if="item.availablity == true">
+                                  <v-chip outlined color="pink darken-2">{{
+                                    item.value
+                                  }}</v-chip>
+                                  <v-chip small dark link color="purple darken-4">
+                                    <v-chip
+                                      small
+                                      dark
+                                      link
+                                      color="purple darken-4"
+                                      v-if="item.value > 0"
+                                      @click="minusOne(item)"
+                                    >
+                                      <v-icon small dark>mdi-minus</v-icon>
+                                    </v-chip>
+                                    <v-chip
+                                      small
+                                      dark
+                                      link
+                                      color="purple darken-4"
+                                      @click="plusOne(item)"
+                                    >
+                                      <v-icon small dark>mdi-plus</v-icon>
+                                    </v-chip>
+                                  </v-chip>
+                                </div>
+                                <div v-else>
+                                  <v-chip outlined color="red">Not Available</v-chip>
+                                </div>
+                              </v-col>
+                            </v-row>
+                            <v-row
+                              justify="center"
+                              v-if="
+                                item.description != '' &&
+                                item.description != null &&
+                                item.description != 'null'
+                              "
+                            >
+                              <v-expansion-panels inset>
+                                <v-expansion-panel>
+                                  <v-expansion-panel-header color="grey lighten-4"
+                                    >{{ item.description.slice(0, 29) }}
+                                    .....
+                                    <v-spacer></v-spacer>
+                                    Details
+                                  </v-expansion-panel-header>
+                                  <v-expansion-panel-content>
+                                    {{ item.description }}
+                                  </v-expansion-panel-content>
+                                </v-expansion-panel>
+                              </v-expansion-panels>
+                            </v-row>
+                          </v-container>
+                          <v-divider color="#E0E0E0" class="mt-2"></v-divider>
+                        </div>
+                      </div>
+                    </div>
+                  </v-responsive>
+                </v-sheet>
+              </div>
+            </v-card-text>
+            <v-card-text style="height: 30px; position: relative">
+              <v-fab-transition>
+                <div v-for="(stat, index) in status" :key="index + 0.007">
+                  <div
+                    v-if="
+                      restaurant_name == stat.restaurant &&
+                      $store.state.isAuthenticated != false
+                    "
+                    class="text-center"
+                  >
+                    <v-row v-if="stat.open_close">
+                      <v-col>
+                        <v-dialog v-model="dialog" scrollable max-width="350px">
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                              color="pink"
+                              dark
+                              absolute
+                              top
+                              right
+                              fab
+                              @click="
+                                oK();
+                                refreshClock();
+                                setDefaultTime();
+                              "
+                              v-bind="attrs"
+                              v-on="on"
+                              :disabled="
+                                $store.state.isAuthenticated == false ? true : false
+                              "
+                            >
+                              Next
+                            </v-btn>
+                          </template>
+                          <v-card>
+                            <v-card-title>Orders</v-card-title>
+                            <v-divider color="purple"></v-divider>
+                            <v-card-text style="height: auto">
+                              <div v-for="(order, index) in displayOrder" :key="index">
+                                <v-container v-if="displayOrder != ''">
+                                  <v-row>
+                                    <v-col>
+                                      <div>{{ order.name }}</div>
+                                    </v-col>
+                                    <v-col>
+                                      <div>
+                                        {{ (order.final_price * order.value).toFixed(2) }}
+                                      </div>
+                                    </v-col>
+                                    <v-col>
+                                      <div>{{ order.value }}</div>
+                                    </v-col>
+                                  </v-row>
+                                </v-container>
+                              </div>
+                              <v-divider color="orange"></v-divider>
+                              <div class="text-center">
+                                <v-container v-if="displayOrder != ''">
+                                  <v-chip outlined color="pink">
+                                    <div>
+                                      Sub Total:&nbsp;
+                                      <span
+                                        ><v-icon>mdi-currency-inr</v-icon
+                                        >{{ total.toFixed(2) }}</span
+                                      >
+                                    </div>
+                                  </v-chip>
+                                  <v-chip outlined color="green" class="mt-1">
+                                    <div>
+                                      GST (5%):&nbsp;
+                                      <span
+                                        ><v-icon>mdi-currency-inr</v-icon
+                                        >{{ (total.toFixed(2) * 5) / 100 }}</span
+                                      >
+                                    </div>
+                                  </v-chip>
+                                  <br />
+                                  <v-chip outlined color="purple" class="mt-1">
+                                    <div>
+                                      <strong>
+                                        Total:&nbsp;
+                                        <span
+                                          ><v-icon>mdi-currency-inr</v-icon
+                                          >{{ finalTotal }}</span
+                                        >
+                                      </strong>
+                                    </div>
+                                  </v-chip>
+                                  <v-chip outlined color="blue" class="mt-1">
+                                    <div>
+                                      Prepare Time:&nbsp;
+                                      <span
+                                        ><v-icon>mdi-alarm</v-icon
+                                        >{{ premare_time }} mins</span
+                                      >
+                                    </div>
+                                  </v-chip>
+                                  <v-chip
+                                    outlined
+                                    color="purple"
+                                    v-if="packagingCharges != 0 && checkbox"
+                                    class="mt-1"
+                                  >
+                                    <div>
+                                      Packaging charge:&nbsp;
+                                      <span
+                                        ><v-icon>mdi-currency-inr</v-icon
+                                        >{{ packagingCharges }}</span
+                                      >
+                                    </div>
+                                  </v-chip>
+
+                                  <v-row>
+                                    <v-col cols="6" sm="6">
+                                      <v-dialog
+                                        ref="dialoge"
+                                        v-model="modal2"
+                                        :return-value.sync="time"
+                                        width="290px"
+                                      >
+                                        <template v-slot:activator="{ on, attrs }">
+                                          <v-text-field
+                                            v-model="time"
+                                            label="Arrival time"
+                                            prepend-icon="mdi-clock-time-four-outline"
+                                            readonly
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            @click="refreshClock"
+                                          ></v-text-field>
+                                        </template>
+
+                                        <v-time-picker
+                                          v-if="modal2"
+                                          v-model="time"
+                                          full-width
+                                          ampm-in-title
+                                          scrollable
+                                          :min="minClock"
+                                          @change="refreshClock"
+                                        >
+                                          <v-spacer></v-spacer>
+                                          <v-btn
+                                            text
+                                            color="primary"
+                                            @click="modal2 = false"
+                                          >
+                                            Cancel
+                                          </v-btn>
+                                          <v-btn
+                                            text
+                                            color="primary"
+                                            @click="$refs.dialoge[0].save(time)"
+                                          >
+                                            OK
+                                          </v-btn>
+                                        </v-time-picker>
+                                      </v-dialog>
+                                    </v-col>
+                                    <v-col cols="3" sm="3">
+                                      <v-checkbox
+                                        v-model="dineCheckbox"
+                                        label="Dine In"
+                                        color="primary"
+                                        @click="checkBoxClick"
+                                      >
+                                      </v-checkbox>
+                                    </v-col>
+                                    <v-col cols="3" sm="3">
+                                      <v-checkbox
+                                        v-model="checkbox"
+                                        label="Take Away"
+                                        color="primary"
+                                        @click="
+                                          checkBoxClick();
+                                          oK();
+                                          refreshClock();
+                                          setDefaultTime();
+                                        "
+                                      >
+                                      </v-checkbox>
+                                    </v-col>
+                                  </v-row>
+                                  <v-text-field
+                                    v-model="message"
+                                    placeholder="Type message ..."
+                                    filled
+                                    :readable="enableMessage"
+                                    @mouseup="changeEnableMessage"
+                                    dense
+                                    maxlength="200"
+                                    counter
+                                  ></v-text-field>
+                                </v-container>
+                                <div>
+                                  <v-alert
+                                    border="right"
+                                    colored-border
+                                    type="error"
+                                    elevation="3"
+                                    class="mt-3"
+                                    v-if="errorMessages != ''"
+                                  >
+                                    {{ errorMessages }}
+                                  </v-alert>
+                                </div>
+                                <v-container v-if="displayOrder == ''">
+                                  <h4>Please select items for order!</h4>
+                                </v-container>
+                                <!-- <v-container
+                      v-if="displayOrder != '' && $store.state.walletBalance < total"
+                    >
+                      <h4>You do not have enough money in wallet, please recharge!</h4>
+                    </v-container> -->
+                              </div>
+                            </v-card-text>
+                            <v-divider></v-divider>
+                            <v-card-actions class="cart-style">
+                              <v-btn color="white" text @click="dialog = false">
+                                Cancel
+                              </v-btn>
+                              <v-spacer></v-spacer>
+                              <v-btn
+                                color="white"
+                                text
+                                dark
+                                @click="checkout"
+                                v-if="foodOrder != ''"
+                              >
+                                Checkout
+                              </v-btn>
+                            </v-card-actions>
+                          </v-card>
+                        </v-dialog>
+                      </v-col>
+                    </v-row>
+                    <v-container class="text-center white--text" v-else
+                      ><h4>Shop closed</h4></v-container
+                    >
+                  </div>
+                  <div class="text-center white--text mt-2" v-else>
+                    <strong>Please Log-In to order</strong>
+                  </div>
+                </div>
+              </v-fab-transition>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </template>
+    <!-- <br /> -->
+    <!-- <v-card class="mx-auto overflow-hidden" max-width="550" height="830">
       <v-row justify="space-around">
         <v-col cols="12" sm="10" md="8">
           <v-sheet elevation="5" class="py-2 px-1">
@@ -135,9 +654,9 @@
             </v-chip-group>
           </v-sheet>
         </v-col>
-      </v-row>
+      </v-row> -->
 
-      <v-sheet
+    <!-- <v-sheet
         id="scroll-threshold-example"
         class="overflow-y-auto pb-16"
         max-height="830"
@@ -314,9 +833,9 @@
           </v-container>
         </v-responsive>
       </v-sheet>
-    </v-card>
+    </v-card> -->
 
-    <v-card
+    <!-- <v-card
       color="deep-purple lighten-1"
       shaped
       class="mx-auto overflow-hidden mt-2"
@@ -497,11 +1016,6 @@
                     <v-container v-if="displayOrder == ''">
                       <h4>Please select items for order!</h4>
                     </v-container>
-                    <!-- <v-container
-                      v-if="displayOrder != '' && $store.state.walletBalance < total"
-                    >
-                      <h4>You do not have enough money in wallet, please recharge!</h4>
-                    </v-container> -->
                   </div>
                 </v-card-text>
                 <v-divider></v-divider>
@@ -523,7 +1037,7 @@
       <div class="text-center white--text mt-2" v-else>
         <strong>Please Log-In to order</strong>
       </div>
-    </v-card>
+    </v-card> -->
   </v-main>
 </template>
 
@@ -537,6 +1051,8 @@ export default {
     return {
       dialog: false,
       dialog1: false,
+      dialog2: false,
+      hidden: false,
       show: false,
       radios: null,
       rating: 4.0,
@@ -562,6 +1078,8 @@ export default {
       status: "",
       packagingCharges: 0,
       restaurant_name: localStorage.getItem("restaurant"),
+      chargesGST: 0,
+      finalTotal: 0,
 
       shopProfileImage: [],
       foodName: [],
@@ -586,11 +1104,11 @@ export default {
         .post("/api/v1/phonepe_payment/", {
           transactionId: Date.now(),
           customerName: this.$store.state.user.username,
-          amount: Number(this.total).toFixed(2) * 100,
+          amount: Number(this.finalTotal) * 100,
         })
         .then((response) => {
-          console.log(response.data);
-          console.log(response.data.response.success);
+          // console.log(response.data);
+          // console.log(response.data.response.success);
 
           localStorage.setItem(
             "transactionId",
@@ -747,6 +1265,9 @@ export default {
       for (let i = 0; i < this.displayOrder.length; i++) {
         this.total += this.displayOrder[i].final_price * this.displayOrder[i].value;
       }
+
+      this.finalTotal = this.total + (this.total.toFixed(2) * 5) / 100;
+      // console.log(this.finalTotal);
 
       if (this.checkbox == true) {
         this.total += this.packagingCharges;
@@ -1010,6 +1531,7 @@ export default {
         this.filterCategoryList.push(category);
       }
       // console.log(this.filterCategoryList);
+      // remove
     },
   },
 

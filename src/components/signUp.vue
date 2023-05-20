@@ -97,7 +97,6 @@ export default {
     signUpNameRules: [
       (v) => !!v || "Username is required",
       (v) => v.length <= 9 || "Username must be less than 10 characters",
-      (v) => /^[a-zA-Z0-9]+$/.test(v) || "Username must be alphanumeric",
       (v) => v.length >= 3 || "Username must be atleast 3 characters",
     ],
 
@@ -105,8 +104,6 @@ export default {
       (v) => !!v || "Password is required",
       (v) => v.length <= 30 || "Password must be less than 30 characters",
       (v) => v.length >= 8 || "Password must be atleast 8 characters",
-      (v) =>
-        /[!@#$%^&*(),.?":{}|<>]/.test(v) || "Password must contain a special character",
     ],
 
     // done in computed section
@@ -167,7 +164,6 @@ export default {
         (v) => !!v || "Confirm Password is required",
         (v) => v.length <= 30 || "Must be less than 30 characters",
         (v) => v.length >= 8 || "Must be atleast 8 characters",
-        (v) => /[!@#$%^&*(),.?":{}|<>]/.test(v) || "Must contain a special character",
         (v) => v === this.password || "Password and Confirm Password must be same",
       ];
     },
