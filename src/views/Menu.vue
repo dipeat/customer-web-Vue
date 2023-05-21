@@ -625,8 +625,10 @@
                       ><h4>Shop closed</h4></v-container
                     >
                   </div>
-                  <div class="text-center white--text mt-2" v-else>
-                    <strong>Please Log-In to order</strong>
+                  <div class="text-center red--text" v-else>
+                    <v-chip color="white" class="red--text">
+                      <strong>Please Log-In to order</strong>
+                    </v-chip>
                   </div>
                 </div>
               </v-fab-transition>
@@ -1548,6 +1550,15 @@ export default {
       setTimeout(() => {
         this.getPackagingCharges();
       }, 1000);
+    }
+
+    // console.log(this.$route.path.slice(6, 20));
+    if (
+      localStorage.getItem("restaurant") == "" ||
+      localStorage.getItem("restaurant") == null
+    ) {
+      localStorage.setItem("restaurant", this.$route.path.slice(6, 20));
+      window.location.reload();
     }
   },
 };
