@@ -153,6 +153,7 @@
 <script>
 // import axios from "axios";
 import api from "@/main";
+import { set } from "vue";
 
 export default {
   name: "Order",
@@ -210,8 +211,10 @@ export default {
   },
 
   mounted() {
-    this.foodOrders();
-    this.getShopProfileImage();
+    setTimeout(() => {
+      this.foodOrders();
+      this.getShopProfileImage();
+    }, 1000);
   },
 };
 </script>

@@ -141,52 +141,6 @@
       </div>
     </div>
 
-    <v-carousel
-      cycle
-      height="200"
-      hide-delimiter-background
-      show-arrows-on-hover
-      delimiter-icon="mdi-chevron-right"
-      v-if="!$store.state.isAuthenticated"
-    >
-      <v-carousel-item v-for="(slide, i) in slides" :key="i">
-        <v-sheet :color="colors[i]" height="100%">
-          <v-row class="fill-height" align="center" justify="center">
-            <div class="text-h3 pa-3 text-center">{{ slide }}</div>
-          </v-row>
-        </v-sheet>
-      </v-carousel-item>
-    </v-carousel>
-
-    <div class="top-orders" v-if="!$store.state.isAuthenticated">
-      <h1><u>Smart platform, Smart service.</u></h1>
-      <div class="restaurant-menu">
-        <div class="menu-item">
-          <img src="https://dipeat-s3-bucket-1.s3.amazonaws.com/pizza.jpg" alt="" />
-
-          <div class="title grey--text">Pizza</div>
-        </div>
-
-        <div class="menu-item">
-          <img
-            src="https://dipeat-s3-bucket-1.s3.amazonaws.com/fresh-cold-orange-juice.jpg"
-            alt=""
-          />
-
-          <div class="title grey--text">Healthy Drinks</div>
-        </div>
-
-        <div class="menu-item">
-          <img
-            src="https://dipeat-s3-bucket-1.s3.amazonaws.com/dosa-compressed.jpg"
-            alt=""
-          />
-
-          <div class="title grey--text">Masala Dosa</div>
-        </div>
-      </div>
-    </div>
-
     <v-container v-if="foodOrdered != ''" class="mt-4">
       <v-card class="mx-auto">
         <v-row>
@@ -241,6 +195,51 @@
         </v-row>
       </v-card>
     </v-container>
+
+    <v-carousel
+      cycle
+      height="200"
+      hide-delimiter-background
+      show-arrows-on-hover
+      delimiter-icon="mdi-chevron-right"
+    >
+      <v-carousel-item v-for="(slide, i) in slides" :key="i">
+        <v-sheet :color="colors[i]" height="100%">
+          <v-row class="fill-height" align="center" justify="center">
+            <div class="text-h3 pa-3 text-center">{{ slide }}</div>
+          </v-row>
+        </v-sheet>
+      </v-carousel-item>
+    </v-carousel>
+
+    <div class="top-orders" v-if="!$store.state.isAuthenticated">
+      <h1><u>Smart platform, Smart service.</u></h1>
+      <div class="restaurant-menu">
+        <div class="menu-item">
+          <img src="https://dipeat-s3-bucket-1.s3.amazonaws.com/pizza.jpg" alt="" />
+
+          <div class="title grey--text">Pizza</div>
+        </div>
+
+        <div class="menu-item">
+          <img
+            src="https://dipeat-s3-bucket-1.s3.amazonaws.com/fresh-cold-orange-juice.jpg"
+            alt=""
+          />
+
+          <div class="title grey--text">Healthy Drinks</div>
+        </div>
+
+        <div class="menu-item">
+          <img
+            src="https://dipeat-s3-bucket-1.s3.amazonaws.com/dosa-compressed.jpg"
+            alt=""
+          />
+
+          <div class="title grey--text">Masala Dosa</div>
+        </div>
+      </div>
+    </div>
 
     <v-container id="about-us" v-if="!$store.state.isAuthenticated">
       <v-card
@@ -471,30 +470,74 @@ export default {
       // console.log(value);
     },
 
-    phonePe() {
-      console.log(this.amount);
+    phonePeValidation() {
+      // console.log("phonePeValidation");
+      if (localStorage.getItem("transactionId") != null) {
+        let count = 0;
+        const intervalId = setInterval(() => {
+          count += 3;
+          api
+            .post("/api/v1/phonepe_validation/", {
+              transactionId: localStorage.getItem("transactionId"),
+            })
+            .then((response) => {
+              // console.log(response.data);
+              // console.log(response.data.response.success);
 
-      api
-        .post("/api/v1/phonepe_payment/", {
-          transactionId: Date.now(),
-          customerName: this.$store.state.user.username,
-          amount: this.amount * 100,
-        })
-        .then((response) => {
-          console.log(response.data);
-          console.log(response.data.response.data.merchantTransactionId.slice(11, 30));
+              if (count >= 120) {
+                clearInterval(intervalId);
+              } else if (response.data.response.success == true) {
+                clearInterval(intervalId);
+                this.checkout();
 
-          localStorage.setItem(
-            "transactionId",
-            response.data.response.data.merchantTransactionId.slice(11, 30)
-          );
+                localStorage.removeItem("transactionId");
 
-          // redirect to phonepe payment page
-          // if (response.data.response.success == true) {
-          //   window.location.href =
-          //     response.data.response.data.instrumentResponse.redirectInfo.url;
-          // }
-        });
+                // localStorage.removeItem("restaurant");
+                localStorage.removeItem("orderUser");
+                localStorage.removeItem("takeaway");
+                localStorage.removeItem("order_date");
+                localStorage.removeItem("prepare_time");
+                localStorage.removeItem("food_name");
+                localStorage.removeItem("total");
+                localStorage.removeItem("message");
+                localStorage.removeItem("arrival_time");
+                localStorage.removeItem("slug");
+              } else if (response.data.response.success == false) {
+                clearInterval(intervalId);
+
+                localStorage.removeItem("transactionId");
+
+                // localStorage.removeItem("restaurant");
+                localStorage.removeItem("orderUser");
+                localStorage.removeItem("takeaway");
+                localStorage.removeItem("order_date");
+                localStorage.removeItem("prepare_time");
+                localStorage.removeItem("food_name");
+                localStorage.removeItem("total");
+                localStorage.removeItem("message");
+                localStorage.removeItem("arrival_time");
+                localStorage.removeItem("slug");
+              }
+            });
+        }, 3000);
+      }
+    },
+
+    checkout() {
+      // console.log("checkout");
+
+      api.post("/api/v1/foodorders/", {
+        restaurant: localStorage.getItem("restaurant"),
+        user: localStorage.getItem("orderUser"),
+        takeaway: localStorage.getItem("takeaway"),
+        order_date: localStorage.getItem("order_date"),
+        prepare_time: localStorage.getItem("prepare_time"),
+        food_name: localStorage.getItem("food_name"),
+        total: localStorage.getItem("total"),
+        message: localStorage.getItem("message"),
+        arrival_time: localStorage.getItem("arrival_time"),
+        slug: localStorage.getItem("slug"),
+      });
     },
 
     // get menu data from backend
@@ -610,6 +653,7 @@ export default {
     this.getLikedShop();
     this.foodOrders();
     this.getShopProfileImage();
+    this.phonePeValidation();
   },
 };
 </script>
