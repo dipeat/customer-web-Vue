@@ -482,15 +482,15 @@ export default {
             })
             .then((response) => {
               // console.log(response.data);
-              // console.log(response.data.response.success);
+              // console.log(response.data.response.data.state);
 
               if (count >= 120) {
                 clearInterval(intervalId);
-              } else if (response.data.response.success == true) {
+              } else if (response.data.response.data.state == "COMPLETED") {
                 clearInterval(intervalId);
                 this.checkout();
 
-                localStorage.removeItem("transactionId");
+                // localStorage.removeItem("transactionId");
 
                 // localStorage.removeItem("restaurant");
                 localStorage.removeItem("orderUser");
