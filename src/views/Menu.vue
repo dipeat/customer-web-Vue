@@ -108,7 +108,7 @@
                               </span>
                               &nbsp; <span> {{ item.final_price }}</span>
                             </v-col>
-                            <v-col align="center" cols="1" sm="4" md="4">
+                            <v-col align="center" cols="5" sm="4" md="4">
                               <div v-if="item.availablity == true">
                                 <v-chip outlined color="pink darken-2">{{
                                   item.value
