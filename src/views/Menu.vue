@@ -14,9 +14,16 @@
               </v-list-item-avatar>
               <v-list-item three-line>
                 <v-list-item-content>
-                  <v-list-item-title class="text-h6 mt-3">{{
-                    image.owner_name
-                  }}</v-list-item-title>
+                  <v-list-item-title class="text-h6 mt-3"
+                    >{{ image.owner_name }}
+                    <v-icon
+                      :color="likeColor"
+                      small
+                      @click="likeShop($store.state.restaurant)"
+                      v-if="$store.state.restaurant && $store.state.isAuthenticated"
+                      >mdi-heart</v-icon
+                    >
+                  </v-list-item-title>
                   <v-list-item-subtitle class="mt-2"
                     ><v-icon>mdi-phone</v-icon>: {{ image.phone }}</v-list-item-subtitle
                   >
@@ -31,6 +38,7 @@
                     auto
                     rounded="b-xl"
                     min-width="auto"
+                    :close-on-content-click="false"
                   >
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn
@@ -46,21 +54,8 @@
                       >
                         <v-icon> mdi-format-list-bulleted-square</v-icon>
                       </v-btn>
-                      <v-btn
-                        color="blue-grey lighten-3"
-                        fab
-                        dark
-                        small
-                        absolute
-                        bottom
-                        outlined
-                        right
-                        @click="likeShop($store.state.restaurant)"
-                        v-if="$store.state.restaurant && $store.state.isAuthenticated"
-                      >
-                        <v-icon :color="likeColor">mdi-heart</v-icon>
-                      </v-btn>
                     </template>
+
                     <v-list>
                       <v-list-item
                         v-for="(category, index) in menu"
@@ -82,192 +77,190 @@
                 </v-fab-transition>
               </template>
             </v-toolbar>
-            <v-card-text style="height: 610px" class="grey lighten-5">
-              <div>
-                <v-sheet
-                  id="scroll-threshold-example"
-                  class="overflow-y-auto pb-16"
-                  max-height="610"
-                  v-if="filterCategoryList != ''"
-                >
-                  <v-responsive height="auto">
-                    <div v-for="(cat, index) in filterCategoryList" :key="index + 0.0001">
-                      <v-chip outlined color="red darken-2 mt-2"
-                        ><strong>{{ cat }}</strong></v-chip
-                      >
 
-                      <div v-for="(item, index) in menuList" :key="index + 0.001">
-                        <div v-if="cat == item.category">
-                          <v-container v-if="item.restaurant == restaurant_name">
-                            <v-row>
-                              <v-col cols="4" sm="5" md="5">
-                                <span> {{ item.name }}</span>
-                                <v-subheader> {{ item.prepare_time }} mins</v-subheader>
-                              </v-col>
-                              <v-col cols="3" sm="3" md="3">
-                                <span
-                                  class="text-decoration-line-through"
-                                  v-if="item.original_price > item.final_price"
-                                >
-                                  {{ item.original_price }}
-                                </span>
-                                &nbsp; <span> {{ item.final_price }}</span>
-                              </v-col>
-                              <v-col align="center" cols="5" sm="4" md="4">
-                                <div v-if="item.availablity == true">
-                                  <v-chip outlined color="pink darken-2">{{
-                                    item.value
-                                  }}</v-chip>
-                                  <v-chip small dark link color="purple darken-4">
-                                    <v-chip
-                                      small
-                                      dark
-                                      link
-                                      color="purple darken-4"
-                                      v-if="item.value > 0"
-                                      @click="minusOne(item)"
-                                    >
-                                      <v-icon small dark>mdi-minus</v-icon>
-                                    </v-chip>
-                                    <v-chip
-                                      small
-                                      dark
-                                      link
-                                      color="purple darken-4"
-                                      @click="plusOne(item)"
-                                    >
-                                      <v-icon small dark>mdi-plus</v-icon>
-                                    </v-chip>
+            <v-card-text style="height: 640px; position: relative" class="mt-2">
+              <v-sheet
+                id="scroll-threshold-example"
+                class="overflow-y-auto pb-16"
+                max-height="620"
+                v-if="filterCategoryList != ''"
+              >
+                <v-responsive height="auto">
+                  <div v-for="(cat, index) in filterCategoryList" :key="index + 0.0001">
+                    <v-chip outlined color="red darken-2 mt-2"
+                      ><strong>{{ cat }}</strong></v-chip
+                    >
+
+                    <div v-for="(item, index) in menuList" :key="index + 0.001">
+                      <div v-if="cat == item.category">
+                        <v-container v-if="item.restaurant == restaurant_name">
+                          <v-row>
+                            <v-col cols="4" sm="5" md="5">
+                              <span> {{ item.name }}</span>
+                              <v-subheader> {{ item.prepare_time }} mins</v-subheader>
+                            </v-col>
+                            <v-col cols="3" sm="3" md="3">
+                              <span
+                                class="text-decoration-line-through"
+                                v-if="item.original_price > item.final_price"
+                              >
+                                {{ item.original_price }}
+                              </span>
+                              &nbsp; <span> {{ item.final_price }}</span>
+                            </v-col>
+                            <v-col align="center" cols="1" sm="4" md="4">
+                              <div v-if="item.availablity == true">
+                                <v-chip outlined color="pink darken-2">{{
+                                  item.value
+                                }}</v-chip>
+                                <v-chip small dark link color="purple darken-4">
+                                  <v-chip
+                                    small
+                                    dark
+                                    link
+                                    color="purple darken-4"
+                                    v-if="item.value > 0"
+                                    @click="minusOne(item)"
+                                  >
+                                    <v-icon small dark>mdi-minus</v-icon>
                                   </v-chip>
-                                </div>
-                                <div v-else>
-                                  <v-chip outlined color="red">Not Available</v-chip>
-                                </div>
-                              </v-col>
-                            </v-row>
-                            <v-row
-                              justify="center"
-                              v-if="
-                                item.description != '' &&
-                                item.description != null &&
-                                item.description != 'null'
-                              "
-                            >
-                              <v-expansion-panels inset>
-                                <v-expansion-panel>
-                                  <v-expansion-panel-header color="grey lighten-4"
-                                    >{{ item.description.slice(0, 29) }}
-                                    .....
-                                    <v-spacer></v-spacer>
-                                    Details
-                                  </v-expansion-panel-header>
-                                  <v-expansion-panel-content>
-                                    {{ item.description }}
-                                  </v-expansion-panel-content>
-                                </v-expansion-panel>
-                              </v-expansion-panels>
-                            </v-row>
-                          </v-container>
-                          <v-divider color="#E0E0E0" class="mt-2"></v-divider>
-                        </div>
+                                  <v-chip
+                                    small
+                                    dark
+                                    link
+                                    color="purple darken-4"
+                                    @click="plusOne(item)"
+                                  >
+                                    <v-icon small dark>mdi-plus</v-icon>
+                                  </v-chip>
+                                </v-chip>
+                              </div>
+                              <div v-else>
+                                <v-chip outlined color="red">Not Available</v-chip>
+                              </div>
+                            </v-col>
+                          </v-row>
+                          <v-row
+                            justify="center"
+                            v-if="
+                              item.description != '' &&
+                              item.description != null &&
+                              item.description != 'null'
+                            "
+                          >
+                            <v-expansion-panels inset>
+                              <v-expansion-panel>
+                                <v-expansion-panel-header color="grey lighten-4"
+                                  >{{ item.description.slice(0, 29) }}
+                                  .....
+                                  <v-spacer></v-spacer>
+                                  Details
+                                </v-expansion-panel-header>
+                                <v-expansion-panel-content>
+                                  {{ item.description }}
+                                </v-expansion-panel-content>
+                              </v-expansion-panel>
+                            </v-expansion-panels>
+                          </v-row>
+                        </v-container>
+                        <v-divider color="#E0E0E0" class="mt-2"></v-divider>
                       </div>
                     </div>
-                  </v-responsive>
-                </v-sheet>
+                  </div>
+                </v-responsive>
+              </v-sheet>
 
-                <v-sheet
-                  id="scroll-threshold-example"
-                  class="overflow-y-auto pb-16"
-                  max-height="610"
-                  v-else
-                >
-                  <v-responsive height="auto">
-                    <div v-for="(cat, index) in menu" :key="index + 0.0001">
-                      <v-chip outlined color="red darken-2 mt-2"
-                        ><strong>{{ cat }}</strong></v-chip
-                      >
+              <v-sheet
+                id="scroll-threshold-example"
+                class="overflow-y-auto pb-16"
+                max-height="610"
+                v-else
+              >
+                <v-responsive height="auto">
+                  <div v-for="(cat, index) in menu" :key="index + 0.0001">
+                    <v-chip outlined color="red darken-2 mt-2"
+                      ><strong>{{ cat }}</strong></v-chip
+                    >
 
-                      <div v-for="(item, index) in menuList" :key="index + 0.001">
-                        <div v-if="cat == item.category">
-                          <v-container v-if="item.restaurant == restaurant_name">
-                            <v-row>
-                              <v-col cols="4" sm="5" md="5">
-                                <span> {{ item.name }}</span>
-                                <v-subheader> {{ item.prepare_time }} mins</v-subheader>
-                              </v-col>
-                              <v-col cols="3" sm="3" md="3">
-                                <span
-                                  class="text-decoration-line-through"
-                                  v-if="item.original_price > item.final_price"
-                                >
-                                  {{ item.original_price }}
-                                </span>
-                                &nbsp; <span> {{ item.final_price }}</span>
-                              </v-col>
-                              <v-col align="center" cols="5" sm="4" md="4">
-                                <div v-if="item.availablity == true">
-                                  <v-chip outlined color="pink darken-2">{{
-                                    item.value
-                                  }}</v-chip>
-                                  <v-chip small dark link color="purple darken-4">
-                                    <v-chip
-                                      small
-                                      dark
-                                      link
-                                      color="purple darken-4"
-                                      v-if="item.value > 0"
-                                      @click="minusOne(item)"
-                                    >
-                                      <v-icon small dark>mdi-minus</v-icon>
-                                    </v-chip>
-                                    <v-chip
-                                      small
-                                      dark
-                                      link
-                                      color="purple darken-4"
-                                      @click="plusOne(item)"
-                                    >
-                                      <v-icon small dark>mdi-plus</v-icon>
-                                    </v-chip>
+                    <div v-for="(item, index) in menuList" :key="index + 0.001">
+                      <div v-if="cat == item.category">
+                        <v-container v-if="item.restaurant == restaurant_name">
+                          <v-row>
+                            <v-col cols="4" sm="5" md="5">
+                              <span> {{ item.name }}</span>
+                              <v-subheader> {{ item.prepare_time }} min</v-subheader>
+                            </v-col>
+                            <v-col cols="3" sm="3" md="3">
+                              <span
+                                class="text-decoration-line-through"
+                                v-if="item.original_price > item.final_price"
+                              >
+                                {{ item.original_price }}
+                              </span>
+                              &nbsp; <span> {{ item.final_price }}</span>
+                            </v-col>
+                            <v-col align="center" cols="5" sm="4" md="4">
+                              <div v-if="item.availablity == true">
+                                <v-chip outlined color="pink darken-2">{{
+                                  item.value
+                                }}</v-chip>
+                                <v-chip small dark link color="purple darken-4">
+                                  <v-chip
+                                    small
+                                    dark
+                                    link
+                                    color="purple darken-4"
+                                    v-if="item.value > 0"
+                                    @click="minusOne(item)"
+                                  >
+                                    <v-icon small dark>mdi-minus</v-icon>
                                   </v-chip>
-                                </div>
-                                <div v-else>
-                                  <v-chip outlined color="red">Not Available</v-chip>
-                                </div>
-                              </v-col>
-                            </v-row>
-                            <v-row
-                              justify="center"
-                              v-if="
-                                item.description != '' &&
-                                item.description != null &&
-                                item.description != 'null'
-                              "
-                            >
-                              <v-expansion-panels inset>
-                                <v-expansion-panel>
-                                  <v-expansion-panel-header color="grey lighten-4"
-                                    >{{ item.description.slice(0, 29) }}
-                                    .....
-                                    <v-spacer></v-spacer>
-                                    Details
-                                  </v-expansion-panel-header>
-                                  <v-expansion-panel-content>
-                                    {{ item.description }}
-                                  </v-expansion-panel-content>
-                                </v-expansion-panel>
-                              </v-expansion-panels>
-                            </v-row>
-                          </v-container>
-                          <v-divider color="#E0E0E0" class="mt-2"></v-divider>
-                        </div>
+                                  <v-chip
+                                    small
+                                    dark
+                                    link
+                                    color="purple darken-4"
+                                    @click="plusOne(item)"
+                                  >
+                                    <v-icon small dark>mdi-plus</v-icon>
+                                  </v-chip>
+                                </v-chip>
+                              </div>
+                              <div v-else>
+                                <v-chip outlined color="red">Not Available</v-chip>
+                              </div>
+                            </v-col>
+                          </v-row>
+                          <v-row
+                            justify="center"
+                            v-if="
+                              item.description != '' &&
+                              item.description != null &&
+                              item.description != 'null'
+                            "
+                          >
+                            <v-expansion-panels inset>
+                              <v-expansion-panel>
+                                <v-expansion-panel-header color="grey lighten-4"
+                                  >{{ item.description.slice(0, 22) }}
+                                  ...
+                                  <v-spacer></v-spacer>
+                                  Details
+                                </v-expansion-panel-header>
+                                <v-expansion-panel-content>
+                                  {{ item.description }}
+                                </v-expansion-panel-content>
+                              </v-expansion-panel>
+                            </v-expansion-panels>
+                          </v-row>
+                        </v-container>
+                        <v-divider color="#E0E0E0" class="mt-2"></v-divider>
                       </div>
                     </div>
-                  </v-responsive>
-                </v-sheet>
-              </div>
-            </v-card-text>
-            <v-card-text style="height: 30px; position: relative">
+                  </div>
+                </v-responsive>
+              </v-sheet>
+
               <v-fab-transition>
                 <div v-for="(stat, index) in status" :key="index + 0.007">
                   <div
@@ -814,7 +807,11 @@ export default {
       for (let i = 0; i < this.displayOrder.length; i++) {
         this.premare_time +=
           this.displayOrder[i].prepare_time * this.displayOrder[i].value;
+        // console.log(this.displayOrder[i]);
+        // console.log(this.displayOrder[i].value);
       }
+
+      // calculate average prepare time per item per quantity
     },
 
     checkBoxClick() {
@@ -864,121 +861,6 @@ export default {
       this.foodOrder.splice(this.foodOrder.indexOf(item), 1);
       this.displayOrder.splice(this.displayOrder.indexOf(item), 1);
       // console.log(this.foodOrder);
-    },
-
-    async checkout() {
-      // if (this.displayOrder != "" && this.time !== null) {
-      //   let time = this.time;
-      //   let hours = time.substring(0, 2);
-      //   let minutes = time.substring(3, 5);
-      //   let ampm = hours >= 12 ? "PM" : "AM";
-      //   hours = hours % 12;
-      //   hours = hours ? hours : 12;
-      //   minutes = minutes < 10 ? minutes : minutes;
-      //   let strTime = hours + ":" + minutes + " " + ampm;
-
-      // console.log( {
-      //     restaurant: this.$store.state.restaurant,
-      //     user: this.$store.state.user.username,
-      //     takeaway: this.checkbox,
-      //     prepare_time: this.premare_time,
-      //     food_name: this.foodName,
-      //     total: this.total,
-      //     message: this.message,
-      //     arrival_time: strTime,
-      //   });new Date().toString().slice(0, 16),
-
-      // let timeParts = strTime.split(":");
-      // let newHours = timeParts[0];
-      // let newMinutes = timeParts[1];
-
-      // if (newHours.length === 1) {
-      //   newHours = "0" + hours;
-      // }
-
-      // time = `${newHours}:${newMinutes}`;
-      // console.log(time);
-      // console.log(this.minClock);
-      // console.log(this.time);
-
-      // let times = this.minClock;
-      // let hourss = times.substring(0, 2);
-      // let minutess = times.substring(3, 5);
-      // let ampms = hourss >= 12 ? "PM" : "AM";
-      // hourss = hourss % 12;
-      // hourss = hourss ? hourss : 12;
-      // minutess = minutess < 10 ? minutess : minutess;
-      // let strTimesss = hourss + ":" + minutess + " " + ampms;
-      // console.log(strTimesss.slice(0, 5));
-
-      // if (this.time >= this.minClock) {
-      //   for (let i = 0; i < this.displayOrder.length; i++) {
-      //     this.foodName +=
-      //       this.displayOrder[i].name +
-      //       "@" +
-      //       this.displayOrder[i].value +
-      //       "$$" +
-      //       this.displayOrder[i].final_price +
-      //       "||";
-      //   }
-
-      await api.post("/api/v1/foodorders/", {
-        restaurant: localStorage.getItem("restaurant"),
-        user: localStorage.getItem("orderUser"),
-        takeaway: localStorage.getItem("takeaway"),
-        order_date: localStorage.getItem("order_date"),
-        prepare_time: localStorage.getItem("prepare_time"),
-        food_name: localStorage.getItem("food_name"),
-        total: localStorage.getItem("total"),
-        message: localStorage.getItem("message"),
-        arrival_time: localStorage.getItem("arrival_time"),
-        slug: localStorage.getItem("slug"), // to remove conflict
-      });
-
-      // .then((response) => {
-      //   console.log(response);
-      // })
-      // .catch((error) => {
-      //   console.log(error);
-      // });
-
-      // const slug = this.$store.state.user.username;
-      // const data = {
-      //   total_amount:
-      //     Number(this.$store.state.walletBalance) - Number(this.total),
-      //   user: this.$store.state.user.id,
-      //   slug: this.$store.state.user.username,
-      // };
-      // await api
-      //   .patch(`/api/v1/customerwallet/${slug}/`, data)
-      //   .then((response) => {
-      //     // console.log(response.data);
-      //     this.$store.dispatch("getWallet");
-      //   });
-      // this.dialog = false;
-      // this.$router.push("/order");
-      // }
-      // else {
-      //   // console.log("please select time after " + this.minClock);
-      //   this.errorMessages = "please select time after " + this.minClock;
-      //   setTimeout(() => {
-      //     this.errorMessages = "";
-      //   }, 5000);
-      // }
-      // }
-      // else if (this.$store.state.walletBalance < this.total) {
-      //   this.errorMessages = "please add money to your wallet";
-      //   setTimeout(() => {
-      //     this.errorMessages = "";
-      //   }, 5000);
-      // }
-      // else if (this.time === null) {
-      //   // console.log("please select time");
-      //   this.errorMessages = "please select time";
-      //   setTimeout(() => {
-      //     this.errorMessages = "";
-      //   }, 5000);
-      // }
     },
 
     likeShop(item) {

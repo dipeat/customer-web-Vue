@@ -211,10 +211,9 @@ export default {
   },
 
   mounted() {
-    setTimeout(() => {
-      this.foodOrders();
-      this.getShopProfileImage();
-    }, 1000);
+    this.foodOrders();
+    this.getShopProfileImage();
+    this.$eventBus.$emit("phonePeValidation");
   },
 };
 </script>

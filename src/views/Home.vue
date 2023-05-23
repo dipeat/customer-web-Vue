@@ -373,7 +373,7 @@
                           :src="image.shop_image"
                           class="white--text align-end"
                           gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                          max-height="200px"
+                          max-height="100px"
                           @click="setRestaurant(image.slug)"
                         >
                           <v-chip class="mb-1" color="white align-bottom" small>
@@ -471,6 +471,7 @@ export default {
     },
 
     phonePeValidation() {
+      this.foodOrders();
       // console.log("phonePeValidation");
       if (localStorage.getItem("transactionId") != null) {
         let count = 0;
@@ -490,7 +491,7 @@ export default {
                 clearInterval(intervalId);
                 this.checkout();
 
-                // localStorage.removeItem("transactionId");
+                localStorage.removeItem("transactionId");
 
                 // localStorage.removeItem("restaurant");
                 localStorage.removeItem("orderUser");
@@ -644,6 +645,10 @@ export default {
       this.getLikedShop();
       this.foodOrders();
       this.getShopProfileImage();
+    });
+
+    this.$eventBus.$on("phonePeValidation", () => {
+      this.phonePeValidation();
     });
   },
 
