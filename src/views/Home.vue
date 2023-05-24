@@ -594,6 +594,7 @@ export default {
   },
 
   mounted() {
+    this.phonePeValidation();
     this.$eventBus.$on("callMethodLoginHomeRefresh", () => {
       this.getMenu();
       this.shopStatus();
