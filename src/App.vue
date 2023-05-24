@@ -139,7 +139,7 @@
                     class="mx-7 mt-2"
                     flat
                     hide-details
-                    label="Search"
+                    label="Search Restaurants"
                     prepend-inner-icon="mdi-magnify"
                     solo-inverted
                     @keyup.enter="searchBar()"

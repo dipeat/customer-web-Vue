@@ -580,15 +580,8 @@ export default {
           // console.log("error is:" + err);
           if (this.$store.state.isAuthenticated && err != "") {
             localStorage.removeItem("token");
+            this.$router.push("/");
           }
-          // else if (
-          //   this.$store.state.isAuthenticated &&
-          //   err == "Request failed with status code 401"
-          // ) {
-          //   localStorage.removeItem("token");
-          // } else if (this.$store.state.isAuthenticated && err === 401) {
-          //   localStorage.removeItem("token");
-          // }
         });
     },
   },
