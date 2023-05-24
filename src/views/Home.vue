@@ -471,75 +471,30 @@ export default {
     },
 
     phonePeValidation() {
-      this.foodOrders();
-      // console.log("phonePeValidation");
-      if (localStorage.getItem("transactionId") != null) {
-        let count = 0;
-        const intervalId = setInterval(() => {
-          count += 3;
-          api
-            .post("/api/v1/phonepe_validation/", {
-              transactionId: localStorage.getItem("transactionId"),
-            })
-            .then((response) => {
-              // console.log(response.data);
-              // console.log(response.data.response.data.state);
-
-              if (count >= 120) {
-                clearInterval(intervalId);
-              } else if (response.data.response.data.state == "COMPLETED") {
-                clearInterval(intervalId);
-                this.checkout();
-
-                localStorage.removeItem("transactionId");
-
-                // localStorage.removeItem("restaurant");
-                localStorage.removeItem("orderUser");
-                localStorage.removeItem("takeaway");
-                localStorage.removeItem("order_date");
-                localStorage.removeItem("prepare_time");
-                localStorage.removeItem("food_name");
-                localStorage.removeItem("total");
-                localStorage.removeItem("message");
-                localStorage.removeItem("arrival_time");
-                localStorage.removeItem("slug");
-              } else if (response.data.response.success == false) {
-                clearInterval(intervalId);
-
-                localStorage.removeItem("transactionId");
-
-                // localStorage.removeItem("restaurant");
-                localStorage.removeItem("orderUser");
-                localStorage.removeItem("takeaway");
-                localStorage.removeItem("order_date");
-                localStorage.removeItem("prepare_time");
-                localStorage.removeItem("food_name");
-                localStorage.removeItem("total");
-                localStorage.removeItem("message");
-                localStorage.removeItem("arrival_time");
-                localStorage.removeItem("slug");
-              }
-            });
-        }, 3000);
-      }
-    },
-
-    checkout() {
-      // console.log("checkout");
-
-      api.post("/api/v1/foodorders/", {
-        restaurant: localStorage.getItem("restaurant"),
-        user: localStorage.getItem("orderUser"),
-        takeaway: localStorage.getItem("takeaway"),
-        order_date: localStorage.getItem("order_date"),
-        prepare_time: localStorage.getItem("prepare_time"),
-        food_name: localStorage.getItem("food_name"),
-        total: localStorage.getItem("total"),
-        message: localStorage.getItem("message"),
-        arrival_time: localStorage.getItem("arrival_time"),
-        slug: localStorage.getItem("slug"),
+      api.post("/api/v1/phonepe_validation/", {}).then((response) => {
+        // console.log(response.data);
+        // console.log(response.data.response.data.state);
       });
+
+      this.foodOrders();
     },
+
+    // checkout() {
+    //   // console.log("checkout");
+
+    //   api.post("/api/v1/foodorders/", {
+    //     restaurant: localStorage.getItem("restaurant"),
+    //     user: localStorage.getItem("orderUser"),
+    //     takeaway: localStorage.getItem("takeaway"),
+    //     order_date: localStorage.getItem("order_date"),
+    //     prepare_time: localStorage.getItem("prepare_time"),
+    //     food_name: localStorage.getItem("food_name"),
+    //     total: localStorage.getItem("total"),
+    //     message: localStorage.getItem("message"),
+    //     arrival_time: localStorage.getItem("arrival_time"),
+    //     slug: localStorage.getItem("slug"),
+    //   });
+    // },
 
     // get menu data from backend
     getMenu() {

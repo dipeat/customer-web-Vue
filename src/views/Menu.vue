@@ -598,23 +598,21 @@ export default {
           minutes = minutes < 10 ? minutes : minutes;
           let strTime = hours + ":" + minutes + " " + ampm;
 
-          // localStorage.setItem("restaurant", this.$store.state.restaurant);
-          localStorage.setItem("orderUser", this.$store.state.user.username);
-          localStorage.setItem("takeaway", this.checkbox);
-          localStorage.setItem("order_date", new Date().toString().slice(0, 15));
-          localStorage.setItem("prepare_time", this.premare_time);
-          localStorage.setItem("food_name", this.foodName);
-          localStorage.setItem("total", Number(this.total).toFixed(2));
-          localStorage.setItem("message", this.message);
-          localStorage.setItem("arrival_time", strTime);
-          localStorage.setItem(
-            "slug",
-            this.$store.state.user.username + "a-_a" + Date.now()
-          ); // to remove conflict
-
           api
             .post("/api/v1/phonepe_payment/", {
               transactionId: Date.now(),
+
+              restaurantTemp: localStorage.getItem("restaurant"),
+              userTemp: this.$store.state.user.username,
+              takeawayTemp: this.checkbox,
+              order_dateTemp: new Date().toString().slice(0, 15),
+              prepare_timeTemp: this.premare_time,
+              food_nameTemp: this.foodName,
+              totalTemp: Number(this.total).toFixed(2),
+              messageTemp: this.message,
+              arrival_timeTemp: strTime,
+              slugTemp: this.$store.state.user.username + "a-_a" + Date.now(),
+
               customerName: this.$store.state.user.username,
               amount: Number(this.finalTotal) * 100,
             })
@@ -647,26 +645,6 @@ export default {
           this.errorMessages = "";
         }, 5000);
       }
-    },
-
-    phonePeValidation() {
-      let count = 0;
-      const intervalId = setInterval(() => {
-        // api
-        //   .post("/api/v1/phonepe_validation/", {
-        //     transactionId: localStorage.getItem("transactionId"),
-        //   })
-        //   .then((response) => {
-        //     console.log(response.data);
-        //     console.log(response.data.response);
-        //     localStorage.setItem("validationResponse", response.data);
-        //     this.checkout();
-        //   });
-        count += 3;
-        if (count >= 60) {
-          clearInterval(intervalId);
-        }
-      }, 3000);
     },
 
     pay() {

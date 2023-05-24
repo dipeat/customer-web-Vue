@@ -127,5 +127,9 @@ export default {
     this.foodOrders();
     this.getShopProfileImage();
   },
+
+  mounted() {
+    this.$eventBus.$emit("phonePeValidation");
+  },
 };
 </script>
