@@ -1058,6 +1058,9 @@ export default {
         this.searchFilterResultCategory = this.searchFilterResult.map(
           (item) => item.category
         );
+
+        // remove duplicate
+        this.searchFilterResultCategory = [...new Set(this.searchFilterResultCategory)];
         // console.log(this.searchFilterResultCategory);
       }
     },
