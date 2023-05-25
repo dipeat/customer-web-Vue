@@ -87,7 +87,6 @@
                 single-line
                 dense
                 maxlength="30"
-                clearable
                 placeholder="Search Menu"
                 @input="menuSearch()"
               ></v-text-field>
@@ -439,7 +438,9 @@
                                       GST (5%):&nbsp;
                                       <span
                                         ><v-icon>mdi-currency-inr</v-icon
-                                        >{{ (total.toFixed(2) * 5) / 100 }}</span
+                                        >{{
+                                          ((total.toFixed(2) * 5) / 100).toFixed(2)
+                                        }}</span
                                       >
                                     </div>
                                   </v-chip>
@@ -450,7 +451,7 @@
                                         Total:&nbsp;
                                         <span
                                           ><v-icon>mdi-currency-inr</v-icon
-                                          >{{ finalTotal }}</span
+                                          >{{ finalTotal.toFixed(2) }}</span
                                         >
                                       </strong>
                                     </div>
