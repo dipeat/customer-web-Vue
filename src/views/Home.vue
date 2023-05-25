@@ -197,6 +197,7 @@
     </v-container>
 
     <v-carousel
+      class="mt-3"
       cycle
       height="200"
       hide-delimiter-background
@@ -359,7 +360,7 @@
             :key="index + 0.0019"
           >
             <div v-for="(item, index) in status" :key="index + 0.1101">
-              <v-sheet rounded="lg" min-height="268" v-if="image.slug == item.restaurant">
+              <v-sheet rounded="lg" v-if="image.slug == item.restaurant">
                 <v-card
                   class="mx-auto"
                   max-width="400"

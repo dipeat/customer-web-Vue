@@ -6,7 +6,7 @@
     <v-container>
       <v-row>
         <v-col cols="6" sm="4" v-for="(item, index) in getSearch" :key="index">
-          <v-sheet rounded="lg" min-height="268" v-if="item.approved == true">
+          <v-sheet rounded="lg" v-if="item.approved == true">
             <v-card class="mx-auto" max-width="400" @click="setRestaurant(item.slug)">
               <v-row dense>
                 <v-col :cols="12">
@@ -14,7 +14,7 @@
                     :src="item.shop_image"
                     class="white--text align-end text-center"
                     gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                    max-height="200px"
+                    max-height="100px"
                   >
                     <v-chip class="ma-1" color="white align-bottom" small>
                       <div class="purple--text font-weight-bold">

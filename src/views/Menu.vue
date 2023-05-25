@@ -1,7 +1,7 @@
 <template>
   <v-main>
     <template>
-      <v-row class="mt-1">
+      <v-row>
         <v-col cols="12" sm="12" md="6" offset-md="3">
           <v-card class="mx-auto">
             <v-toolbar
@@ -9,10 +9,10 @@
               v-for="(image, index) in shopProfileImage"
               :key="index + 0.0019"
             >
-              <v-list-item-avatar tile size="99" color="grey">
+              <v-list-item-avatar tile size="99" color="grey" class="mt-14">
                 <v-img :src="image.shop_image" height="99px"> </v-img>
               </v-list-item-avatar>
-              <v-list-item three-line>
+              <v-list-item three-line class="mt-6">
                 <v-list-item-content>
                   <v-list-item-title class="text-h6 mt-3"
                     >{{ image.owner_name }}
@@ -29,6 +29,7 @@
                   >
                 </v-list-item-content>
               </v-list-item>
+
               <template v-slot:extension>
                 <v-fab-transition>
                   <v-menu
@@ -78,11 +79,22 @@
               </template>
             </v-toolbar>
 
-            <v-card-text style="height: 640px; position: relative" class="mt-2">
+            <v-card-text style="height: 660px; position: relative">
+              <v-text-field
+                v-model="searchMenu"
+                prepend-inner-icon="mdi-magnify"
+                label="Search Menu"
+                single-line
+                dense
+                maxlength="30"
+                clearable
+                placeholder="Search Menu"
+                @input="menuSearch()"
+              ></v-text-field>
               <v-sheet
                 id="scroll-threshold-example"
                 class="overflow-y-auto pb-16"
-                max-height="620"
+                max-height="590"
                 v-if="filterCategoryList != ''"
               >
                 <v-responsive height="auto">
@@ -97,7 +109,7 @@
                           <v-row>
                             <v-col cols="4" sm="5" md="5">
                               <span> {{ item.name }}</span>
-                              <v-subheader> {{ item.prepare_time }} mins</v-subheader>
+                              <v-subheader> {{ item.prepare_time }} min</v-subheader>
                             </v-col>
                             <v-col cols="3" sm="3" md="3">
                               <span
@@ -151,7 +163,7 @@
                             <v-expansion-panels inset>
                               <v-expansion-panel>
                                 <v-expansion-panel-header color="grey lighten-4"
-                                  >{{ item.description.slice(0, 29) }}
+                                  >{{ item.description.slice(0, 22) }}
                                   .....
                                   <v-spacer></v-spacer>
                                   Details
@@ -173,8 +185,102 @@
               <v-sheet
                 id="scroll-threshold-example"
                 class="overflow-y-auto pb-16"
-                max-height="610"
-                v-else
+                max-height="590"
+                v-if="filterCategoryList == '' && searchMenu != ''"
+              >
+                <v-responsive height="auto">
+                  <div
+                    v-for="(cat, index) in searchFilterResultCategory"
+                    :key="index + 0.0001"
+                  >
+                    <v-chip outlined color="red darken-2 mt-2"
+                      ><strong>{{ cat }}</strong></v-chip
+                    >
+
+                    <div v-for="(item, index) in searchFilterResult" :key="index + 0.001">
+                      <div v-if="cat == item.category">
+                        <v-container v-if="item.restaurant == restaurant_name">
+                          <v-row>
+                            <v-col cols="4" sm="5" md="5">
+                              <span> {{ item.name }}</span>
+                              <v-subheader> {{ item.prepare_time }} min</v-subheader>
+                            </v-col>
+                            <v-col cols="3" sm="3" md="3">
+                              <span
+                                class="text-decoration-line-through"
+                                v-if="item.original_price > item.final_price"
+                              >
+                                {{ item.original_price }}
+                              </span>
+                              &nbsp; <span> {{ item.final_price }}</span>
+                            </v-col>
+                            <v-col align="center" cols="5" sm="4" md="4">
+                              <div v-if="item.availablity == true">
+                                <v-chip outlined color="pink darken-2">{{
+                                  item.value
+                                }}</v-chip>
+                                <v-chip small dark link color="purple darken-4">
+                                  <v-chip
+                                    small
+                                    dark
+                                    link
+                                    color="purple darken-4"
+                                    v-if="item.value > 0"
+                                    @click="minusOne(item)"
+                                  >
+                                    <v-icon small dark>mdi-minus</v-icon>
+                                  </v-chip>
+                                  <v-chip
+                                    small
+                                    dark
+                                    link
+                                    color="purple darken-4"
+                                    @click="plusOne(item)"
+                                  >
+                                    <v-icon small dark>mdi-plus</v-icon>
+                                  </v-chip>
+                                </v-chip>
+                              </div>
+                              <div v-else>
+                                <v-chip outlined color="red">Not Available</v-chip>
+                              </div>
+                            </v-col>
+                          </v-row>
+                          <v-row
+                            justify="center"
+                            v-if="
+                              item.description != '' &&
+                              item.description != null &&
+                              item.description != 'null'
+                            "
+                          >
+                            <v-expansion-panels inset>
+                              <v-expansion-panel>
+                                <v-expansion-panel-header color="grey lighten-4"
+                                  >{{ item.description.slice(0, 22) }}
+                                  .....
+                                  <v-spacer></v-spacer>
+                                  Details
+                                </v-expansion-panel-header>
+                                <v-expansion-panel-content>
+                                  {{ item.description }}
+                                </v-expansion-panel-content>
+                              </v-expansion-panel>
+                            </v-expansion-panels>
+                          </v-row>
+                        </v-container>
+                        <v-divider color="#E0E0E0" class="mt-2"></v-divider>
+                      </div>
+                    </div>
+                  </div>
+                </v-responsive>
+              </v-sheet>
+
+              <v-sheet
+                id="scroll-threshold-example"
+                class="overflow-y-auto pb-16"
+                max-height="590"
+                v-if="filterCategoryList == '' && searchMenu == ''"
               >
                 <v-responsive height="auto">
                   <div v-for="(cat, index) in menu" :key="index + 0.0001">
@@ -543,6 +649,9 @@ export default {
 
       errorMessages: "",
       minClock: "",
+      searchMenu: "",
+      searchFilterResult: [],
+      searchFilterResultCategory: [],
 
       time: null,
       menu2: false,
@@ -645,6 +754,8 @@ export default {
           this.errorMessages = "";
         }, 5000);
       }
+
+      this.dialog = false;
     },
 
     pay() {
@@ -923,6 +1034,7 @@ export default {
     },
 
     filterCategory(category) {
+      this.searchMenu = "";
       if (this.filterCategoryList.includes(category)) {
         this.filterCategoryList.splice(this.filterCategoryList.indexOf(category), 1);
       } else {
@@ -930,6 +1042,24 @@ export default {
       }
       // console.log(this.filterCategoryList);
       // remove
+    },
+
+    menuSearch() {
+      // console.log(this.searchMenu);
+      if (this.searchMenu != "" && this.searchMenu != null) {
+        this.filterCategoryList = [];
+        // filter on basis of searchMenu from menuList and push to searchFilterResult
+        this.searchFilterResult = this.menuList.filter((item) =>
+          item.name.toLowerCase().includes(this.searchMenu.toLowerCase())
+        );
+        // console.log(this.searchFilterResult);
+
+        // filter category name from searchFilterResult and push to searchFilterResultCategory
+        this.searchFilterResultCategory = this.searchFilterResult.map(
+          (item) => item.category
+        );
+        // console.log(this.searchFilterResultCategory);
+      }
     },
   },
 

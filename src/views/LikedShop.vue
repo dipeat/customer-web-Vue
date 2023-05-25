@@ -8,7 +8,7 @@
           v-for="(image, index) in shopProfileImage"
           :key="index + 0.0019"
         >
-          <v-sheet rounded="lg" min-height="268" v-if="image.approved == true">
+          <v-sheet rounded="lg" v-if="image.approved == true">
             <v-card class="mx-auto" max-width="400" @click="setRestaurant(item.shop)">
               <v-row dense>
                 <v-col :cols="12">
@@ -18,7 +18,7 @@
                       v-if="image.slug == item.shop"
                       class="white--text align-end text-center"
                       gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                      max-height="200px"
+                      max-height="100px"
                       @click="setRestaurant(item.shop)"
                     >
                       <v-chip class="ma-1" color="white align-bottom" small>
