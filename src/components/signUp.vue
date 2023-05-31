@@ -62,6 +62,11 @@
           @keyup.enter="signUp"
           maxlength="30"
         ></v-text-field>
+        <div class="caption">
+          Note: By clicking "SignUp" you agree to our
+          <a href="http://dipeat.com/terms_and_conditions">Terms & Conditions</a>, and
+          <a href="http://dipeat.com/privacy_policy">Privacy Policy</a>.
+        </div>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="red" text @click="dialog = false"> Cancel </v-btn>

@@ -1076,6 +1076,8 @@ export default {
   },
 
   mounted() {
+    // localStorage.removeItem("restaurant");
+
     if (localStorage.getItem("restaurant") != "") {
       setTimeout(() => {
         this.getPackagingCharges();
@@ -1089,6 +1091,13 @@ export default {
     ) {
       localStorage.setItem("restaurant", this.$route.path.slice(6, 20));
       window.location.reload();
+    }
+
+    if (localStorage.getItem("restaurant") != "") {
+      if (this.$route.path.slice(6, 20) != localStorage.getItem("restaurant")) {
+        localStorage.setItem("restaurant", this.$route.path.slice(6, 20));
+        window.location.reload();
+      }
     }
   },
 };
