@@ -52,17 +52,16 @@
               <v-chip outlined color="orange" class="mt-1">
                 <span>{{ item.order_date.slice(4, 16) }}</span>
               </v-chip>
-              <v-chip outlined color="green" class="mt-1">
-                <span
-                  >GST:<v-icon>mdi-currency-inr</v-icon
-                  >{{ ((item.total * 5) / 100).toFixed(2) }}</span
-                >
-              </v-chip>
               <v-chip outlined color="red" class="mt-1">
                 <span> Time: {{ item.arrival_time }}</span>
               </v-chip>
+              <v-chip outlined color="green" class="mt-1">
+                <span
+                  >GST/Convenience-fee:<v-icon>mdi-currency-inr</v-icon
+                  >{{ ((item.total * 5) / 100).toFixed(2) }}</span
+                >
+              </v-chip>
 
-              <br />
               <v-chip outlined color="purple" class="mt-1">
                 <span
                   >Cost:<v-icon>mdi-currency-inr</v-icon

@@ -24,6 +24,14 @@
                       >mdi-heart</v-icon
                     >
                   </v-list-item-title>
+                  <v-card max-width="20">
+                    <a :href="image.google_map_address">
+                      <v-btn x-small color="blue" dark
+                        ><v-icon color="white">mdi-map-marker</v-icon>Map</v-btn
+                      >
+                    </a>
+                  </v-card>
+
                   <v-list-item-subtitle class="mt-2"
                     ><v-icon>mdi-phone</v-icon>: {{ image.phone }}</v-list-item-subtitle
                   >
@@ -435,7 +443,7 @@
                                   </v-chip>
                                   <v-chip outlined color="green" class="mt-1">
                                     <div>
-                                      GST (5%):&nbsp;
+                                      GST/Convenience-fee (5%):&nbsp;
                                       <span
                                         ><v-icon>mdi-currency-inr</v-icon
                                         >{{
@@ -491,7 +499,7 @@
                                         <template v-slot:activator="{ on, attrs }">
                                           <v-text-field
                                             v-model="time"
-                                            label="Arrival time"
+                                            label="Select time"
                                             prepend-icon="mdi-clock-time-four-outline"
                                             readonly
                                             v-bind="attrs"
@@ -527,7 +535,29 @@
                                         </v-time-picker>
                                       </v-dialog>
                                     </v-col>
-                                    <v-col cols="3" sm="3">
+                                    <v-col
+                                      cols="3"
+                                      sm="3"
+                                      v-if="
+                                        acceptDineIn == true && acceptTakeAway == false
+                                      "
+                                    >
+                                      <v-checkbox
+                                        v-model="dineCheckbox"
+                                        label="Dine In"
+                                        color="primary"
+                                        disabled
+                                        @click="checkBoxClick"
+                                      >
+                                      </v-checkbox>
+                                    </v-col>
+                                    <v-col
+                                      cols="3"
+                                      sm="3"
+                                      v-if="
+                                        acceptDineIn == true && acceptTakeAway == true
+                                      "
+                                    >
                                       <v-checkbox
                                         v-model="dineCheckbox"
                                         label="Dine In"
@@ -536,7 +566,34 @@
                                       >
                                       </v-checkbox>
                                     </v-col>
-                                    <v-col cols="3" sm="3">
+                                    <v-col
+                                      cols="3"
+                                      sm="3"
+                                      v-if="
+                                        acceptDineIn == false && acceptTakeAway == true
+                                      "
+                                    >
+                                      <v-checkbox
+                                        v-model="checkbox"
+                                        label="Take Away"
+                                        color="primary"
+                                        disabled
+                                        @click="
+                                          checkBoxClick();
+                                          oK();
+                                          refreshClock();
+                                          setDefaultTime();
+                                        "
+                                      >
+                                      </v-checkbox>
+                                    </v-col>
+                                    <v-col
+                                      cols="3"
+                                      sm="3"
+                                      v-if="
+                                        acceptDineIn == true && acceptTakeAway == true
+                                      "
+                                    >
                                       <v-checkbox
                                         v-model="checkbox"
                                         label="Take Away"
@@ -606,7 +663,17 @@
                     </v-row>
                     <v-container class="text-center white--text" v-else>
                       <v-chip color="white" class="red--text">
-                        <strong>Shop closed</strong>
+                        <!-- <strong>Shop closed</strong> -->
+                        <div v-if="!stat.shop_coming_soon">
+                          <div v-if="!stat.open_close">
+                            <strong class="red--text">Closed</strong>
+                          </div>
+                        </div>
+                        <div v-if="stat.shop_coming_soon">
+                          <strong class="red--text caption"
+                            ><strong>Comming Soon</strong></strong
+                          >
+                        </div>
                       </v-chip>
                     </v-container>
                   </div>
@@ -664,7 +731,11 @@ export default {
       likeColor: "",
       likeBoolShop: true,
       status: "",
+
       packagingCharges: 0,
+      acceptDineIn: true,
+      acceptTakeAway: true,
+
       restaurant_name: localStorage.getItem("restaurant"),
       chargesGST: 0,
       finalTotal: 0,
@@ -1029,7 +1100,21 @@ export default {
       const slug = localStorage.getItem("restaurant");
       api.get(`/api/v1/takeaway/${slug}/`).then((response) => {
         this.packagingCharges = response.data[0].packaging_charge;
+        this.acceptDineIn = response.data[0].only_dineinShop;
+        this.acceptTakeAway = response.data[0].only_takeawayShop;
         // console.log(response.data);
+        // console.log(this.acceptDineIn);
+        // console.log(this.acceptTakeAway);
+
+        if (this.acceptDineIn == true && this.acceptTakeAway == false) {
+          this.checkbox = this.acceptTakeAway;
+          this.dineCheckbox = this.acceptDineIn;
+        }
+
+        if (this.acceptDineIn == false && this.acceptTakeAway == true) {
+          this.checkbox = this.acceptTakeAway;
+          this.dineCheckbox = this.acceptDineIn;
+        }
       });
       // console.log(this.$store.state.restaurant);
     },

@@ -405,8 +405,15 @@
                             >{{ shopDiscount.discount }}% off</v-chip
                           >
                         </div>
-                        <div v-if="!item.open_close">
-                          <strong class="red--text">Closed</strong>
+                        <div v-if="!item.shop_coming_soon">
+                          <div v-if="!item.open_close">
+                            <strong class="red--text">Closed</strong>
+                          </div>
+                        </div>
+                        <div v-if="item.shop_coming_soon">
+                          <strong class="red--text caption"
+                            ><strong>Comming Soon</strong></strong
+                          >
                         </div>
                       </v-card-actions>
                     </v-col>
@@ -588,7 +595,7 @@ export default {
   },
 
   mounted() {
-    this.phonePeValidation();
+    // this.phonePeValidation();
     this.$eventBus.$on("callMethodLoginHomeRefresh", () => {
       this.getMenu();
       this.shopStatus();
