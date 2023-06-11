@@ -679,7 +679,9 @@
                   </div>
                   <div class="text-center red--text" v-else>
                     <v-chip color="white" class="red--text">
-                      <strong>Please Log-In to order</strong>
+                      <strong>Please Log-In</strong> &nbsp;&nbsp;&nbsp;
+                      <a><logIn /></a>&nbsp;
+                      <a><signUp /></a>
                     </v-chip>
                   </div>
                 </div>
@@ -696,9 +698,17 @@
 // import axios from "axios";
 import api from "@/main";
 import { set } from "vue";
+import signUp from "../components/signUp.vue";
+import logIn from "../components/logIn.vue";
 
 export default {
   name: "Menu",
+
+  components: {
+    signUp,
+    logIn,
+  },
+
   data() {
     return {
       dialog: false,
@@ -792,6 +802,7 @@ export default {
               totalTemp: Number(this.total).toFixed(2),
               messageTemp: this.message,
               arrival_timeTemp: strTime,
+              order_numberTemp: Date.now(),
               slugTemp: this.$store.state.user.username + "a-_a" + Date.now(),
 
               customerName: this.$store.state.user.username,

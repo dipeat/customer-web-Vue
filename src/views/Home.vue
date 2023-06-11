@@ -116,28 +116,10 @@
       </div>
     </div>
 
-    <div id="how-it-works" v-if="!$store.state.isAuthenticated">
-      <div class="container-flex">
-        <div class="box">
-          <h3>Zero Waiting Time</h3>
-          <h2 class="red--text text-h1"><strong>0</strong></h2>
-          (apx.)
-          <p>Login/SignUp and give order online before leaving your place.</p>
-        </div>
-        <div class="box">
-          <h3>DineIn/ TakeAway</h3>
-          <v-icon x-large color="blue-grey">mdi-silverware-variant</v-icon>
-          <p>
-            Choose your preference of Dine-In or TakeAway, and get food at your selected
-            time.
-          </p>
-        </div>
-
-        <div class="box">
-          <h3>Pricing</h3>
-          <v-icon x-large color="orange darken-1">mdi-wallet</v-icon>
-          <p>Select the cuisine as of your choice at price as low as shop menu.</p>
-        </div>
+    <div class="mt-14" v-if="!$store.state.isAuthenticated">
+      <div class="mx-auto text-center">
+        <a><logIn /></a>&nbsp;&nbsp;&nbsp;
+        <a><signUp /></a>
       </div>
     </div>
 
@@ -195,6 +177,109 @@
         </v-row>
       </v-card>
     </v-container>
+
+    <v-container>
+      <div class="top-orders" id="top-restaurants">
+        <h1><u>Restaurants</u></h1>
+
+        <v-row>
+          <v-col
+            cols="6"
+            sm="4"
+            v-for="(image, index) in shopProfileApproved"
+            :key="index + 0.0019"
+          >
+            <div v-for="(item, index) in status" :key="index + 0.1101">
+              <v-sheet rounded="lg" v-if="image.slug == item.restaurant">
+                <v-card
+                  class="mx-auto"
+                  max-width="400"
+                  @click="setRestaurant(image.slug)"
+                  v-if="image.approved == true"
+                >
+                  <v-row dense>
+                    <v-col :cols="12">
+                      <div class="text-center">
+                        <v-img
+                          :src="image.shop_image"
+                          class="white--text align-end"
+                          gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                          max-height="100px"
+                          @click="setRestaurant(image.slug)"
+                        >
+                          <v-chip class="mb-1" color="white align-bottom" small>
+                            <div class="purple--text font-weight-bold">
+                              {{ image.owner_name }}
+                            </div>
+                          </v-chip>
+                        </v-img>
+                      </div>
+
+                      <v-card-actions @click="setRestaurant(image.slug)">
+                        <v-spacer></v-spacer>
+
+                        <div
+                          v-for="(shopDiscount, index) in maxDiscount"
+                          :key="index + 0.0043"
+                        >
+                          <v-chip
+                            small
+                            outlined
+                            color="purple"
+                            dark
+                            v-if="
+                              item.restaurant == shopDiscount.restaurant &&
+                              shopDiscount.discount > 0 &&
+                              item.open_close
+                            "
+                            >{{ shopDiscount.discount }}% off</v-chip
+                          >
+                        </div>
+                        <div v-if="!item.shop_coming_soon">
+                          <div v-if="!item.open_close">
+                            <strong class="red--text">Closed</strong>
+                          </div>
+                        </div>
+                        <div v-if="item.shop_coming_soon">
+                          <strong class="red--text caption"
+                            ><strong>Comming Soon</strong></strong
+                          >
+                        </div>
+                      </v-card-actions>
+                    </v-col>
+                  </v-row>
+                </v-card>
+              </v-sheet>
+            </div>
+          </v-col>
+        </v-row>
+      </div>
+    </v-container>
+
+    <div id="how-it-works" v-if="!$store.state.isAuthenticated">
+      <div class="container-flex">
+        <div class="box">
+          <h3>Zero Waiting Time</h3>
+          <h2 class="red--text text-h1"><strong>0</strong></h2>
+          (apx.)
+          <p>Login/SignUp and give order online before leaving your place.</p>
+        </div>
+        <div class="box">
+          <h3>DineIn/ TakeAway</h3>
+          <v-icon x-large color="blue-grey">mdi-silverware-variant</v-icon>
+          <p>
+            Choose your preference of Dine-In or TakeAway, and get food at your selected
+            time.
+          </p>
+        </div>
+
+        <div class="box">
+          <h3>Pricing</h3>
+          <v-icon x-large color="orange darken-1">mdi-wallet</v-icon>
+          <p>Select the cuisine as of your choice at price as low as shop menu.</p>
+        </div>
+      </div>
+    </div>
 
     <v-carousel
       class="mt-3"
@@ -285,74 +370,6 @@
         <h1><u>Trending</u></h1>
 
         <v-row>
-          <v-col cols="6" sm="4" v-for="(item, index) in status" :key="index">
-            <v-sheet rounded="lg" min-height="268">
-              <v-card
-                class="mx-auto"
-                max-width="400"
-                @click="setRestaurant(item.restaurant)"
-              >
-                <v-row dense>
-                  <v-col :cols="12">
-                    <div
-                      class="text-center"
-                      v-for="(image, index) in shopProfileImage"
-                      :key="index + 0.009"
-                    >
-                      <v-img
-                        :src="image.shop_image"
-                        v-if="image.slug == item.restaurant"
-                        class="white--text align-end"
-                        gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                        max-height="200px"
-                        @click="setRestaurant(item.restaurant)"
-                      >
-                        <v-chip class="mb-1" color="white align-bottom" small>
-                          <div class="purple--text font-weight-bold">
-                            {{ image.owner_name }}
-                          </div>
-                        </v-chip>
-                      </v-img>
-                    </div>
-
-                    <v-card-actions @click="setRestaurant(item.restaurant)">
-                      <v-spacer></v-spacer>
-
-                      <div
-                        v-for="(shopDiscount, index) in maxDiscount"
-                        :key="index + 0.003"
-                      >
-                        <v-chip
-                          small
-                          outlined
-                          color="purple"
-                          dark
-                          v-if="
-                            item.restaurant == shopDiscount.restaurant &&
-                            shopDiscount.discount > 0 &&
-                            item.open_close
-                          "
-                          >{{ shopDiscount.discount }}% off</v-chip
-                        >
-                      </div>
-                      <div v-if="!item.open_close">
-                        <strong class="red--text">Closed</strong>
-                      </div>
-                    </v-card-actions>
-                  </v-col>
-                </v-row>
-              </v-card>
-            </v-sheet>
-          </v-col>
-        </v-row>
-      </div>
-    </v-container> -->
-
-    <v-container>
-      <div class="top-orders" id="top-restaurants">
-        <h1><u>Trending</u></h1>
-
-        <v-row>
           <v-col
             cols="6"
             sm="4"
@@ -424,7 +441,7 @@
           </v-col>
         </v-row>
       </div>
-    </v-container>
+    </v-container> -->
   </v-main>
 </template>
 
@@ -435,9 +452,17 @@ import api from "@/main";
 // import image from "../assets/burger.png";
 // import bglargeimage from "../assets/bg-large.gif";
 // import bgmobileimage from "../assets/bg-mobile.gif";
+import signUp from "../components/signUp.vue";
+import logIn from "../components/logIn.vue";
 
 export default {
   name: "Home",
+
+  components: {
+    signUp,
+    logIn,
+  },
+
   data: () => ({
     colors: [
       "blue lighten-3",
@@ -542,6 +567,7 @@ export default {
     shopStatus() {
       api.get(`/api/v1/shopstatus/`).then((res) => {
         this.status = res.data;
+        // console.log(this.status);
       });
     },
 
@@ -593,6 +619,14 @@ export default {
         });
     },
   },
+
+  // computed: {
+  //   shopCommingSoon() {
+  //     const commingSoon = this.status.filter((item) => item.shop_coming_soon === false);
+
+  //     return commingSoon;
+  //   },
+  // },
 
   mounted() {
     // this.phonePeValidation();

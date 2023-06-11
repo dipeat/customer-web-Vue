@@ -43,8 +43,12 @@
             <span> <v-icon color="blue">mdi-account</v-icon> </span>&nbsp;&nbsp;&nbsp;
             <v-list-item-title v-text="'Profile'"></v-list-item-title>
           </v-list-item>
+          <v-list-item link to="/feedback" color="purple">
+            <span> <v-icon color="green">mdi-leaf</v-icon> </span>&nbsp;&nbsp;&nbsp;
+            <v-list-item-title v-text="'Feedback'"></v-list-item-title>
+          </v-list-item>
           <v-list-item link to="/help" color="purple">
-            <span> <v-icon color="green">mdi-help</v-icon> </span>&nbsp;&nbsp;&nbsp;
+            <span> <v-icon color="pink">mdi-help</v-icon> </span>&nbsp;&nbsp;&nbsp;
             <v-list-item-title v-text="'Help'"></v-list-item-title>
           </v-list-item>
           <v-list-item
@@ -181,6 +185,7 @@
               <li><a href="#about-us">About Us</a></li>
               <li><a href="#how-it-works">Pricing</a></li>
               <li><a href="http://partner.dipeat.com/">Partner With Us !</a></li>
+              <li><a href="/feedback">Feedback</a></li>
               <li><a href="/privacy_policy">Privacy Policy</a></li>
               <li><a href="/terms_and_conditions">Terms & Conditions</a></li>
               <li><a href="/refund_policy">Cancellation/Refund Policy</a></li>
@@ -203,19 +208,20 @@
             </div>
           </div>
         </div>
-        <footer>Copyright © 2023 dipEAT. All Rights Reserved.</footer>
+        <footer class="caption">Copyright © 2023 dipEAT. All Rights Reserved.</footer>
       </section>
     </v-sheet>
   </v-app>
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 import api from "@/main";
 
 import signUp from "./components/signUp.vue";
 import logIn from "./components/logIn.vue";
 import router from "./router";
+import { set } from "vue";
 
 window.addEventListener("load", () => {
   // Page Loader
@@ -241,6 +247,7 @@ export default {
 
     search: "",
     getSearch: "",
+    totalPageVisitCount: 0,
   }),
 
   beforeCreate() {
@@ -304,12 +311,35 @@ export default {
     },
   },
 
+  created() {
+    // get page visit count data from backend
+    api.get("/api/v1/customeranalytics/").then((response) => {
+      this.totalPageVisitCount = response.data[0].homePageVisitCount;
+      // console.log(this.totalPageVisitCount);
+      // console.log(Number(this.totalPageVisitCount) + 1);
+    });
+    // .catch((error) => {
+    //   console.log(error);
+    // });
+  },
+
   mounted() {
     // this.$eventBus.$on("callMethodSearchBar", this.searchBar);
     // this.$eventBus.$on("callMethodSetRestaurant", this.setRestaurant);
     if (this.$store.state.isAuthenticated) {
       this.$store.dispatch("getWallet");
     }
+
+    // update page visit count data to backend
+    setTimeout(() => {
+      api
+        .patch("/api/v1/customeranalytics/", {
+          homePageVisitCount: Number(this.totalPageVisitCount) + 1,
+        })
+        .then((response) => {
+          // console.log(response.data);
+        });
+    }, 1000);
   },
 };
 </script>
@@ -533,7 +563,7 @@ nav {
 .hamburger div {
   width: 30px;
   height: 2.6px;
-  background: #000000;
+  background: #ffffff;
   margin: 5px;
   transition: all 0.3s ease;
 }

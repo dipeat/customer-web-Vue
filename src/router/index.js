@@ -13,6 +13,7 @@ import Help from '../views/Help.vue'
 import privacyPolicy from '../views/privacyPolicy.vue'
 import termsConditions from '../views/termsConditions.vue'
 import refundPolicy from '../views/refundPolicy.vue'
+import Feedback from '../views/Feedback.vue'
 
 import store from '../store'
 Vue.use(VueRouter)
@@ -112,9 +113,12 @@ const routes = [
     path: '/refund_policy',
     name: 'refundPolicy',
     component: refundPolicy,
-    meta: {
-      requireLogin: true
-    }
+
+  },
+  {
+    path: '/feedback',
+    name: 'Feedback',
+    component: Feedback,
   },
 
 
