@@ -57,7 +57,7 @@
               </v-chip>
               <v-chip outlined color="green" class="mt-1">
                 <span
-                  >GST/Convenience-fee:<v-icon>mdi-currency-inr</v-icon
+                  >GST(5%)+dipEAT:<v-icon>mdi-currency-inr</v-icon
                   >{{ ((item.total * 5) / 100).toFixed(2) }}</span
                 >
               </v-chip>

@@ -232,8 +232,12 @@
                               shopDiscount.discount > 0 &&
                               item.open_close
                             "
-                            >{{ shopDiscount.discount }}% off</v-chip
-                          >
+                            ><div>
+                              <strong class="red--text caption"
+                                ><strong>{{ shopDiscount.discount }}% off</strong></strong
+                              >
+                            </div>
+                          </v-chip>
                         </div>
                         <div v-if="!item.shop_coming_soon">
                           <div v-if="!item.open_close">

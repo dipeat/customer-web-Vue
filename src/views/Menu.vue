@@ -432,7 +432,7 @@
                               <v-divider color="orange"></v-divider>
                               <div class="text-center">
                                 <v-container v-if="displayOrder != ''">
-                                  <v-chip outlined color="pink">
+                                  <!-- <v-chip outlined color="pink">
                                     <div>
                                       Sub Total:&nbsp;
                                       <span
@@ -486,7 +486,96 @@
                                         >{{ packagingCharges }}</span
                                       >
                                     </div>
-                                  </v-chip>
+                                  </v-chip> -->
+
+                                  <div>
+                                    <v-container v-if="displayOrder != ''">
+                                      <v-row class="blue--text text-left" dense>
+                                        <v-col>
+                                          <div>Prepare Time</div>
+                                        </v-col>
+                                        <v-divider vertical color="black"></v-divider>
+                                        <v-col cols="5" sm="5">
+                                          <div>
+                                            <v-icon>mdi-alarm</v-icon
+                                            >{{ premare_time }} mins
+                                          </div>
+                                        </v-col>
+                                      </v-row>
+                                      <v-row class="blue--text text-left" dense>
+                                        <v-col>
+                                          <div>Sub Total</div>
+                                        </v-col>
+                                        <v-divider vertical color="black"></v-divider>
+                                        <v-col cols="5" sm="5">
+                                          <div>
+                                            <v-icon>mdi-currency-inr</v-icon
+                                            >{{ total.toFixed(2) }}
+                                          </div>
+                                        </v-col>
+                                      </v-row>
+                                      <v-row class="red--text text-left" dense>
+                                        <v-col>
+                                          <div>Discount (5%)</div>
+                                        </v-col>
+                                        <v-divider vertical color="black"></v-divider>
+                                        <v-col cols="5" sm="5">
+                                          <div>
+                                            <v-icon>mdi-currency-inr</v-icon
+                                            >{{
+                                              ((total.toFixed(2) * 5) / 100).toFixed(2)
+                                            }}
+                                          </div>
+                                        </v-col>
+                                      </v-row>
+                                      <v-row class="blue--text text-left" dense>
+                                        <v-col>
+                                          <div>GST(5%) +dipEAT</div>
+                                        </v-col>
+                                        <v-divider vertical color="black"></v-divider>
+                                        <v-col cols="5" sm="5">
+                                          <div>
+                                            <v-icon>mdi-currency-inr</v-icon
+                                            >{{
+                                              ((total.toFixed(2) * 5) / 100).toFixed(2)
+                                            }}
+                                          </div>
+                                        </v-col>
+                                      </v-row>
+
+                                      <v-row
+                                        class="green--text text-left"
+                                        v-if="packagingCharges != 0 && checkbox"
+                                        dense
+                                      >
+                                        <v-col>
+                                          <div>Packaging</div>
+                                        </v-col>
+                                        <v-divider vertical color="black"></v-divider>
+                                        <v-col cols="5" sm="5">
+                                          <div>
+                                            <v-icon>mdi-currency-inr</v-icon
+                                            >{{ packagingCharges }}
+                                          </div>
+                                        </v-col>
+                                      </v-row>
+                                      <v-row class="purple--text text-left" dense>
+                                        <v-col>
+                                          <div>Total</div>
+                                        </v-col>
+                                        <v-divider vertical color="black"></v-divider>
+                                        <v-col cols="5" sm="5">
+                                          <div>
+                                            <v-icon>mdi-currency-inr</v-icon
+                                            >{{
+                                              finalTotal.toFixed(2) -
+                                              ((total.toFixed(2) * 5) / 100).toFixed(2)
+                                            }}
+                                          </div>
+                                        </v-col>
+                                      </v-row>
+                                    </v-container>
+                                  </div>
 
                                   <v-row>
                                     <v-col cols="6" sm="6">
@@ -749,6 +838,7 @@ export default {
       restaurant_name: localStorage.getItem("restaurant"),
       chargesGST: 0,
       finalTotal: 0,
+      totalAfterDiscount: 0,
 
       shopProfileImage: [],
       foodName: [],
@@ -806,7 +896,7 @@ export default {
               slugTemp: this.$store.state.user.username + "a-_a" + Date.now(),
 
               customerName: this.$store.state.user.username,
-              amount: Number(this.finalTotal) * 100,
+              amount: Number(this.totalAfterDiscount) * 100,
             })
             .then((response) => {
               // console.log(response.data);
@@ -973,6 +1063,8 @@ export default {
       if (this.checkbox == true) {
         this.finalTotal += this.packagingCharges;
       }
+
+      this.totalAfterDiscount = this.finalTotal - (this.total.toFixed(2) * 5) / 100;
 
       // calculate prepare time
       this.premare_time = 0;
