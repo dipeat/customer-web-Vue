@@ -116,7 +116,7 @@
       </div>
     </div>
 
-    <div class="mt-14" v-if="!$store.state.isAuthenticated">
+    <div class="mt-16" v-if="!$store.state.isAuthenticated">
       <div class="mx-auto text-center">
         <a><logIn /></a>&nbsp;&nbsp;&nbsp;
         <a><signUp /></a>
@@ -180,6 +180,12 @@
 
     <v-container>
       <div class="top-orders" id="top-restaurants">
+        <div class="text-center mt-3">
+          <h2 class="red--text text-h3">
+            <strong>🍃 5% off 🥳</strong>
+          </h2>
+          <div class="">on every order</div>
+        </div>
         <h1><u>Restaurants</u></h1>
 
         <v-row>

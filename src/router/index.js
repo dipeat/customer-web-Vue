@@ -59,6 +59,14 @@ const routes = [
     }
   },
   {
+    path: '/menu/qr/:id',
+    name: 'Menu',
+    component: Menu,
+    meta: {
+      requireLogin: true
+    }
+  },
+  {
     path: '/order',
     name: 'Order',
     component: Order,

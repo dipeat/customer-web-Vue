@@ -118,7 +118,13 @@ export default {
               // console.log(response);
               // console.log(response.data.token);
               this.dialog1 = false;
-              this.$router.push("/");
+              if (
+                localStorage.getItem("restaurant") == "" ||
+                localStorage.getItem("restaurant") == null ||
+                localStorage.getItem("restaurant") == undefined
+              ) {
+                this.$router.push("/");
+              }
               this.$eventBus.$emit("callMethodLoginHomeRefresh");
               this.$store.dispatch("getWallet");
               // window.location.reload();

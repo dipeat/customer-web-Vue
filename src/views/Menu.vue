@@ -568,8 +568,10 @@
                                           <div>
                                             <v-icon>mdi-currency-inr</v-icon
                                             >{{
-                                              finalTotal.toFixed(2) -
-                                              ((total.toFixed(2) * 5) / 100).toFixed(2)
+                                              (
+                                                finalTotal.toFixed(2) -
+                                                ((total.toFixed(2) * 5) / 100).toFixed(2)
+                                              ).toFixed(2)
                                             }}
                                           </div>
                                         </v-col>
@@ -893,6 +895,7 @@ export default {
               messageTemp: this.message,
               arrival_timeTemp: strTime,
               order_numberTemp: Date.now(),
+              order_from_qrTemp: Boolean(localStorage.getItem("qr")),
               slugTemp: this.$store.state.user.username + "a-_a" + Date.now(),
 
               customerName: this.$store.state.user.username,
@@ -901,6 +904,8 @@ export default {
             .then((response) => {
               // console.log(response.data);
               // console.log(response.data.response.success);
+
+              localStorage.removeItem("qr");
 
               localStorage.setItem(
                 "transactionId",
@@ -1272,19 +1277,41 @@ export default {
       }, 1000);
     }
 
-    // console.log(this.$route.path.slice(6, 20));
-    if (
-      localStorage.getItem("restaurant") == "" ||
-      localStorage.getItem("restaurant") == null
-    ) {
-      localStorage.setItem("restaurant", this.$route.path.slice(6, 20));
-      window.location.reload();
-    }
+    // QR scanning system and displaying restaurant below
 
-    if (localStorage.getItem("restaurant") != "") {
-      if (this.$route.path.slice(6, 20) != localStorage.getItem("restaurant")) {
+    // console.log(this.$route.path.slice(6, 8));
+
+    if (this.$route.path.slice(6, 8) == "qr") {
+      localStorage.setItem("qr", true);
+      if (
+        localStorage.getItem("restaurant") == "" ||
+        localStorage.getItem("restaurant") == null
+      ) {
+        localStorage.setItem("restaurant", this.$route.path.slice(9, 20));
+        window.location.reload();
+      }
+
+      if (localStorage.getItem("restaurant") != "") {
+        if (this.$route.path.slice(9, 20) != localStorage.getItem("restaurant")) {
+          localStorage.setItem("restaurant", this.$route.path.slice(9, 20));
+          window.location.reload();
+        }
+      }
+    } else {
+      // localStorage.removeItem("qr", false);
+      if (
+        localStorage.getItem("restaurant") == "" ||
+        localStorage.getItem("restaurant") == null
+      ) {
         localStorage.setItem("restaurant", this.$route.path.slice(6, 20));
         window.location.reload();
+      }
+
+      if (localStorage.getItem("restaurant") != "") {
+        if (this.$route.path.slice(6, 20) != localStorage.getItem("restaurant")) {
+          localStorage.setItem("restaurant", this.$route.path.slice(6, 20));
+          window.location.reload();
+        }
       }
     }
   },

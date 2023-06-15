@@ -311,11 +311,19 @@ export default {
     },
   },
 
-  created() {
+  async created() {
     // get page visit count data from backend
-    api.get("/api/v1/customeranalytics/").then((response) => {
+    await api.get("/api/v1/customeranalytics/").then((response) => {
       this.totalPageVisitCount = response.data[0].homePageVisitCount;
       // console.log(this.totalPageVisitCount);
+
+      api
+        .patch("/api/v1/customeranalytics/", {
+          homePageVisitCount: Number(this.totalPageVisitCount) + 1,
+        })
+        .then((response) => {
+          // console.log(response.data);
+        });
       // console.log(Number(this.totalPageVisitCount) + 1);
     });
     // .catch((error) => {
@@ -331,15 +339,15 @@ export default {
     }
 
     // update page visit count data to backend
-    setTimeout(() => {
-      api
-        .patch("/api/v1/customeranalytics/", {
-          homePageVisitCount: Number(this.totalPageVisitCount) + 1,
-        })
-        .then((response) => {
-          // console.log(response.data);
-        });
-    }, 1000);
+    // setTimeout(() => {
+    //   api
+    //     .patch("/api/v1/customeranalytics/", {
+    //       homePageVisitCount: Number(this.totalPageVisitCount) + 1,
+    //     })
+    //     .then((response) => {
+    //       console.log(response.data);
+    //     });
+    // }, 1000);
   },
 };
 </script>
