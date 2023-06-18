@@ -96,32 +96,32 @@
           class="bg-large-image"
           alt="BG Image"
         />
-        <div class="hero-text-overlay">
+        <!-- <div class="hero-text-overlay">
           <h1>It's not about food, It's about Experience.</h1>
-        </div>
+        </div> -->
+        <div
+          class="text-center text-h3 overline"
+          v-text="`It's all about Experience.`"
+        ></div>
       </div>
 
       <div class="hero-mobile-bg">
+        <!-- <div class="hero-text-overlay">
+          <h1>
+            It's not about food, <br />
+            It's about Experience.
+          </h1>
+        </div> -->
         <img
           src="https://dipeat-s3-bucket-1.s3.amazonaws.com/pizza3.jpg"
           class="bg-mobile-image"
           alt="BG Image"
         />
-        <div class="hero-text-overlay">
-          <h1>
-            It's not about food, <br />
-            It's about Experience.
-          </h1>
-        </div>
+        <div class="text-center overline" v-text="`It's all about Experience.`"></div>
       </div>
     </div>
-    <v-divider
-      color="white"
-      class="mt-16"
-      v-if="!$store.state.isAuthenticated"
-    ></v-divider>
 
-    <div class="mt-5" v-if="!$store.state.isAuthenticated">
+    <div class="mt-3" v-if="!$store.state.isAuthenticated">
       <div class="mx-auto text-center">
         <a><logIn /></a>&nbsp;&nbsp;&nbsp;
         <a><signUp /></a>
@@ -195,13 +195,15 @@
         <v-divider color="red" class="mt-3"></v-divider>
 
         <v-row class="mt-3">
-          <v-col cols="6" sm="4">
-            <div v-for="(item, index) in status" :key="index + 0.1101">
+          <v-col
+            cols="6"
+            sm="4"
+            v-for="(item, index) in liveRestaurant"
+            :key="index + 0.1101"
+          >
+            <div>
               <div v-for="(image, index) in shopProfileApproved" :key="index + 0.0019">
-                <v-sheet
-                  rounded="lg"
-                  v-if="image.slug == item.restaurant && item.shop_coming_soon == false"
-                >
+                <v-sheet rounded="lg" v-if="image.slug == item.restaurant">
                   <v-card
                     class="mx-auto"
                     max-width="400"
@@ -386,14 +388,16 @@
       <div class="top-orders" id="top-restaurants">
         <h1 class="brown--text text-h4"><u>Comming Soon</u></h1>
 
-        <v-row>
-          <v-col cols="6" sm="4">
-            <div v-for="(item, index) in status" :key="index + 0.1101">
+        <v-row class="mt-3">
+          <v-col
+            cols="6"
+            sm="4"
+            v-for="(item, index) in commingSoon"
+            :key="index + 0.1101"
+          >
+            <div>
               <div v-for="(image, index) in shopProfileApproved" :key="index + 0.0019">
-                <v-sheet
-                  rounded="lg"
-                  v-if="image.slug == item.restaurant && item.shop_coming_soon == true"
-                >
+                <v-sheet rounded="lg" v-if="image.slug == item.restaurant">
                   <v-card
                     class="mx-auto"
                     max-width="400"
@@ -588,7 +592,9 @@ export default {
 
     likeColor: "",
     menuItem: "",
-    status: "",
+    status: [],
+    commingSoon: [],
+    liveRestaurant: [],
 
     restaurantList: [],
     likedShops: [],
@@ -668,6 +674,11 @@ export default {
       api.get(`/api/v1/shopstatus/`).then((res) => {
         this.status = res.data;
         // console.log(this.status);
+        // filter shop coming soon
+        this.commingSoon = this.status.filter((item) => item.shop_coming_soon === true);
+        this.liveRestaurant = this.status.filter(
+          (item) => item.shop_coming_soon === false
+        );
       });
     },
 
