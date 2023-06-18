@@ -175,8 +175,12 @@
             <div class="contact-details">
               <h1>Contact Us</h1>
               <li>
-                <v-icon dark>mdi-email-variant</v-icon>&nbsp;&nbsp;
+                <v-icon dark color="yellow">mdi-email-variant</v-icon>&nbsp;&nbsp;
                 <a href="mailto:yourmail@gmail.com">dipeatdotcom@gmail.com</a>
+              </li>
+              <li>
+                <v-icon color="light-green accent-3">mdi-leaf</v-icon>&nbsp;&nbsp;
+                <a href="/feedback">Feedback</a>
               </li>
             </div>
           </div>
@@ -185,7 +189,6 @@
               <li><a href="#about-us">About Us</a></li>
               <li><a href="#how-it-works">Pricing</a></li>
               <li><a href="http://partner.dipeat.com/">Partner With Us !</a></li>
-              <li><a href="/feedback">Feedback</a></li>
               <li><a href="/privacy_policy">Privacy Policy</a></li>
               <li><a href="/terms_and_conditions">Terms & Conditions</a></li>
               <li><a href="/refund_policy">Cancellation/Refund Policy</a></li>
@@ -295,10 +298,10 @@ export default {
     },
 
     searchBar() {
-      this.$store.state.searchText = this.search;
+      this.$store.state.searchText = this.search.toLowerCase().replace(/\s/g, "");
       // console.log(this.$store.state.searchText);
-      localStorage.setItem("searchText", this.search);
-
+      localStorage.setItem("searchText", this.search.toLowerCase().replace(/\s/g, ""));
+      localStorage.setItem("searchDisplayText", this.search.toLowerCase());
       this.$eventBus.$emit("callMethodSearchBarRef");
 
       this.$router.push("/search").catch(() => {});

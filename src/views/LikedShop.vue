@@ -2,17 +2,12 @@
   <v-main>
     <v-container>
       <v-row>
-        <v-col
-          cols="6"
-          sm="4"
-          v-for="(image, index) in shopProfileImage"
-          :key="index + 0.0019"
-        >
-          <v-sheet rounded="lg" v-if="image.approved == true">
-            <v-card class="mx-auto" max-width="400" @click="setRestaurant(item.shop)">
-              <v-row dense>
-                <v-col :cols="12">
-                  <div v-for="(item, index) in likedShops" :key="index">
+        <v-col cols="6" sm="4" v-for="(item, index) in likedShops" :key="index">
+          <div v-for="(image, index) in shopProfileImage" :key="index + 0.0019">
+            <v-sheet rounded="lg" v-if="image.slug == item.shop">
+              <v-card class="mx-auto" max-width="400" @click="setRestaurant(item.shop)">
+                <v-row dense>
+                  <v-col :cols="12">
                     <v-img
                       :src="image.shop_image"
                       v-if="image.slug == item.shop"
@@ -27,11 +22,11 @@
                         </div>
                       </v-chip>
                     </v-img>
-                  </div>
-                </v-col>
-              </v-row>
-            </v-card>
-          </v-sheet>
+                  </v-col>
+                </v-row>
+              </v-card>
+            </v-sheet>
+          </div>
         </v-col>
       </v-row>
     </v-container>
@@ -53,11 +48,15 @@ export default {
   methods: {
     getLikedShops() {
       api.get("/api/v1/likedshop/").then((response) => {
-        this.likedShops = response.data.filter(
+        const filterLikedShop = response.data.filter(
           (item) =>
             item.customer === this.$store.state.user.username && item.liked === true
         );
-        // console.log(this.likedShops)
+        for (let i = 0; i < filterLikedShop.length; i++) {
+          this.likedShops.push(filterLikedShop[i]);
+        }
+        // remove empty space in array
+        // console.log(this.likedShops);
       });
     },
 

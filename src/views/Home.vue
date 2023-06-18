@@ -115,8 +115,13 @@
         </div>
       </div>
     </div>
+    <v-divider
+      color="white"
+      class="mt-16"
+      v-if="!$store.state.isAuthenticated"
+    ></v-divider>
 
-    <div class="mt-16" v-if="!$store.state.isAuthenticated">
+    <div class="mt-5" v-if="!$store.state.isAuthenticated">
       <div class="mx-auto text-center">
         <a><logIn /></a>&nbsp;&nbsp;&nbsp;
         <a><signUp /></a>
@@ -179,6 +184,7 @@
     </v-container>
 
     <v-container>
+      <v-divider color="red" class="mt-3"></v-divider>
       <div class="top-orders" id="top-restaurants">
         <div class="text-center mt-3">
           <h2 class="red--text text-h3">
@@ -186,80 +192,81 @@
           </h2>
           <div class="">on every order</div>
         </div>
-        <h1><u>Restaurants</u></h1>
+        <v-divider color="red" class="mt-3"></v-divider>
 
-        <v-row>
-          <v-col
-            cols="6"
-            sm="4"
-            v-for="(image, index) in shopProfileApproved"
-            :key="index + 0.0019"
-          >
+        <v-row class="mt-3">
+          <v-col cols="6" sm="4">
             <div v-for="(item, index) in status" :key="index + 0.1101">
-              <v-sheet rounded="lg" v-if="image.slug == item.restaurant">
-                <v-card
-                  class="mx-auto"
-                  max-width="400"
-                  @click="setRestaurant(image.slug)"
-                  v-if="image.approved == true"
+              <div v-for="(image, index) in shopProfileApproved" :key="index + 0.0019">
+                <v-sheet
+                  rounded="lg"
+                  v-if="image.slug == item.restaurant && item.shop_coming_soon == false"
                 >
-                  <v-row dense>
-                    <v-col :cols="12">
-                      <div class="text-center">
-                        <v-img
-                          :src="image.shop_image"
-                          class="white--text align-end"
-                          gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                          max-height="100px"
-                          @click="setRestaurant(image.slug)"
-                        >
-                          <v-chip class="mb-1" color="white align-bottom" small>
-                            <div class="purple--text font-weight-bold">
-                              {{ image.owner_name }}
-                            </div>
-                          </v-chip>
-                        </v-img>
-                      </div>
-
-                      <v-card-actions @click="setRestaurant(image.slug)">
-                        <v-spacer></v-spacer>
-
-                        <div
-                          v-for="(shopDiscount, index) in maxDiscount"
-                          :key="index + 0.0043"
-                        >
-                          <v-chip
-                            small
-                            outlined
-                            color="purple"
-                            dark
-                            v-if="
-                              item.restaurant == shopDiscount.restaurant &&
-                              shopDiscount.discount > 0 &&
-                              item.open_close
-                            "
-                            ><div>
-                              <strong class="red--text caption"
-                                ><strong>{{ shopDiscount.discount }}% off</strong></strong
-                              >
-                            </div>
-                          </v-chip>
-                        </div>
-                        <div v-if="!item.shop_coming_soon">
-                          <div v-if="!item.open_close">
-                            <strong class="red--text">Closed</strong>
-                          </div>
-                        </div>
-                        <div v-if="item.shop_coming_soon">
-                          <strong class="red--text caption"
-                            ><strong>Comming Soon</strong></strong
+                  <v-card
+                    class="mx-auto"
+                    max-width="400"
+                    @click="setRestaurant(image.slug)"
+                  >
+                    <v-row dense>
+                      <v-col :cols="12">
+                        <div class="text-center">
+                          <v-img
+                            :src="image.shop_image"
+                            class="white--text align-end"
+                            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                            max-height="100px"
+                            @click="setRestaurant(image.slug)"
                           >
+                            <v-chip class="mb-1" color="white align-bottom" small>
+                              <div class="purple--text font-weight-bold">
+                                {{ image.owner_name }}
+                              </div>
+                            </v-chip>
+                          </v-img>
                         </div>
-                      </v-card-actions>
-                    </v-col>
-                  </v-row>
-                </v-card>
-              </v-sheet>
+
+                        <v-card-actions @click="setRestaurant(image.slug)">
+                          <v-spacer></v-spacer>
+
+                          <div
+                            v-for="(shopDiscount, index) in maxDiscount"
+                            :key="index + 0.0043"
+                          >
+                            <v-chip
+                              small
+                              outlined
+                              color="purple"
+                              dark
+                              v-if="
+                                item.restaurant == shopDiscount.restaurant &&
+                                shopDiscount.discount > 0 &&
+                                item.open_close
+                              "
+                              ><div>
+                                <strong class="red--text caption"
+                                  ><strong
+                                    >{{ shopDiscount.discount }}% off</strong
+                                  ></strong
+                                >
+                              </div>
+                            </v-chip>
+                          </div>
+                          <div v-if="!item.shop_coming_soon">
+                            <div v-if="!item.open_close">
+                              <strong class="red--text">Closed</strong>
+                            </div>
+                          </div>
+                          <div v-if="item.shop_coming_soon">
+                            <strong class="red--text caption"
+                              ><strong>Comming Soon</strong></strong
+                            >
+                          </div>
+                        </v-card-actions>
+                      </v-col>
+                    </v-row>
+                  </v-card>
+                </v-sheet>
+              </div>
             </div>
           </v-col>
         </v-row>
@@ -373,6 +380,89 @@
           </v-row>
         </v-card-actions>
       </v-card>
+    </v-container>
+
+    <v-container>
+      <div class="top-orders" id="top-restaurants">
+        <h1 class="brown--text text-h4"><u>Comming Soon</u></h1>
+
+        <v-row>
+          <v-col cols="6" sm="4">
+            <div v-for="(item, index) in status" :key="index + 0.1101">
+              <div v-for="(image, index) in shopProfileApproved" :key="index + 0.0019">
+                <v-sheet
+                  rounded="lg"
+                  v-if="image.slug == item.restaurant && item.shop_coming_soon == true"
+                >
+                  <v-card
+                    class="mx-auto"
+                    max-width="400"
+                    @click="setRestaurant(image.slug)"
+                  >
+                    <v-row dense>
+                      <v-col :cols="12">
+                        <div class="text-center">
+                          <v-img
+                            :src="image.shop_image"
+                            class="white--text align-end"
+                            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                            max-height="100px"
+                            @click="setRestaurant(image.slug)"
+                          >
+                            <v-chip class="mb-1" color="white align-bottom" small>
+                              <div class="purple--text font-weight-bold">
+                                {{ image.owner_name }}
+                              </div>
+                            </v-chip>
+                          </v-img>
+                        </div>
+
+                        <v-card-actions @click="setRestaurant(image.slug)">
+                          <v-spacer></v-spacer>
+
+                          <div
+                            v-for="(shopDiscount, index) in maxDiscount"
+                            :key="index + 0.0043"
+                          >
+                            <v-chip
+                              small
+                              outlined
+                              color="purple"
+                              dark
+                              v-if="
+                                item.restaurant == shopDiscount.restaurant &&
+                                shopDiscount.discount > 0 &&
+                                item.open_close
+                              "
+                              ><div>
+                                <strong class="red--text caption"
+                                  ><strong
+                                    >{{ shopDiscount.discount }}% off</strong
+                                  ></strong
+                                >
+                              </div>
+                            </v-chip>
+                          </div>
+                          <div v-if="!item.shop_coming_soon">
+                            <div v-if="!item.open_close">
+                              <strong class="red--text">Closed</strong>
+                            </div>
+                          </div>
+                          <div v-if="item.shop_coming_soon">
+                            <strong class="red--text caption"
+                              ><strong>Comming Soon</strong></strong
+                            >
+                          </div>
+                        </v-card-actions>
+                      </v-col>
+                    </v-row>
+                  </v-card>
+                </v-sheet>
+              </div>
+            </div>
+          </v-col>
+        </v-row>
+      </div>
     </v-container>
 
     <!-- <v-container>

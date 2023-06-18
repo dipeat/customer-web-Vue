@@ -24,17 +24,17 @@
                       >mdi-heart</v-icon
                     >
                   </v-list-item-title>
-                  <v-card max-width="20">
+                  <v-card max-width="20" class="mt-1">
                     <a :href="image.google_map_address">
-                      <v-btn x-small color="blue" dark
-                        ><v-icon color="white">mdi-map-marker</v-icon>Map</v-btn
+                      <v-btn x-small color="primary" dark outlined
+                        ><v-icon color="red" small>mdi-map-marker</v-icon>Map</v-btn
                       >
                     </a>
                   </v-card>
 
-                  <v-list-item-subtitle class="mt-2"
-                    ><v-icon>mdi-phone</v-icon>: {{ image.phone }}</v-list-item-subtitle
-                  >
+                  <v-list-item-subtitle class="mt-2" v-if="$store.state.isAuthenticated"
+                    ><v-icon>mdi-phone</v-icon>: {{ image.phone }}
+                  </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
 
@@ -376,14 +376,8 @@
 
               <v-fab-transition>
                 <div v-for="(stat, index) in status" :key="index + 0.007">
-                  <div
-                    v-if="
-                      restaurant_name == stat.restaurant &&
-                      $store.state.isAuthenticated != false
-                    "
-                    class="text-center"
-                  >
-                    <v-row v-if="stat.open_close">
+                  <div v-if="restaurant_name == stat.restaurant" class="text-center">
+                    <v-row v-if="stat.open_close && stat.shop_coming_soon == false">
                       <v-col>
                         <v-dialog v-model="dialog" scrollable max-width="350px">
                           <template v-slot:activator="{ on, attrs }">
@@ -401,9 +395,6 @@
                               "
                               v-bind="attrs"
                               v-on="on"
-                              :disabled="
-                                $store.state.isAuthenticated == false ? true : false
-                              "
                             >
                               Next
                             </v-btn>
@@ -490,7 +481,7 @@
 
                                   <div>
                                     <v-container v-if="displayOrder != ''">
-                                      <v-row class="blue--text text-left" dense>
+                                      <v-row class="grey--text text-left" dense>
                                         <v-col>
                                           <div>Prepare Time</div>
                                         </v-col>
@@ -498,7 +489,8 @@
                                         <v-col cols="5" sm="5">
                                           <div>
                                             <v-icon>mdi-alarm</v-icon
-                                            >{{ premare_time }} mins
+                                            >{{ finalPrepareTime.toFixed(0) }}
+                                            mins
                                           </div>
                                         </v-col>
                                       </v-row>
@@ -514,7 +506,7 @@
                                           </div>
                                         </v-col>
                                       </v-row>
-                                      <v-row class="red--text text-left" dense>
+                                      <v-row class="blue--text text-left" dense>
                                         <v-col>
                                           <div>Discount (5%)</div>
                                         </v-col>
@@ -525,6 +517,7 @@
                                             >{{
                                               ((total.toFixed(2) * 5) / 100).toFixed(2)
                                             }}
+                                            (–)
                                           </div>
                                         </v-col>
                                       </v-row>
@@ -539,6 +532,7 @@
                                             >{{
                                               ((total.toFixed(2) * 5) / 100).toFixed(2)
                                             }}
+                                            (+)
                                           </div>
                                         </v-col>
                                       </v-row>
@@ -710,7 +704,7 @@
                                     counter
                                   ></v-text-field>
                                 </v-container>
-                                <div>
+                                <div class="caption">
                                   <v-alert
                                     border="right"
                                     colored-border
@@ -722,9 +716,19 @@
                                     {{ errorMessages }}
                                   </v-alert>
                                 </div>
-                                <v-container v-if="displayOrder == ''">
+                                <v-container v-if="displayOrder == ''" class="red--text">
                                   <h4>Please select items for order!</h4>
                                 </v-container>
+
+                                <div
+                                  class="red--text"
+                                  v-if="
+                                    !$store.state.isAuthenticated && displayOrder != ''
+                                  "
+                                >
+                                  <h4>Login / SignUp to place order !!</h4>
+                                </div>
+
                                 <!-- <v-container
                       v-if="displayOrder != '' && $store.state.walletBalance < total"
                     >
@@ -733,7 +737,10 @@
                               </div>
                             </v-card-text>
                             <v-divider></v-divider>
-                            <v-card-actions class="cart-style">
+                            <v-card-actions
+                              class="cart-style"
+                              v-if="$store.state.isAuthenticated"
+                            >
                               <v-btn color="white" text @click="dialog = false">
                                 Cancel
                               </v-btn>
@@ -747,6 +754,23 @@
                               >
                                 Checkout
                               </v-btn>
+                            </v-card-actions>
+                            <v-card-actions
+                              class="cart-style"
+                              v-if="!$store.state.isAuthenticated"
+                            >
+                              <v-btn color="white" text @click="dialog = false">
+                                Cancel
+                              </v-btn>
+                              <v-spacer></v-spacer>
+                              <a
+                                v-if="!$store.state.isAuthenticated && displayOrder != ''"
+                                ><logIn /></a
+                              >&nbsp;
+                              <a
+                                v-if="!$store.state.isAuthenticated && displayOrder != ''"
+                                ><signUp
+                              /></a>
                             </v-card-actions>
                           </v-card>
                         </v-dialog>
@@ -768,13 +792,11 @@
                       </v-chip>
                     </v-container>
                   </div>
-                  <div class="text-center red--text" v-else>
+                  <!-- <div class="text-center red--text" v-if="!$store.state.isAuthenticated">
                     <v-chip color="white" class="red--text">
-                      <strong>Please Log-In</strong> &nbsp;&nbsp;&nbsp;
-                      <a><logIn /></a>&nbsp;
-                      <a><signUp /></a>
+                      <strong>Please Log-In / SignUp</strong>
                     </v-chip>
-                  </div>
+                  </div> -->
                 </div>
               </v-fab-transition>
             </v-card-text>
@@ -832,6 +854,8 @@ export default {
       likeColor: "",
       likeBoolShop: true,
       status: "",
+      qrVisitCount: 0,
+      finalPrepareTime: 0,
 
       packagingCharges: 0,
       acceptDineIn: true,
@@ -889,7 +913,7 @@ export default {
               userTemp: this.$store.state.user.username,
               takeawayTemp: this.checkbox,
               order_dateTemp: new Date().toString().slice(0, 15),
-              prepare_timeTemp: this.premare_time,
+              prepare_timeTemp: this.finalPrepareTime,
               food_nameTemp: this.foodName,
               totalTemp: Number(this.total).toFixed(2),
               messageTemp: this.message,
@@ -918,6 +942,7 @@ export default {
                   response.data.response.data.instrumentResponse.redirectInfo.url;
               }
             });
+          this.dialog = false;
         } else {
           // console.log("please select time after " + this.minClock);
           this.errorMessages = "please select time after " + this.minClock;
@@ -932,8 +957,6 @@ export default {
           this.errorMessages = "";
         }, 5000);
       }
-
-      this.dialog = false;
     },
 
     pay() {
@@ -1073,11 +1096,25 @@ export default {
 
       // calculate prepare time
       this.premare_time = 0;
-      for (let i = 0; i < this.displayOrder.length; i++) {
-        this.premare_time +=
-          this.displayOrder[i].prepare_time * this.displayOrder[i].value;
-        // console.log(this.displayOrder[i]);
-        // console.log(this.displayOrder[i].value);
+
+      if (this.displayOrder.length <= 2) {
+        for (let i = 0; i < this.displayOrder.length; i++) {
+          this.premare_time += this.displayOrder[i].prepare_time;
+
+          // * this.displayOrder[i].value
+          // console.log(this.displayOrder[i]);
+          // console.log(this.displayOrder[i].value);
+        }
+        this.finalPrepareTime = this.premare_time + 6;
+      }
+
+      if (this.displayOrder.length > 2) {
+        for (let i = 0; i < this.displayOrder.length; i++) {
+          this.premare_time += this.displayOrder[i].prepare_time;
+          // console.log(this.displayOrder[i]);
+          // console.log(this.displayOrder[i].value);
+        }
+        this.finalPrepareTime = this.premare_time / this.displayOrder.length + 9;
       }
 
       // calculate average prepare time per item per quantity
@@ -1094,12 +1131,23 @@ export default {
     setDefaultTime() {
       // calculate prepare time
       this.premare_time = 0;
-      for (let i = 0; i < this.displayOrder.length; i++) {
-        this.premare_time +=
-          this.displayOrder[i].prepare_time * this.displayOrder[i].value;
+
+      if (this.displayOrder.length <= 2) {
+        for (let i = 0; i < this.displayOrder.length; i++) {
+          this.premare_time += this.displayOrder[i].prepare_time;
+        }
+        //  * this.displayOrder[i].value
+        this.finalPrepareTime = this.premare_time + 6;
       }
 
-      this.minClock = new Date(new Date().getTime() + this.premare_time * 60000)
+      if (this.displayOrder.length > 2) {
+        for (let i = 0; i < this.displayOrder.length; i++) {
+          this.premare_time += this.displayOrder[i].prepare_time;
+        }
+        this.finalPrepareTime = this.premare_time / this.displayOrder.length + 9;
+      }
+
+      this.minClock = new Date(new Date().getTime() + this.finalPrepareTime * 60000)
         .toString()
         .slice(16, 21);
       // console.log(this.minClock);
@@ -1109,12 +1157,22 @@ export default {
 
     refreshClock() {
       this.premare_time = 0;
-      for (let i = 0; i < this.displayOrder.length; i++) {
-        this.premare_time +=
-          this.displayOrder[i].prepare_time * this.displayOrder[i].value;
+      if (this.displayOrder.length <= 2) {
+        for (let i = 0; i < this.displayOrder.length; i++) {
+          this.premare_time += this.displayOrder[i].prepare_time;
+        }
+        //  * this.displayOrder[i].value
+        this.finalPrepareTime = this.premare_time + 6;
       }
 
-      this.minClock = new Date(new Date().getTime() + this.premare_time * 60000)
+      if (this.displayOrder.length > 2) {
+        for (let i = 0; i < this.displayOrder.length; i++) {
+          this.premare_time += this.displayOrder[i].prepare_time;
+        }
+        this.finalPrepareTime = this.premare_time / this.displayOrder.length + 9;
+      }
+
+      this.minClock = new Date(new Date().getTime() + this.finalPrepareTime * 60000)
         .toString()
         .slice(16, 21);
       // console.log(this.minClock);
@@ -1283,6 +1341,16 @@ export default {
 
     if (this.$route.path.slice(6, 8) == "qr") {
       localStorage.setItem("qr", true);
+
+      // collecting qr data
+      api.get("/api/v1/customeranalytics/").then((response) => {
+        this.qrVisitCount = response.data[0].qr_scan_count;
+        // console.log(this.qrVisitCount);
+        api.patch("/api/v1/customeranalytics/", {
+          qr_scan_count: Number(this.qrVisitCount) + 1,
+        });
+      });
+
       if (
         localStorage.getItem("restaurant") == "" ||
         localStorage.getItem("restaurant") == null

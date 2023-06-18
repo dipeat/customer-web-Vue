@@ -82,7 +82,7 @@ export default {
       let search = localStorage.getItem("searchText").replace(/^[ ]+/g, "");
 
       if (search != "") {
-        this.searchedItem = search;
+        this.searchedItem = localStorage.getItem("searchDisplayText");
         // console.log(search);
         api.get(`/api/v1/clientprofilesearch/${search}`).then((response) => {
           this.getSearch = response.data;
