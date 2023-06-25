@@ -14,15 +14,20 @@ const api = axios.create({
 });
 
 api.interceptors.response.use(undefined, (error) => {
-  
   const newError = new Error(`An error occurred while processing the request: ${error.message}`);
   newError.stack = error.stack;
-
   throw newError;
 });
-
 export default api;
 
+
+// import GAuth from 'vue-google-oauth2'
+// const gauthOption = {
+//   clientId: '895893646343-p7itci8ondmfb5f373rabt4cdlnngmal.apps.googleusercontent.com',
+//   scope: 'profile email',
+//   prompt: 'consent',
+// }
+// Vue.use(GAuth, gauthOption)
 
 new Vue({
   router,

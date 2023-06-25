@@ -44,7 +44,113 @@
                 </tbody>
               </template>
             </v-simple-table>
-            <v-container>
+
+            <v-divider></v-divider>
+
+            <div class="mt-2">
+              <v-container>
+                <v-row class="grey--text text-left" dense>
+                  <v-col>
+                    <div class="caption blue--text">Status</div>
+                  </v-col>
+                  <v-divider vertical></v-divider>
+                  <v-col cols="5" sm="5">
+                    <div class="caption blue--text text-center">
+                      <span v-if="item.takeaway == true">Takeaway</span>
+                      <span v-else>Dine-In</span>
+                    </div>
+                  </v-col>
+                </v-row>
+                <v-row class="grey--text text-left" dense>
+                  <v-col>
+                    <div class="caption blue--text">Arrival</div>
+                  </v-col>
+                  <v-divider vertical></v-divider>
+                  <v-col cols="5" sm="5">
+                    <div class="caption blue--text text-center">
+                      <span>{{ item.arrival_time }}</span>
+                    </div>
+                  </v-col>
+                </v-row>
+                <v-row class="grey--text text-left" dense>
+                  <v-col>
+                    <div class="caption blue--text">Order Date</div>
+                  </v-col>
+                  <v-divider vertical></v-divider>
+                  <v-col cols="5" sm="5">
+                    <div class="caption blue--text text-center">
+                      <span>{{ item.order_date.slice(4, 16) }}</span>
+                    </div>
+                  </v-col>
+                </v-row>
+                <v-row class="grey--text text-left" dense>
+                  <v-col>
+                    <div class="caption purple--text">Cost</div>
+                  </v-col>
+                  <v-divider vertical></v-divider>
+                  <v-col cols="5" sm="5">
+                    <div class="caption purple--text text-center">
+                      <v-icon>mdi-currency-inr</v-icon>
+                      <span>{{ Number(item.total).toFixed(2) }}</span>
+                    </div>
+                  </v-col>
+                </v-row>
+                <v-row class="grey--text text-left" dense>
+                  <v-col>
+                    <div class="caption purple--text">GST(5%)+dipEAT(0%)</div>
+                  </v-col>
+                  <v-divider vertical></v-divider>
+                  <v-col cols="5" sm="5">
+                    <div class="caption purple--text text-center">
+                      <v-icon>mdi-currency-inr</v-icon>
+                      <span>{{ ((item.total * 5) / 100).toFixed(2) }}</span>
+                    </div>
+                  </v-col>
+                </v-row>
+                <v-row class="grey--text text-left" dense>
+                  <v-col>
+                    <div class="caption purple--text">Sub-Total</div>
+                  </v-col>
+                  <v-divider vertical></v-divider>
+                  <v-col cols="5" sm="5">
+                    <div class="caption purple--text text-center">
+                      <v-icon>mdi-currency-inr</v-icon>
+                      <span>{{
+                        (
+                          Number(item.total) + Number(((item.total * 5) / 100).toFixed(2))
+                        ).toFixed(2)
+                      }}</span>
+                    </div>
+                  </v-col>
+                </v-row>
+                <v-row class="grey--text text-left" dense>
+                  <v-col>
+                    <div class="caption purple--text">Discount</div>
+                  </v-col>
+                  <v-divider vertical></v-divider>
+                  <v-col cols="5" sm="5">
+                    <div class="caption purple--text text-center">
+                      ➖<v-icon>mdi-currency-inr</v-icon>
+                      <span>{{ ((item.total * 5) / 100).toFixed(2) }}</span>
+                    </div>
+                  </v-col>
+                </v-row>
+                <v-row class="grey--text text-left" dense>
+                  <v-col>
+                    <div class="caption purple--text">Total</div>
+                  </v-col>
+                  <v-divider vertical></v-divider>
+                  <v-col cols="5" sm="5">
+                    <div class="caption purple--text text-center">
+                      <v-icon>mdi-currency-inr</v-icon>
+                      <span>{{ Number(item.total).toFixed(2) }}</span>
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </div>
+
+            <!-- <v-container>
               <v-chip outlined color="primary" class="mt-1">
                 <span v-if="item.takeaway == true">Takeaway</span>
                 <span v-else>Dine-In</span>
@@ -54,6 +160,12 @@
               </v-chip>
               <v-chip outlined color="red" class="mt-1">
                 <span> Time: {{ item.arrival_time }}</span>
+              </v-chip>
+              <v-chip outlined color="black" class="mt-1">
+                <span
+                  >Discount:<v-icon>mdi-currency-inr</v-icon
+                  >{{ ((item.total * 5) / 100).toFixed(2) }}</span
+                >
               </v-chip>
               <v-chip outlined color="green" class="mt-1">
                 <span
@@ -65,12 +177,6 @@
               <v-chip outlined color="purple" class="mt-1">
                 <span
                   >Cost:<v-icon>mdi-currency-inr</v-icon
-                  >{{ Number(item.total).toFixed(2) }}</span
-                >
-              </v-chip>
-              <v-chip outlined color="purple" class="mt-1">
-                <span
-                  >Total:<v-icon>mdi-currency-inr</v-icon
                   >{{
                     (
                       Number(item.total) + Number(((item.total * 5) / 100).toFixed(2))
@@ -78,7 +184,13 @@
                   }}</span
                 >
               </v-chip>
-            </v-container>
+              <v-chip outlined color="purple" class="mt-1">
+                <span
+                  >Total:<v-icon>mdi-currency-inr</v-icon
+                  >{{ Number(item.total).toFixed(2) }}</span
+                >
+              </v-chip>
+            </v-container> -->
             <v-divider color="red"></v-divider>
           </div>
         </div>

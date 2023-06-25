@@ -110,7 +110,7 @@
         <div class="line3"></div>
       </div>
       <ul class="nav-links">
-        <li><a href="#">Intro</a></li>
+        <li><a href="#">Home</a></li>
         <li><a href="http://partner.dipeat.com/">Partner</a></li>
         <li><a href="#about-us">About Us</a></li>
         <li><a href="#top-restaurants">Restaurants</a></li>
@@ -125,18 +125,13 @@
 
     <v-sheet>
       <v-main class="mt-13">
-        <v-toolbar
-          color="deep-purple accent-3"
-          class="loggedIn-searchBar"
-          dark
-          flat
-          v-if="$store.state.isAuthenticated"
-        >
+        <v-toolbar color="deep-purple accent-3" class="loggedIn-searchBar" dark flat>
           <v-row justify="center">
-            <v-col sm="6">
+            <v-col sm="6" class="mt-1">
               <v-menu rounded="xl" offset-y>
                 <template v-slot:activator="{ attrs, on }">
                   <v-text-field
+                    dense
                     v-model="search"
                     v-bind="attrs"
                     v-on="on"
@@ -446,14 +441,14 @@ export default {
 /*Navigation Bar and Hamburger */
 
 .loggedIn-nav {
-  background-image: linear-gradient(135deg, #14011b 0%, #8235cf 100%);
+  background-image: linear-gradient(135deg, #14011b 0%, #5b1e97 100%);
 }
 .loggedIn-searchBar {
-  background-image: linear-gradient(135deg, #14011bde 0%, #8b42d3 100%);
+  background-image: linear-gradient(135deg, #14011b 0%, #6520aa 100%);
 }
 @media (min-width: 480px) {
   .loggedIn-searchBar {
-    background-image: linear-gradient(135deg, #14011b 0%, #8435d3 100%);
+    background-image: linear-gradient(135deg, #14011bc7 0%, #8435d3 100%);
   }
 }
 
@@ -465,7 +460,7 @@ nav {
   backdrop-filter: blur(11px);
   -webkit-backdrop-filter: blur(11px);
   border: 1px solid rgb(30, 2, 58);
-  background-image: linear-gradient(135deg, #1e0129 0%, #ac5cfc3a 100%);
+  background-image: linear-gradient(135deg, #1e0129fd 45%, #41127088 10%);
   display: flex;
   position: fixed;
   z-index: 10;

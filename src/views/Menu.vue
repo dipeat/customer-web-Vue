@@ -508,7 +508,7 @@
                                       </v-row>
                                       <v-row class="blue--text text-left" dense>
                                         <v-col>
-                                          <div>Discount (5%)</div>
+                                          <div>Extra Discount</div>
                                         </v-col>
                                         <v-divider vertical color="black"></v-divider>
                                         <v-col cols="5" sm="5">
@@ -532,7 +532,6 @@
                                             >{{
                                               ((total.toFixed(2) * 5) / 100).toFixed(2)
                                             }}
-                                            (+)
                                           </div>
                                         </v-col>
                                       </v-row>

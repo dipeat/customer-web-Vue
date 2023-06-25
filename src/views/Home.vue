@@ -1,40 +1,6 @@
 <template>
   <v-main>
     <h4 v-if="likedShops != '' && shopProfileApproved != ''">Favorite Shops</h4>
-    <!-- <v-slide-group v-model="sliderGroup" center-active v-if="likedShops != ''">
-      <v-slide-item
-        v-for="(shops, index) in likedShops"
-        :key="index + 0.0011"
-        v-slot="{ active, toggle }"
-      >
-        <v-card
-          :color="active ? 'transparent' : 'grey lighten-1'"
-          class="ma-1"
-          height="120"
-          width="120"
-          @click="
-            toggle();
-            favShop(shops.shop);
-          "
-        >
-          <v-row class="fill-height">
-            <div v-for="(image, index) in shopProfileImage" :key="index + 0.0019">
-              <v-scale-transition>
-                <v-avatar class="ma-2" size="125" tile v-if="image.slug == shops.shop">
-                  <v-img :src="image.shop_image" @click="favShop(shops.shop)">
-                    <v-row align="end" justify="center">
-                      <v-chip color="black" small size="58" label class="white--text ma-3"
-                        >{{ image.owner_name }}
-                      </v-chip>
-                    </v-row>
-                  </v-img>
-                </v-avatar>
-              </v-scale-transition>
-            </div>
-          </v-row>
-        </v-card>
-      </v-slide-item>
-    </v-slide-group> -->
 
     <v-slide-group v-model="sliderGroup" center-active v-if="likedShops != ''">
       <span v-for="(image, index) in shopProfileApproved" :key="index + 0.0159">
@@ -79,16 +45,6 @@
       </span>
     </v-slide-group>
 
-    <!-- <v-container>
-      <v-text-field
-        v-model="amount"
-        label="Amount*"
-        hint="Amount"
-        required
-      ></v-text-field>
-      <v-btn @click="phonePe">Pay</v-btn>
-    </v-container> -->
-
     <div v-if="!$store.state.isAuthenticated" class="mt-3">
       <div class="hero-large-bg">
         <img
@@ -127,6 +83,8 @@
         <a><signUp /></a>
       </div>
     </div>
+
+    <!-- <v-btn @click="googleRegister()">G</v-btn> -->
 
     <v-container v-if="foodOrdered != ''" class="mt-4">
       <v-card class="mx-auto">
@@ -188,9 +146,9 @@
       <div class="top-orders" id="top-restaurants">
         <div class="text-center mt-3">
           <h2 class="red--text text-h3">
-            <strong>🍃 5% off 🥳</strong>
+            <strong>🍃 Extra 🥳</strong>
           </h2>
-          <div class="">on every order</div>
+          <div class="black--text">5% off on each order</div>
         </div>
         <v-divider color="red" class="mt-3"></v-divider>
 
@@ -216,6 +174,7 @@
                             :src="image.shop_image"
                             class="white--text align-end"
                             gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                            min-height="100px"
                             max-height="100px"
                             @click="setRestaurant(image.slug)"
                           >
@@ -410,6 +369,7 @@
                             :src="image.shop_image"
                             class="white--text align-end"
                             gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                            min-height="100px"
                             max-height="100px"
                             @click="setRestaurant(image.slug)"
                           >
@@ -609,6 +569,12 @@ export default {
       // console.log(value);
     },
 
+    async googleRegister() {
+      // console.log("googleRegister");
+      const googleUser = await this.$gAuth.signIn();
+      console.log(googleUser);
+    },
+
     phonePeValidation() {
       api.post("/api/v1/phonepe_validation/", {}).then((response) => {
         // console.log(response.data);
@@ -720,6 +686,17 @@ export default {
           this.shopProfileApproved = this.shopProfileApproved.filter(
             (item) => item.approved === true
           );
+
+          // restaurants in this.liveRestaurant === this.shopProfileApproved should be same
+          const approvedShopforLive = this.liveRestaurant.filter((item) =>
+            this.shopProfileApproved.some((el) => el.slug === item.slug)
+          );
+          this.liveRestaurant = approvedShopforLive;
+
+          const approvedShopforCommingSoon = this.commingSoon.filter((item) =>
+            this.shopProfileApproved.some((el) => el.slug === item.slug)
+          );
+          this.commingSoon = approvedShopforCommingSoon;
         })
         .catch((err) => {
           // console.log("error is:" + err);
