@@ -14,6 +14,7 @@ import privacyPolicy from '../views/privacyPolicy.vue'
 import termsConditions from '../views/termsConditions.vue'
 import refundPolicy from '../views/refundPolicy.vue'
 import Feedback from '../views/Feedback.vue'
+import Recognition from '../views/Recognition.vue'
 
 import store from '../store'
 Vue.use(VueRouter)
@@ -127,6 +128,11 @@ const routes = [
     path: '/feedback',
     name: 'Feedback',
     component: Feedback,
+  },
+  {
+    path: '/recognition',
+    name: 'Recognition',
+    component: Recognition,
   },
 
 

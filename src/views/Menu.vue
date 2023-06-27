@@ -929,6 +929,15 @@ export default {
               // console.log(response.data.response.success);
 
               localStorage.removeItem("qr");
+              this.foodName = [];
+              this.total = 0;
+              this.message = "";
+              this.checkbox = false;
+              this.displayOrder = [];
+              this.time = null;
+              this.finalPrepareTime = 0;
+              this.finalTotal = 0;
+              this.totalAfterDiscount = 0;
 
               localStorage.setItem(
                 "transactionId",

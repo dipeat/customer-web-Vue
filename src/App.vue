@@ -171,19 +171,23 @@
               <h1>Contact Us</h1>
               <li>
                 <v-icon dark color="yellow">mdi-email-variant</v-icon>&nbsp;&nbsp;
-                <a href="mailto:yourmail@gmail.com">dipeatdotcom@gmail.com</a>
+                <a href="dipeatdotcom@gmail.com">dipeatdotcom@gmail.com</a>
               </li>
               <li>
                 <v-icon color="light-green accent-3">mdi-leaf</v-icon>&nbsp;&nbsp;
                 <a href="/feedback">Feedback</a>
+              </li>
+              <li>
+                <v-icon color="pink accent-2">mdi-food-apple</v-icon>&nbsp;&nbsp;
+                <a href="http://partner.dipeat.com/">Partner With Us</a>
               </li>
             </div>
           </div>
           <div class="com" data-aos="fade-up">
             <ul>
               <li><a href="#about-us">About Us</a></li>
+              <li><a href="/recognition">Recognition</a></li>
               <li><a href="#how-it-works">Pricing</a></li>
-              <li><a href="http://partner.dipeat.com/">Partner With Us !</a></li>
               <li><a href="/privacy_policy">Privacy Policy</a></li>
               <li><a href="/terms_and_conditions">Terms & Conditions</a></li>
               <li><a href="/refund_policy">Cancellation/Refund Policy</a></li>
