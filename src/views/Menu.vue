@@ -904,53 +904,55 @@ export default {
           minutes = minutes < 10 ? minutes : minutes;
           let strTime = hours + ":" + minutes + " " + ampm;
 
-          api
-            .post("/api/v1/phonepe_payment/", {
-              transactionId: Date.now(),
+          setTimeout(() => {
+            api
+              .post("/api/v1/phonepe_payment/", {
+                transactionId: Date.now(),
 
-              restaurantTemp: localStorage.getItem("restaurant"),
-              userTemp: this.$store.state.user.username,
-              takeawayTemp: this.checkbox,
-              order_dateTemp: new Date().toString().slice(0, 15),
-              prepare_timeTemp: this.finalPrepareTime,
-              food_nameTemp: this.foodName,
-              totalTemp: Number(this.total).toFixed(2),
-              messageTemp: this.message,
-              arrival_timeTemp: strTime,
-              order_numberTemp: Date.now(),
-              order_from_qrTemp: Boolean(localStorage.getItem("qr")),
-              slugTemp: this.$store.state.user.username + "a-_a" + Date.now(),
+                restaurantTemp: localStorage.getItem("restaurant"),
+                userTemp: this.$store.state.user.username,
+                takeawayTemp: this.checkbox,
+                order_dateTemp: new Date().toString().slice(0, 15),
+                prepare_timeTemp: this.finalPrepareTime,
+                food_nameTemp: this.foodName,
+                totalTemp: Number(this.total).toFixed(2),
+                messageTemp: this.message,
+                arrival_timeTemp: strTime,
+                order_numberTemp: Date.now(),
+                order_from_qrTemp: Boolean(localStorage.getItem("qr")),
+                slugTemp: this.$store.state.user.username + "a-_a" + Date.now(),
 
-              customerName: this.$store.state.user.username,
-              amount: Number(this.totalAfterDiscount) * 100,
-            })
-            .then((response) => {
-              // console.log(response.data);
-              // console.log(response.data.response.success);
+                customerName: this.$store.state.user.username,
+                amount: Number(this.totalAfterDiscount) * 100,
+              })
+              .then((response) => {
+                // console.log(response.data);
+                // console.log(response.data.response.success);
 
-              localStorage.removeItem("qr");
-              this.foodName = [];
-              this.total = 0;
-              this.message = "";
-              this.checkbox = false;
-              this.displayOrder = [];
-              this.time = null;
-              this.finalPrepareTime = 0;
-              this.finalTotal = 0;
-              this.totalAfterDiscount = 0;
+                localStorage.removeItem("qr");
+                this.foodName = [];
+                this.total = 0;
+                this.message = "";
+                this.checkbox = false;
+                this.displayOrder = [];
+                this.time = null;
+                this.finalPrepareTime = 0;
+                this.finalTotal = 0;
+                this.totalAfterDiscount = 0;
 
-              localStorage.setItem(
-                "transactionId",
-                response.data.response.data.merchantTransactionId.slice(11, 30)
-              );
+                localStorage.setItem(
+                  "transactionId",
+                  response.data.response.data.merchantTransactionId.slice(11, 30)
+                );
 
-              // redirect to phonepe payment page
-              if (response.data.response.success == true) {
-                window.location.href =
-                  response.data.response.data.instrumentResponse.redirectInfo.url;
-              }
-            });
-          this.dialog = false;
+                // redirect to phonepe payment page
+                if (response.data.response.success == true) {
+                  window.location.href =
+                    response.data.response.data.instrumentResponse.redirectInfo.url;
+                }
+              });
+            this.dialog = false;
+          }, 1000);
         } else {
           // console.log("please select time after " + this.minClock);
           this.errorMessages = "please select time after " + this.minClock;
