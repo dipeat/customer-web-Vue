@@ -15,6 +15,7 @@ export default new Vuex.Store({
     isAuthenticated: false,
     token: '',
     restaurant:'',
+    transactionId:'',
     searchText:'',
     walletBalance:'',
   },

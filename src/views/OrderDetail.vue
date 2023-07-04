@@ -184,7 +184,8 @@ export default {
     async foodOrders() {
       const response = await api.get("/api/v1/foodorders/");
       const filteredData = response.data.filter(
-        (item) => item.user === this.$store.state.user.username
+        (item) =>
+          item.user === this.$store.state.user.username && item.delivered === false
       );
       // console.log(filteredData);
       this.foodOrdered = filteredData.reverse();

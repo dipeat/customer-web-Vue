@@ -735,10 +735,33 @@
                     </v-container> -->
                               </div>
                             </v-card-text>
+                            <v-row
+                              class="text-center mb-2"
+                              v-if="
+                                !doneButton &&
+                                displayOrder != '' &&
+                                $store.state.isAuthenticated
+                              "
+                            >
+                              <v-col><v-btn @click="dialog = false">Cancel</v-btn></v-col>
+                              <v-col>
+                                <v-btn
+                                  color="primary"
+                                  @click="tempBucketOrders()"
+                                  v-if="
+                                    !doneButton &&
+                                    displayOrder != '' &&
+                                    $store.state.isAuthenticated
+                                  "
+                                  >Done</v-btn
+                                >
+                              </v-col>
+                            </v-row>
+
                             <v-divider></v-divider>
                             <v-card-actions
                               class="cart-style"
-                              v-if="$store.state.isAuthenticated"
+                              v-if="$store.state.isAuthenticated && doneButton"
                             >
                               <v-btn color="white" text @click="dialog = false">
                                 Cancel
@@ -859,6 +882,8 @@ export default {
       packagingCharges: 0,
       acceptDineIn: true,
       acceptTakeAway: true,
+      doneButton: false,
+      foodNameTemp: [],
 
       restaurant_name: localStorage.getItem("restaurant"),
       chargesGST: 0,
@@ -881,46 +906,143 @@ export default {
   },
 
   methods: {
+    tempBucketOrders() {
+      this.foodName = [];
+
+      for (let i = 0; i < this.displayOrder.length; i++) {
+        this.foodName +=
+          this.displayOrder[i].name +
+          "@" +
+          this.displayOrder[i].value +
+          "$$" +
+          this.displayOrder[i].final_price +
+          "||";
+      }
+
+      this.foodNameTemp = this.foodName;
+
+      let time = this.time;
+      let hours = time.substring(0, 2);
+      let minutes = time.substring(3, 5);
+      let ampm = hours >= 12 ? "PM" : "AM";
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      minutes = minutes < 10 ? minutes : minutes;
+      let strTime = hours + ":" + minutes + " " + ampm;
+
+      this.$store.state.transactionId = Date.now();
+
+      if (this.checkbox == true) {
+        api
+          .post("/api/v1/temp-orders/", {
+            transactionId: this.$store.state.transactionId,
+
+            restaurantTemp: localStorage.getItem("restaurant"),
+            userTemp: this.$store.state.user.username,
+            takeawayTemp: this.checkbox,
+            order_dateTemp: new Date().toString().slice(0, 15),
+            prepare_timeTemp: this.finalPrepareTime.toFixed(0),
+            food_nameTemp: this.foodNameTemp,
+            totalTemp: (Number(this.total) + Number(this.packagingCharges)).toFixed(2),
+            messageTemp: this.message,
+            arrival_timeTemp: strTime,
+            order_numberTemp: Date.now(),
+            order_from_qrTemp: Boolean(localStorage.getItem("qr")),
+            slugTemp: this.$store.state.user.username + "a-_a" + Date.now(),
+
+            customerName: this.$store.state.user.username,
+            amount: Number(this.totalAfterDiscount) * 100,
+          })
+          .then((res) => {
+            // console.log(res.data);
+            this.doneButton = true;
+            this.foodNameTemp = [];
+            // this.total = 0;
+            // this.message = "";
+            // this.checkbox = false;
+            // this.displayOrder = [];
+            // this.time = null;
+            // this.finalPrepareTime = 0;
+            // this.finalTotal = 0;
+            // this.totalAfterDiscount = 0;
+          });
+      } else {
+        api
+          .post("/api/v1/temp-orders/", {
+            transactionId: this.$store.state.transactionId,
+
+            restaurantTemp: localStorage.getItem("restaurant"),
+            userTemp: this.$store.state.user.username,
+            takeawayTemp: this.checkbox,
+            order_dateTemp: new Date().toString().slice(0, 15),
+            prepare_timeTemp: this.finalPrepareTime.toFixed(0),
+            food_nameTemp: this.foodNameTemp,
+            totalTemp: Number(this.total).toFixed(2),
+            messageTemp: this.message,
+            arrival_timeTemp: strTime,
+            order_numberTemp: Date.now(),
+            order_from_qrTemp: Boolean(localStorage.getItem("qr")),
+            slugTemp: this.$store.state.user.username + "a-_a" + Date.now(),
+
+            customerName: this.$store.state.user.username,
+            amount: Number(this.totalAfterDiscount) * 100,
+          })
+          .then((res) => {
+            console.log(res.data);
+            this.doneButton = true;
+            this.foodNameTemp = [];
+            // this.total = 0;
+            // this.message = "";
+            // this.checkbox = false;
+            // this.displayOrder = [];
+            // this.time = null;
+            // this.finalPrepareTime = 0;
+            // this.finalTotal = 0;
+            // this.totalAfterDiscount = 0;
+          });
+      }
+    },
+
     phonePe() {
       // console.log(Number(this.total).toFixed(2));
       if (this.displayOrder != "" && this.time !== null) {
         if (this.time >= this.minClock) {
-          for (let i = 0; i < this.displayOrder.length; i++) {
-            this.foodName +=
-              this.displayOrder[i].name +
-              "@" +
-              this.displayOrder[i].value +
-              "$$" +
-              this.displayOrder[i].final_price +
-              "||";
-          }
+          // for (let i = 0; i < this.displayOrder.length; i++) {
+          //   this.foodName +=
+          //     this.displayOrder[i].name +
+          //     "@" +
+          //     this.displayOrder[i].value +
+          //     "$$" +
+          //     this.displayOrder[i].final_price +
+          //     "||";
+          // }
 
-          let time = this.time;
-          let hours = time.substring(0, 2);
-          let minutes = time.substring(3, 5);
-          let ampm = hours >= 12 ? "PM" : "AM";
-          hours = hours % 12;
-          hours = hours ? hours : 12;
-          minutes = minutes < 10 ? minutes : minutes;
-          let strTime = hours + ":" + minutes + " " + ampm;
+          // let time = this.time;
+          // let hours = time.substring(0, 2);
+          // let minutes = time.substring(3, 5);
+          // let ampm = hours >= 12 ? "PM" : "AM";
+          // hours = hours % 12;
+          // hours = hours ? hours : 12;
+          // minutes = minutes < 10 ? minutes : minutes;
+          // let strTime = hours + ":" + minutes + " " + ampm;
 
           setTimeout(() => {
             api
               .post("/api/v1/phonepe_payment/", {
-                transactionId: Date.now(),
+                transactionId: this.$store.state.transactionId,
 
-                restaurantTemp: localStorage.getItem("restaurant"),
-                userTemp: this.$store.state.user.username,
-                takeawayTemp: this.checkbox,
-                order_dateTemp: new Date().toString().slice(0, 15),
-                prepare_timeTemp: this.finalPrepareTime,
-                food_nameTemp: this.foodName,
-                totalTemp: Number(this.total).toFixed(2),
-                messageTemp: this.message,
-                arrival_timeTemp: strTime,
-                order_numberTemp: Date.now(),
-                order_from_qrTemp: Boolean(localStorage.getItem("qr")),
-                slugTemp: this.$store.state.user.username + "a-_a" + Date.now(),
+                // restaurantTemp: localStorage.getItem("restaurant"),
+                // userTemp: this.$store.state.user.username,
+                // takeawayTemp: this.checkbox,
+                // order_dateTemp: new Date().toString().slice(0, 15),
+                // prepare_timeTemp: this.finalPrepareTime,
+                // food_nameTemp: this.foodName,
+                // totalTemp: Number(this.total).toFixed(2),
+                // messageTemp: this.message,
+                // arrival_timeTemp: strTime,
+                // order_numberTemp: Date.now(),
+                // order_from_qrTemp: Boolean(localStorage.getItem("qr")),
+                // slugTemp: this.$store.state.user.username + "a-_a" + Date.now(),
 
                 customerName: this.$store.state.user.username,
                 amount: Number(this.totalAfterDiscount) * 100,
@@ -1082,6 +1204,8 @@ export default {
     },
 
     oK() {
+      this.doneButton = false;
+
       for (let i = 0; i < this.foodOrder.length; i++) {
         if (this.displayOrder.indexOf(this.foodOrder[i]) == -1) {
           this.displayOrder.push(this.foodOrder[i]);

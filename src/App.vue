@@ -179,7 +179,7 @@
               </li>
               <li>
                 <v-icon color="pink accent-2">mdi-food-apple</v-icon>&nbsp;&nbsp;
-                <a href="http://partner.dipeat.com/">Partner With Us</a>
+                <a href="http://partner.dipeat.com/">Partner</a>
               </li>
             </div>
           </div>
