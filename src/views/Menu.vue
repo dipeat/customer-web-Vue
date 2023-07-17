@@ -98,6 +98,34 @@
                 placeholder="Search Menu"
                 @input="menuSearch()"
               ></v-text-field>
+              <!-- <v-chip label small>{{ order.name }}</v-chip> -->
+              <v-chip-group multiple active-class="primary--text">
+                <!-- <v-chip
+                      filter
+                      outlined
+                      color="grey darken-2"
+                      v-for="(category, index) in menu"
+                      :key="index + 0.0321"
+                      @click="filterCategory(category)"
+                    >
+                      {{ category }}
+                    </v-chip> -->
+
+                <v-chip
+                  small
+                  class="mr-1"
+                  color="teal"
+                  v-for="(order, index) in displaySelectedItems"
+                  :key="index + 2.012"
+                  text-color="white"
+                  @click:close="minusOne(item)"
+                >
+                  <v-avatar left>
+                    <v-icon>mdi-checkbox-marked-circle</v-icon>
+                  </v-avatar>
+                  {{ order.name }}
+                </v-chip>
+              </v-chip-group>
               <v-sheet
                 id="scroll-threshold-example"
                 class="overflow-y-auto pb-16"
@@ -753,7 +781,7 @@
                                     displayOrder != '' &&
                                     $store.state.isAuthenticated
                                   "
-                                  >Done</v-btn
+                                  >Next</v-btn
                                 >
                               </v-col>
                             </v-row>
@@ -857,6 +885,7 @@ export default {
       enableMessage: true,
       dineCheckbox: true,
       filterCategoryList: [],
+      displaySelectedItems: [],
 
       showNow: false,
 
@@ -1314,6 +1343,7 @@ export default {
 
     plusOne(item) {
       item.value++, this.foodOrder.push(item);
+      this.currentSelectedItems();
       // console.log(this.foodOrder);
     },
 
@@ -1321,7 +1351,20 @@ export default {
       item.value--;
       this.foodOrder.splice(this.foodOrder.indexOf(item), 1);
       this.displayOrder.splice(this.displayOrder.indexOf(item), 1);
+      this.currentSelectedItems();
       // console.log(this.foodOrder);
+    },
+
+    currentSelectedItems() {
+      this.displaySelectedItems = [];
+      this.oK();
+      // console.log(this.displayOrder);
+      for (let i = 0; i < this.displayOrder.length; i++) {
+        if (this.displaySelectedItems.indexOf(this.displayOrder[i]) == -1) {
+          this.displaySelectedItems.push(this.displayOrder[i]);
+        }
+      }
+      // console.log(this.displaySelectedItems);
     },
 
     likeShop(item) {

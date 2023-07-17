@@ -218,6 +218,9 @@ export default {
       );
       //   console.log(filteredData);
       this.foodOrdered = filteredData.reverse();
+      // sort by id in descending order
+      this.foodOrdered.sort((a, b) => b.id - a.id);
+      // console.log(this.foodOrdered);
     },
 
     setRestaurant(item) {
