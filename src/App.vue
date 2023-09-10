@@ -1,13 +1,13 @@
 <template>
   <v-app id="app">
-    <div class="loading" v-if="!$store.state.isAuthenticated">
+    <!-- <div class="loading" v-if="!$store.state.isAuthenticated">
       <div class="loader-box">
         <div class="b b1"></div>
         <div class="b b2"></div>
         <div class="b b3"></div>
         <div class="b b4"></div>
       </div>
-    </div>
+    </div> -->
     <v-app-bar
       absolute
       class="loggedIn-nav"
@@ -110,7 +110,7 @@
         <div class="line3"></div>
       </div>
       <ul class="nav-links">
-        <li><a href="#">Home</a></li>
+        <li><a href="http://dipeat.com/">Home</a></li>
         <li><a href="http://partner.dipeat.com/">Partner</a></li>
         <li><a href="#about-us">About Us</a></li>
         <li><a href="#top-restaurants">Restaurants</a></li>

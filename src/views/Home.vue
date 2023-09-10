@@ -48,7 +48,7 @@
     <div v-if="!$store.state.isAuthenticated" class="mt-3">
       <div class="hero-large-bg">
         <img
-          src="https://dipeat-s3-bucket-1.s3.amazonaws.com/pizza3.jpg"
+          src="https://dipeat-s3-bucket-1.s3.amazonaws.com/french-fries.jpg"
           class="bg-large-image"
           alt="BG Image"
         />
@@ -57,7 +57,7 @@
         </div> -->
         <div
           class="text-center text-h3 overline"
-          v-text="`It's all about Experience.`"
+          v-text="`It's all about taste & Experience.`"
         ></div>
       </div>
 
@@ -69,15 +69,18 @@
           </h1>
         </div> -->
         <img
-          src="https://dipeat-s3-bucket-1.s3.amazonaws.com/pizza3.jpg"
+          src="https://dipeat-s3-bucket-1.s3.amazonaws.com/french-fries.jpg"
           class="bg-mobile-image"
           alt="BG Image"
         />
-        <div class="text-center overline" v-text="`It's all about Experience.`"></div>
+        <div
+          class="text-center overline"
+          v-text="`It's all about taste & Experience.`"
+        ></div>
       </div>
     </div>
 
-    <div class="mt-3" v-if="!$store.state.isAuthenticated">
+    <div class="mt-10" v-if="!$store.state.isAuthenticated">
       <div class="mx-auto text-center">
         <a><logIn /></a>&nbsp;&nbsp;&nbsp;
         <a><signUp /></a>
@@ -142,15 +145,23 @@
     </v-container>
 
     <v-container>
-      <v-divider color="red" class="mt-3"></v-divider>
       <div class="top-orders" id="top-restaurants">
-        <div class="text-center mt-3">
-          <h2 class="red--text text-h3">
-            <strong>🍃 Extra 🥳</strong>
-          </h2>
-          <div class="black--text">5% off on each order</div>
-        </div>
-        <v-divider color="red" class="mt-3"></v-divider>
+        <v-row class="mt-5">
+          <v-col sm="" cols="2">
+            <v-divider color="red" class="mt-10"></v-divider>
+          </v-col>
+          <v-col sm="3" cols="8">
+            <div class="text-center mt-3">
+              <h2 class="purple--text text-h3">
+                <strong>Trending</strong>
+              </h2>
+              <div class="red--text caption"><u># 5% off on every order</u></div>
+            </div>
+          </v-col>
+          <v-col sm="" cols="2">
+            <v-divider color="red" class="mt-10"></v-divider>
+          </v-col>
+        </v-row>
 
         <v-row class="mt-3">
           <v-col
@@ -234,77 +245,6 @@
       </div>
     </v-container>
 
-    <div id="how-it-works" v-if="!$store.state.isAuthenticated">
-      <div class="container-flex">
-        <div class="box">
-          <h3>Zero Waiting Time</h3>
-          <h2 class="red--text text-h1"><strong>0</strong></h2>
-          (apx.)
-          <p>Login/SignUp and give order online before leaving your place.</p>
-        </div>
-        <div class="box">
-          <h3>DineIn/ TakeAway</h3>
-          <v-icon x-large color="blue-grey">mdi-silverware-variant</v-icon>
-          <p>
-            Choose your preference of Dine-In or TakeAway, and get food at your selected
-            time.
-          </p>
-        </div>
-
-        <div class="box">
-          <h3>Pricing</h3>
-          <v-icon x-large color="orange darken-1">mdi-wallet</v-icon>
-          <p>Select the cuisine as of your choice at price as low as shop menu.</p>
-        </div>
-      </div>
-    </div>
-
-    <v-carousel
-      class="mt-3"
-      cycle
-      height="200"
-      hide-delimiter-background
-      show-arrows-on-hover
-      delimiter-icon="mdi-chevron-right"
-    >
-      <v-carousel-item v-for="(slide, i) in slides" :key="i">
-        <v-sheet :color="colors[i]" height="100%">
-          <v-row class="fill-height" align="center" justify="center">
-            <div class="text-h3 pa-3 text-center">{{ slide }}</div>
-          </v-row>
-        </v-sheet>
-      </v-carousel-item>
-    </v-carousel>
-
-    <div class="top-orders" v-if="!$store.state.isAuthenticated">
-      <h1><u>Smart platform, Smart service.</u></h1>
-      <div class="restaurant-menu">
-        <div class="menu-item">
-          <img src="https://dipeat-s3-bucket-1.s3.amazonaws.com/pizza.jpg" alt="" />
-
-          <div class="title grey--text">Pizza</div>
-        </div>
-
-        <div class="menu-item">
-          <img
-            src="https://dipeat-s3-bucket-1.s3.amazonaws.com/fresh-cold-orange-juice.jpg"
-            alt=""
-          />
-
-          <div class="title grey--text">Healthy Drinks</div>
-        </div>
-
-        <div class="menu-item">
-          <img
-            src="https://dipeat-s3-bucket-1.s3.amazonaws.com/dosa-compressed.jpg"
-            alt=""
-          />
-
-          <div class="title grey--text">Masala Dosa</div>
-        </div>
-      </div>
-    </div>
-
     <v-container id="about-us" v-if="!$store.state.isAuthenticated">
       <v-card
         max-width="1570"
@@ -343,9 +283,119 @@
       </v-card>
     </v-container>
 
-    <v-container>
-      <div class="top-orders" id="top-restaurants">
-        <h1 class="brown--text text-h4"><u>Comming Soon</u></h1>
+    <!-- <div id="how-it-works" v-if="!$store.state.isAuthenticated">
+      <div class="container-flex">
+        <div class="box">
+          <h3>Zero Waiting Time</h3>
+          <h2 class="red--text text-h1"><strong>0</strong></h2>
+          (apx.)
+          <p>Login/SignUp and give order online before leaving your place.</p>
+        </div>
+        <div class="box">
+          <h3>DineIn/ TakeAway</h3>
+          <v-icon x-large color="blue-grey">mdi-silverware-variant</v-icon>
+          <p>
+            Choose your preference of Dine-In or TakeAway, and get food at your selected
+            time.
+          </p>
+        </div>
+
+        <div class="box">
+          <h3>Pricing</h3>
+          <v-icon x-large color="orange darken-1">mdi-wallet</v-icon>
+          <p>Select the cuisine as of your choice at price as low as shop menu.</p>
+        </div>
+      </div>
+    </div> -->
+    <div class="text-center box mt-7 mb-7">
+      <h2 class="pink--text text-h3 mb-5"><strong>We Offer</strong></h2>
+      <v-row class="text-center">
+        <v-col>
+          <v-card color="grey lighten-4" class="box" height="350" width="290">
+            <h3>Zero Waiting Time</h3>
+            <v-row class="text-end ml-15 mt-2">
+              <v-col>
+                <h2 class="red--text text-h1"><strong>0</strong></h2>
+              </v-col>
+              <v-col class="text-start mt-14">(apx.)</v-col>
+            </v-row>
+
+            <p class="mt-5">
+              Login/SignUp and give order online before leaving your home or office.
+            </p>
+          </v-card>
+        </v-col>
+        <v-col>
+          <v-card color="grey lighten-4" class="box" height="350" width="290">
+            <h3>DineIn & TakeAway</h3>
+            <v-icon class="mt-12" x-large color="pink">mdi-food</v-icon>
+            <p class="mt-12">
+              Choose your preference of Dine-In or TakeAway, and get food at your selected
+              time.
+            </p>
+          </v-card>
+        </v-col>
+        <v-col>
+          <v-card color="grey lighten-4" class="box" height="350" width="290">
+            <h3>Same Prices</h3>
+            <v-icon class="mt-12" x-large color="teal">mdi-currency-inr</v-icon>
+            <p class="mt-12">
+              Select the cuisine as of your choice at price as low as shop menu.
+            </p>
+          </v-card>
+        </v-col>
+      </v-row>
+    </div>
+
+    <!-- <v-carousel
+      class="mt-3"
+      cycle
+      height="200"
+      hide-delimiter-background
+      show-arrows-on-hover
+      delimiter-icon="mdi-chevron-right"
+    >
+      <v-carousel-item v-for="(slide, i) in slides" :key="i">
+        <v-sheet :color="colors[i]" height="100%">
+          <v-row class="fill-height" align="center" justify="center">
+            <div class="text-h3 pa-3 text-center">{{ slide }}</div>
+          </v-row>
+        </v-sheet>
+      </v-carousel-item>
+    </v-carousel> -->
+
+    <div class="top-orders" v-if="!$store.state.isAuthenticated">
+      <h1><u>Smart platform, Smart service.</u></h1>
+      <div class="restaurant-menu">
+        <div class="menu-item">
+          <img src="https://dipeat-s3-bucket-1.s3.amazonaws.com/pizza.jpg" alt="" />
+
+          <div class="title grey--text">Pizza</div>
+        </div>
+
+        <div class="menu-item">
+          <img
+            src="https://dipeat-s3-bucket-1.s3.amazonaws.com/fresh-cold-orange-juice.jpg"
+            alt=""
+          />
+
+          <div class="title grey--text">Healthy Drinks</div>
+        </div>
+
+        <div class="menu-item">
+          <img
+            src="https://dipeat-s3-bucket-1.s3.amazonaws.com/dosa-compressed.jpg"
+            alt=""
+          />
+
+          <div class="title grey--text">Masala Dosa</div>
+        </div>
+      </div>
+    </div>
+
+    <v-container v-if="commingSoon != ''">
+      <div class="top-orders commingsoonbox mt-5 mb-5" id="top-restaurants">
+        <h1 class="red--text text-h4"><u>Comming Soon</u></h1>
 
         <v-row class="mt-3">
           <v-col
@@ -429,83 +479,16 @@
       </div>
     </v-container>
 
-    <!-- <v-container>
-      <div class="top-orders" id="top-restaurants">
-        <h1><u>Trending</u></h1>
-
-        <v-row>
-          <v-col
-            cols="6"
-            sm="4"
-            v-for="(image, index) in shopProfileApproved"
-            :key="index + 0.0019"
-          >
-            <div v-for="(item, index) in status" :key="index + 0.1101">
-              <v-sheet rounded="lg" v-if="image.slug == item.restaurant">
-                <v-card
-                  class="mx-auto"
-                  max-width="400"
-                  @click="setRestaurant(image.slug)"
-                  v-if="image.approved == true"
-                >
-                  <v-row dense>
-                    <v-col :cols="12">
-                      <div class="text-center">
-                        <v-img
-                          :src="image.shop_image"
-                          class="white--text align-end"
-                          gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                          max-height="100px"
-                          @click="setRestaurant(image.slug)"
-                        >
-                          <v-chip class="mb-1" color="white align-bottom" small>
-                            <div class="purple--text font-weight-bold">
-                              {{ image.owner_name }}
-                            </div>
-                          </v-chip>
-                        </v-img>
-                      </div>
-
-                      <v-card-actions @click="setRestaurant(image.slug)">
-                        <v-spacer></v-spacer>
-
-                        <div
-                          v-for="(shopDiscount, index) in maxDiscount"
-                          :key="index + 0.0043"
-                        >
-                          <v-chip
-                            small
-                            outlined
-                            color="purple"
-                            dark
-                            v-if="
-                              item.restaurant == shopDiscount.restaurant &&
-                              shopDiscount.discount > 0 &&
-                              item.open_close
-                            "
-                            >{{ shopDiscount.discount }}% off</v-chip
-                          >
-                        </div>
-                        <div v-if="!item.shop_coming_soon">
-                          <div v-if="!item.open_close">
-                            <strong class="red--text">Closed</strong>
-                          </div>
-                        </div>
-                        <div v-if="item.shop_coming_soon">
-                          <strong class="red--text caption"
-                            ><strong>Comming Soon</strong></strong
-                          >
-                        </div>
-                      </v-card-actions>
-                    </v-col>
-                  </v-row>
-                </v-card>
-              </v-sheet>
-            </div>
-          </v-col>
-        </v-row>
-      </div>
-    </v-container> -->
+    <div v-if="!$store.state.isAuthenticated" class="text-h3 pa-3 mt-3 text-center">
+      <strong>Our Partners</strong>
+    </div>
+    <v-carousel hide-delimiters cycle show-arrows-on-hover height="400">
+      <v-carousel-item
+        v-for="(item, i) in items"
+        :key="i"
+        :src="item.src"
+      ></v-carousel-item>
+    </v-carousel>
   </v-main>
 </template>
 
@@ -542,6 +525,21 @@ export default {
       "Set Arrival Time",
       "Done Payment",
       "Hurry Up! Food is waiting for you!",
+    ],
+    items: [
+      {
+        src: "https://dipeat-s3-bucket-1.s3.amazonaws.com/hoy+punjab+logo.jpg",
+      },
+      {
+        src: "https://dipeat-s3-bucket-1.s3.amazonaws.com/punjXpres+logo.jpg",
+      },
+      {
+        src: "https://dipeat-s3-bucket-1.s3.amazonaws.com/creamplanet+image.jpg",
+      },
+      {
+        src:
+          "https://dukaan-core-file-service.s3.ap-southeast-1.amazonaws.com/upload_file_service/9f6c9dca-881e-45f7-947c-6bcdff6a4473/simm-kitchen-logo-1.jpg",
+      },
     ],
 
     amount: "",
@@ -872,7 +870,7 @@ export default {
 .box {
   border: 1px solid #b2b2b2;
   padding: 25px 25px;
-  margin: 0 10px;
+  margin: 0 15px;
   border-radius: 10px;
   font-size: 18px;
   transition: 0.3s ease;
@@ -897,9 +895,27 @@ export default {
 
 .box.active,
 .box:hover {
-  color: #fff;
-  background: #6a1b9a;
-  border: 2px solid;
+  color: #032ebd;
+  background: #3c3d3d;
+  border: 3px solid;
+  border-color: #f06292;
+  transition: linear 350ms;
+  animation-timing-function: 1s;
+}
+
+.commingsoonbox {
+  border: 1px solid #b2b2b2;
+  padding: 25px 25px;
+  margin: 0 0px;
+  border-radius: 10px;
+  font-size: 18px;
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+.commingsoonbox:hover {
+  color: #5729ff;
+  background: #fdd3ba;
+  border: 3px solid;
   border-color: #f06292;
   transition: linear 350ms;
   animation-timing-function: 1s;
