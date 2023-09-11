@@ -48,7 +48,7 @@
     <div v-if="!$store.state.isAuthenticated" class="mt-3">
       <div class="hero-large-bg">
         <img
-          src="https://dipeat-s3-bucket-1.s3.amazonaws.com/french-fries.jpg"
+          src="https://dipeat-s3-bucket-1.s3.amazonaws.com/french-fries-removebg-preview.png"
           class="bg-large-image"
           alt="BG Image"
         />
@@ -69,7 +69,7 @@
           </h1>
         </div> -->
         <img
-          src="https://dipeat-s3-bucket-1.s3.amazonaws.com/french-fries.jpg"
+          src="https://dipeat-s3-bucket-1.s3.amazonaws.com/french-fries-removebg-preview.png"
           class="bg-mobile-image"
           alt="BG Image"
         />
@@ -256,9 +256,9 @@
         <v-card-actions>
           <v-row>
             <v-col cols="12" sm="4">
-              <div class="text-start text-h5 ml-2"><strong>About</strong></div>
               <div class="menu-item text-center">
                 <v-img
+                  class="mt-7"
                   src="https://dipeat-s3-bucket-1.s3.amazonaws.com/simple_logo.png"
                   alt=""
                 />
@@ -267,7 +267,7 @@
             <v-col cols="12" sm="8">
               <div class="mt-5 about-justify">
                 We are a team of fooodiess❗, who loves the taste of food when our
-                taste-bud explodes🤯. Yes, you guessed us right we are pro chatkara-type
+                taste-buds explode🤯. Yes, you guessed us right we are pro chatkara-type
                 eater. The taste of food increase many folds when the meal is served like
                 a pro, on-time, no-waiting. Here in dipEAT, we are happy to facilitate you
                 with dine-in and takeaway checkouts. Book your order according to your
@@ -307,7 +307,11 @@
         </div>
       </div>
     </div> -->
-    <div class="text-center box mt-7 mb-7">
+    <div
+      v-if="!$store.state.isAuthenticated"
+      class="text-center box mt-7 mb-7"
+      id="we-offer"
+    >
       <h2 class="pink--text text-h3 mb-5"><strong>We Offer</strong></h2>
       <v-row class="text-center">
         <v-col>
@@ -365,7 +369,12 @@
     </v-carousel> -->
 
     <div class="top-orders" v-if="!$store.state.isAuthenticated">
-      <h1><u>Smart platform, Smart service.</u></h1>
+      <h1>
+        <u
+          >Smart platform,<br />
+          Smart service.</u
+        >
+      </h1>
       <div class="restaurant-menu">
         <div class="menu-item">
           <img src="https://dipeat-s3-bucket-1.s3.amazonaws.com/pizza.jpg" alt="" />
@@ -479,16 +488,40 @@
       </div>
     </v-container>
 
-    <div v-if="!$store.state.isAuthenticated" class="text-h3 pa-3 mt-3 text-center">
-      <strong>Our Partners</strong>
+    <div v-if="!$store.state.isAuthenticated">
+      <div class="text-h5 pa-3 mt-10 text-center">
+        <strong>Technology Partner</strong>
+      </div>
+
+      <carousel-3d autoplay clickable display="3">
+        <slide v-for="(slide, i) in slides" :index="i" :key="i" class="carousel-bg">
+          <template slot-scope="{ index }">
+            <img :data-index="index" :src="slide.src" height="240" class="mt-3 bg-dark" />
+          </template>
+        </slide>
+      </carousel-3d>
     </div>
-    <v-carousel hide-delimiters cycle show-arrows-on-hover height="400">
+
+    <div v-if="!$store.state.isAuthenticated">
+      <div class="text-h5 pa-3 mt-3 text-center">
+        <strong>Restaurant Partner</strong>
+      </div>
+      <carousel-3d autoplay clickable display="5" class="text-dark">
+        <slide v-for="(item, i) in items" :index="i" :key="i" class="carousel-bg">
+          <template slot-scope="{ index }">
+            <img :data-index="index" :src="item.src" height="270" class="" />
+          </template>
+        </slide>
+      </carousel-3d>
+    </div>
+
+    <!-- <v-carousel hide-delimiters cycle show-arrows-on-hover height="400">
       <v-carousel-item
         v-for="(item, i) in items"
         :key="i"
         :src="item.src"
       ></v-carousel-item>
-    </v-carousel>
+    </v-carousel> -->
   </v-main>
 </template>
 
@@ -520,11 +553,19 @@ export default {
     ],
 
     slides: [
-      "Open Menu",
-      "Select Cuisine",
-      "Set Arrival Time",
-      "Done Payment",
-      "Hurry Up! Food is waiting for you!",
+      {
+        src: "https://dipeat-s3-bucket-1.s3.amazonaws.com/pet-pooja-removebg-preview.png",
+      },
+      {
+        src: "https://dipeat-s3-bucket-1.s3.amazonaws.com/Microsoft-Azure-Logo+(1).png",
+      },
+      {
+        src: "https://dipeat-s3-bucket-1.s3.amazonaws.com/phone-pe-logo.png",
+      },
+      {
+        src:
+          "https://dipeat-s3-bucket-1.s3.amazonaws.com/AWS-Cloud-logo-removebg-preview.png",
+      },
     ],
     items: [
       {
@@ -539,6 +580,9 @@ export default {
       {
         src:
           "https://dukaan-core-file-service.s3.ap-southeast-1.amazonaws.com/upload_file_service/9f6c9dca-881e-45f7-947c-6bcdff6a4473/simm-kitchen-logo-1.jpg",
+      },
+      {
+        src: "https://dipeat-s3-bucket-1.s3.amazonaws.com/food-xpress-logo.jpg",
       },
     ],
 
@@ -983,6 +1027,10 @@ export default {
   font-weight: 600;
   margin: 8px 0;
   text-align: center;
+}
+.carousel-bg {
+  background-color: #f5f5f5;
+  border-color: #f5f5f5;
 }
 
 @media only screen and (max-width: 450px) and (min-width: 100px) {

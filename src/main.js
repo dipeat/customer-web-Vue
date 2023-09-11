@@ -4,8 +4,11 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import axios from "axios";
+import Carousel3d from 'vue-carousel-3d';
 
 Vue.prototype.$eventBus = new Vue();
+
+Vue.use(Carousel3d);
 
 Vue.config.productionTip = false;
 

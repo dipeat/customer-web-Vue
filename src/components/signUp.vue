@@ -8,12 +8,12 @@
         dark
         v-bind="attrs"
         v-on="on"
-        >SignUp</v-btn
+        >Register</v-btn
       >
     </template>
     <v-form @submit.prevent="signUp" ref="form1" v-model="valid1" lazy-validation>
       <v-card class="pa-4">
-        <v-card-title class="text-h5"> Sign Up </v-card-title>
+        <v-card-title class="text-h5"> Register </v-card-title>
         <div>
           <v-alert
             border="right"
@@ -63,14 +63,14 @@
           maxlength="30"
         ></v-text-field>
         <div class="caption">
-          Note: By clicking "SignUp" you agree to our
+          Note: By clicking "Register" you agree to our
           <a href="http://dipeat.com/terms_and_conditions">Terms & Conditions</a>, and
           <a href="http://dipeat.com/privacy_policy">Privacy Policy</a>.
         </div>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="red" text @click="dialog = false"> Cancel </v-btn>
-          <v-btn color="primary" text @click="signUp"> SignUp </v-btn>
+          <v-btn color="primary" text @click="signUp"> Register </v-btn>
         </v-card-actions>
       </v-card>
     </v-form>
