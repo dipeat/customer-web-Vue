@@ -907,6 +907,7 @@ export default {
       status: "",
       qrVisitCount: 0,
       finalPrepareTime: 0,
+      orderNumberCount: 0,
 
       packagingCharges: 0,
       acceptDineIn: true,
@@ -975,7 +976,7 @@ export default {
             totalTemp: (Number(this.total) + Number(this.packagingCharges)).toFixed(2),
             messageTemp: this.message,
             arrival_timeTemp: strTime,
-            order_numberTemp: Date.now(),
+            order_numberTemp: this.orderNumberCount,
             order_from_qrTemp: Boolean(localStorage.getItem("qr")),
             slugTemp: this.$store.state.user.username + "a-_a" + Date.now(),
 
@@ -994,6 +995,20 @@ export default {
             // this.finalPrepareTime = 0;
             // this.finalTotal = 0;
             // this.totalAfterDiscount = 0;
+
+            // api.get(`/api/v1/ClientProfile4Image/`).then((res) => {
+            //   this.shopProfileImage = res.data.filter(
+            //     (item) => item.slug === localStorage.getItem("restaurant")
+            //   );
+            //   this.orderNumberCount = Number(this.shopProfileImage[0].order_number);
+            //   const slug = localStorage.getItem("restaurant");
+            //   api
+            //     .patch(`/api/v1/ClientProfile4Image/${slug}/`, {
+            //       order_number: Number(this.orderNumberCount) + 1,
+            //     })
+            //     .then((response) => {
+            //     });
+            // });
           });
       } else {
         api
@@ -1009,7 +1024,7 @@ export default {
             totalTemp: Number(this.total).toFixed(2),
             messageTemp: this.message,
             arrival_timeTemp: strTime,
-            order_numberTemp: Date.now(),
+            order_numberTemp: this.orderNumberCount,
             order_from_qrTemp: Boolean(localStorage.getItem("qr")),
             slugTemp: this.$store.state.user.username + "a-_a" + Date.now(),
 
@@ -1028,6 +1043,20 @@ export default {
             // this.finalPrepareTime = 0;
             // this.finalTotal = 0;
             // this.totalAfterDiscount = 0;
+
+            // api.get(`/api/v1/ClientProfile4Image/`).then((res) => {
+            //   this.shopProfileImage = res.data.filter(
+            //     (item) => item.slug === localStorage.getItem("restaurant")
+            //   );
+            //   this.orderNumberCount = Number(this.shopProfileImage[0].order_number);
+            //   const slug = localStorage.getItem("restaurant");
+            //   api
+            //     .patch(`/api/v1/ClientProfile4Image/${slug}/`, {
+            //       order_number: Number(this.orderNumberCount) + 1,
+            //     })
+            //     .then((response) => {
+            //     });
+            // });
           });
       }
     },
@@ -1436,7 +1465,8 @@ export default {
         this.shopProfileImage = res.data.filter(
           (item) => item.slug === localStorage.getItem("restaurant")
         );
-        // console.log(this.shopProfileImage);
+        this.orderNumberCount = this.shopProfileImage[0].order_number;
+        // console.log(this.orderNumberCount);
       });
     },
     getPackagingCharges() {

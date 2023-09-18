@@ -24,13 +24,6 @@ api.interceptors.response.use(undefined, (error) => {
 export default api;
 
 
-// import GAuth from 'vue-google-oauth2'
-// const gauthOption = {
-//   clientId: '895893646343-p7itci8ondmfb5f373rabt4cdlnngmal.apps.googleusercontent.com',
-//   scope: 'profile email',
-//   prompt: 'consent',
-// }
-// Vue.use(GAuth, gauthOption)
 
 new Vue({
   router,

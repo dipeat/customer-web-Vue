@@ -225,13 +225,13 @@ import logIn from "./components/logIn.vue";
 import router from "./router";
 import { set } from "vue";
 
-window.addEventListener("load", () => {
-  // Page Loader
-  document.querySelector(".loading").classList.add("fade-out");
-  setTimeout(() => {
-    document.querySelector(".loading").style.display = "none";
-  }, 700);
-});
+// window.addEventListener("load", () => {
+//   // Page Loader
+//   document.querySelector(".loading").classList.add("fade-out");
+//   setTimeout(() => {
+//     document.querySelector(".loading").style.display = "none";
+//   }, 700);
+// });
 
 export default {
   name: "App",
