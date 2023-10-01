@@ -113,11 +113,6 @@ export default {
 
     // done in computed section
     // signUpPasswordRules2: [
-    //   (v) => !!v || "Confirm Password is required",
-    //   (v) => v.length <= 30 || "Must be less than 30 characters",
-    //   (v) => v.length >= 8 || "Must be atleast 8 characters",
-    //   (v) => /[!@#$%^&*(),.?":{}|<>]/.test(v) || "Must contain a special character",
-    // (v) => this.password === v || "Password and Confirm Password must be same",
     // ],
   }),
 
@@ -156,7 +151,6 @@ export default {
               setTimeout(() => {
                 this.errorMessages = "";
               }, 5000);
-              // this.$eventBus.$emit("callMethodDisplayErrorMessages");
             }
           });
       }

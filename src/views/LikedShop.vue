@@ -55,7 +55,6 @@ export default {
         for (let i = 0; i < filterLikedShop.length; i++) {
           this.likedShops.push(filterLikedShop[i]);
         }
-        // remove empty space in array
         // console.log(this.likedShops);
       });
     },

@@ -52,9 +52,6 @@
           class="bg-large-image"
           alt="BG Image"
         />
-        <!-- <div class="hero-text-overlay">
-          <h1>It's not about food, It's about Experience.</h1>
-        </div> -->
         <div
           class="text-center text-h3 overline"
           v-text="`It's all about taste & Experience.`"
@@ -62,12 +59,6 @@
       </div>
 
       <div class="hero-mobile-bg">
-        <!-- <div class="hero-text-overlay">
-          <h1>
-            It's not about food, <br />
-            It's about Experience.
-          </h1>
-        </div> -->
         <img
           src="https://dipeat-s3-bucket-1.s3.amazonaws.com/french-fries-removebg-preview.png"
           class="bg-mobile-image"
@@ -86,8 +77,6 @@
         <a><signUp /></a>
       </div>
     </div>
-
-    <!-- <v-btn @click="googleRegister()">G</v-btn> -->
 
     <v-container v-if="foodOrdered != ''" class="mt-4">
       <v-card class="mx-auto">
@@ -283,30 +272,6 @@
       </v-card>
     </v-container>
 
-    <!-- <div id="how-it-works" v-if="!$store.state.isAuthenticated">
-      <div class="container-flex">
-        <div class="box">
-          <h3>Zero Waiting Time</h3>
-          <h2 class="red--text text-h1"><strong>0</strong></h2>
-          (apx.)
-          <p>Login/SignUp and give order online before leaving your place.</p>
-        </div>
-        <div class="box">
-          <h3>DineIn/ TakeAway</h3>
-          <v-icon x-large color="blue-grey">mdi-silverware-variant</v-icon>
-          <p>
-            Choose your preference of Dine-In or TakeAway, and get food at your selected
-            time.
-          </p>
-        </div>
-
-        <div class="box">
-          <h3>Pricing</h3>
-          <v-icon x-large color="orange darken-1">mdi-wallet</v-icon>
-          <p>Select the cuisine as of your choice at price as low as shop menu.</p>
-        </div>
-      </div>
-    </div> -->
     <div
       v-if="!$store.state.isAuthenticated"
       class="text-center box mt-7 mb-7"
@@ -350,23 +315,6 @@
         </v-col>
       </v-row>
     </div>
-
-    <!-- <v-carousel
-      class="mt-3"
-      cycle
-      height="200"
-      hide-delimiter-background
-      show-arrows-on-hover
-      delimiter-icon="mdi-chevron-right"
-    >
-      <v-carousel-item v-for="(slide, i) in slides" :key="i">
-        <v-sheet :color="colors[i]" height="100%">
-          <v-row class="fill-height" align="center" justify="center">
-            <div class="text-h3 pa-3 text-center">{{ slide }}</div>
-          </v-row>
-        </v-sheet>
-      </v-carousel-item>
-    </v-carousel> -->
 
     <div class="top-orders" v-if="!$store.state.isAuthenticated">
       <h1>
@@ -514,26 +462,14 @@
         </slide>
       </carousel-3d>
     </div>
-
-    <!-- <v-carousel hide-delimiters cycle show-arrows-on-hover height="400">
-      <v-carousel-item
-        v-for="(item, i) in items"
-        :key="i"
-        :src="item.src"
-      ></v-carousel-item>
-    </v-carousel> -->
   </v-main>
 </template>
 
 <script>
 // import axios from "axios";
 import api from "@/main";
-
-// import image from "../assets/burger.png";
-// import bglargeimage from "../assets/bg-large.gif";
-// import bgmobileimage from "../assets/bg-mobile.gif";
-import signUp from "../components/signUp.vue";
-import logIn from "../components/logIn.vue";
+import signUp from "../components/signUp";
+import logIn from "../components/logIn";
 
 export default {
   name: "Home",
@@ -587,11 +523,6 @@ export default {
     ],
 
     amount: "",
-
-    // image: image,
-    // bglargeimage: bglargeimage,
-    // bgmobileimage: bgmobileimage,
-
     likeColor: "",
     menuItem: "",
     status: [],
@@ -626,23 +557,6 @@ export default {
       this.foodOrders();
     },
 
-    // checkout() {
-    //   // console.log("checkout");
-
-    //   api.post("/api/v1/foodorders/", {
-    //     restaurant: localStorage.getItem("restaurant"),
-    //     user: localStorage.getItem("orderUser"),
-    //     takeaway: localStorage.getItem("takeaway"),
-    //     order_date: localStorage.getItem("order_date"),
-    //     prepare_time: localStorage.getItem("prepare_time"),
-    //     food_name: localStorage.getItem("food_name"),
-    //     total: localStorage.getItem("total"),
-    //     message: localStorage.getItem("message"),
-    //     arrival_time: localStorage.getItem("arrival_time"),
-    //     slug: localStorage.getItem("slug"),
-    //   });
-    // },
-
     // get menu data from backend
     getMenu() {
       api.get("/api/v1/menu/").then((response) => {
@@ -658,10 +572,6 @@ export default {
           }
           return acc;
         }, []);
-
-        // for (let i = 0; i < response.data.length; i++) {
-        //   console.log(response.data[i]);
-        // }
         for (let i = 0; i < this.menuItem.length; i++) {
           if (this.restaurantList.indexOf(this.menuItem[i].restaurant) === -1) {
             this.restaurantList.push(this.menuItem[i].restaurant);
@@ -751,11 +661,6 @@ export default {
   },
 
   // computed: {
-  //   shopCommingSoon() {
-  //     const commingSoon = this.status.filter((item) => item.shop_coming_soon === false);
-
-  //     return commingSoon;
-  //   },
   // },
 
   mounted() {

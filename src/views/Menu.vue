@@ -98,19 +98,7 @@
                 placeholder="Search Menu"
                 @input="menuSearch()"
               ></v-text-field>
-              <!-- <v-chip label small>{{ order.name }}</v-chip> -->
               <v-chip-group multiple active-class="primary--text">
-                <!-- <v-chip
-                      filter
-                      outlined
-                      color="grey darken-2"
-                      v-for="(category, index) in menu"
-                      :key="index + 0.0321"
-                      @click="filterCategory(category)"
-                    >
-                      {{ category }}
-                    </v-chip> -->
-
                 <v-chip
                   small
                   class="mr-1"
@@ -451,62 +439,6 @@
                               <v-divider color="orange"></v-divider>
                               <div class="text-center">
                                 <v-container v-if="displayOrder != ''">
-                                  <!-- <v-chip outlined color="pink">
-                                    <div>
-                                      Sub Total:&nbsp;
-                                      <span
-                                        ><v-icon>mdi-currency-inr</v-icon
-                                        >{{ total.toFixed(2) }}</span
-                                      >
-                                    </div>
-                                  </v-chip>
-                                  <v-chip outlined color="green" class="mt-1">
-                                    <div>
-                                      GST/Convenience-fee (5%):&nbsp;
-                                      <span
-                                        ><v-icon>mdi-currency-inr</v-icon
-                                        >{{
-                                          ((total.toFixed(2) * 5) / 100).toFixed(2)
-                                        }}</span
-                                      >
-                                    </div>
-                                  </v-chip>
-                                  <br />
-                                  <v-chip outlined color="purple" class="mt-1">
-                                    <div>
-                                      <strong>
-                                        Total:&nbsp;
-                                        <span
-                                          ><v-icon>mdi-currency-inr</v-icon
-                                          >{{ finalTotal.toFixed(2) }}</span
-                                        >
-                                      </strong>
-                                    </div>
-                                  </v-chip>
-                                  <v-chip outlined color="blue" class="mt-1">
-                                    <div>
-                                      Prepare Time:&nbsp;
-                                      <span
-                                        ><v-icon>mdi-alarm</v-icon
-                                        >{{ premare_time }} mins</span
-                                      >
-                                    </div>
-                                  </v-chip>
-                                  <v-chip
-                                    outlined
-                                    color="purple"
-                                    v-if="packagingCharges != 0 && checkbox"
-                                    class="mt-1"
-                                  >
-                                    <div>
-                                      Packaging charge:&nbsp;
-                                      <span
-                                        ><v-icon>mdi-currency-inr</v-icon
-                                        >{{ packagingCharges }}</span
-                                      >
-                                    </div>
-                                  </v-chip> -->
-
                                   <div>
                                     <v-container v-if="displayOrder != ''">
                                       <v-row class="grey--text text-left" dense>
@@ -755,12 +687,6 @@
                                 >
                                   <h4>Login / SignUp to place order !!</h4>
                                 </div>
-
-                                <!-- <v-container
-                      v-if="displayOrder != '' && $store.state.walletBalance < total"
-                    >
-                      <h4>You do not have enough money in wallet, please recharge!</h4>
-                    </v-container> -->
                               </div>
                             </v-card-text>
                             <v-row
@@ -842,11 +768,6 @@
                       </v-chip>
                     </v-container>
                   </div>
-                  <!-- <div class="text-center red--text" v-if="!$store.state.isAuthenticated">
-                    <v-chip color="white" class="red--text">
-                      <strong>Please Log-In / SignUp</strong>
-                    </v-chip>
-                  </div> -->
                 </div>
               </v-fab-transition>
             </v-card-text>
@@ -987,28 +908,6 @@ export default {
             // console.log(res.data);
             this.doneButton = true;
             this.foodNameTemp = [];
-            // this.total = 0;
-            // this.message = "";
-            // this.checkbox = false;
-            // this.displayOrder = [];
-            // this.time = null;
-            // this.finalPrepareTime = 0;
-            // this.finalTotal = 0;
-            // this.totalAfterDiscount = 0;
-
-            // api.get(`/api/v1/ClientProfile4Image/`).then((res) => {
-            //   this.shopProfileImage = res.data.filter(
-            //     (item) => item.slug === localStorage.getItem("restaurant")
-            //   );
-            //   this.orderNumberCount = Number(this.shopProfileImage[0].order_number);
-            //   const slug = localStorage.getItem("restaurant");
-            //   api
-            //     .patch(`/api/v1/ClientProfile4Image/${slug}/`, {
-            //       order_number: Number(this.orderNumberCount) + 1,
-            //     })
-            //     .then((response) => {
-            //     });
-            // });
           });
       } else {
         api
@@ -1035,72 +934,17 @@ export default {
             // console.log(res.data);
             this.doneButton = true;
             this.foodNameTemp = [];
-            // this.total = 0;
-            // this.message = "";
-            // this.checkbox = false;
-            // this.displayOrder = [];
-            // this.time = null;
-            // this.finalPrepareTime = 0;
-            // this.finalTotal = 0;
-            // this.totalAfterDiscount = 0;
-
-            // api.get(`/api/v1/ClientProfile4Image/`).then((res) => {
-            //   this.shopProfileImage = res.data.filter(
-            //     (item) => item.slug === localStorage.getItem("restaurant")
-            //   );
-            //   this.orderNumberCount = Number(this.shopProfileImage[0].order_number);
-            //   const slug = localStorage.getItem("restaurant");
-            //   api
-            //     .patch(`/api/v1/ClientProfile4Image/${slug}/`, {
-            //       order_number: Number(this.orderNumberCount) + 1,
-            //     })
-            //     .then((response) => {
-            //     });
-            // });
           });
       }
     },
 
     phonePe() {
-      // console.log(Number(this.total).toFixed(2));
       if (this.displayOrder != "" && this.time !== null) {
         if (this.time >= this.minClock) {
-          // for (let i = 0; i < this.displayOrder.length; i++) {
-          //   this.foodName +=
-          //     this.displayOrder[i].name +
-          //     "@" +
-          //     this.displayOrder[i].value +
-          //     "$$" +
-          //     this.displayOrder[i].final_price +
-          //     "||";
-          // }
-
-          // let time = this.time;
-          // let hours = time.substring(0, 2);
-          // let minutes = time.substring(3, 5);
-          // let ampm = hours >= 12 ? "PM" : "AM";
-          // hours = hours % 12;
-          // hours = hours ? hours : 12;
-          // minutes = minutes < 10 ? minutes : minutes;
-          // let strTime = hours + ":" + minutes + " " + ampm;
-
           setTimeout(() => {
             api
               .post("/api/v1/phonepe_payment/", {
                 transactionId: this.$store.state.transactionId,
-
-                // restaurantTemp: localStorage.getItem("restaurant"),
-                // userTemp: this.$store.state.user.username,
-                // takeawayTemp: this.checkbox,
-                // order_dateTemp: new Date().toString().slice(0, 15),
-                // prepare_timeTemp: this.finalPrepareTime,
-                // food_nameTemp: this.foodName,
-                // totalTemp: Number(this.total).toFixed(2),
-                // messageTemp: this.message,
-                // arrival_timeTemp: strTime,
-                // order_numberTemp: Date.now(),
-                // order_from_qrTemp: Boolean(localStorage.getItem("qr")),
-                // slugTemp: this.$store.state.user.username + "a-_a" + Date.now(),
 
                 customerName: this.$store.state.user.username,
                 amount: Number(this.totalAfterDiscount) * 100,
@@ -1161,17 +1005,13 @@ export default {
             this.paymentId = response.data.payment_id;
             // Open the Razorpay checkout
             const options = {
-              key: "rzp_test_BLtsjnAxhyqY38",
+              key: "",
               currency: "INR",
               amount: this.amount * 100,
               name: "dipEAT",
               description: "Payment for your wallet",
               order_id: response.data.payment_id,
               handler: (response) => {
-                // console.log(response.razorpay_payment_id);
-                // console.log(response.razorpay_order_id);
-                // console.log(response.razorpay_signature);
-
                 // verify payment
 
                 const data = {
@@ -1187,16 +1027,10 @@ export default {
                   })
                   .then((response) => {
                     // console.log(response.data);
-                    // console.log(response.data.res);
                     this.validity = response.data.validity;
 
-                    // console.log(this.amount);
-                    // console.log(response.data.validity);
-                    // console.log("h2i");
                     this.postWallet();
                   });
-
-                // this.postWallet();
               },
 
               // prefill: {
@@ -1208,7 +1042,6 @@ export default {
               },
             };
             // console.log(response.data.payment_id);
-            // console.log(this.amount);
 
             const paymentObject = new Razorpay(options);
             paymentObject.open();
@@ -1250,15 +1083,7 @@ export default {
             }
           }
         }
-        // console.log(this.menuList);
-        // console.log(this.menu);
       });
-
-      // api.get("/api/v1/menucategory/")
-      //   .then((response) => {
-      //     this.menu = response.data;
-
-      //   });
     },
 
     oK() {
@@ -1500,7 +1325,6 @@ export default {
         this.filterCategoryList.push(category);
       }
       // console.log(this.filterCategoryList);
-      // remove
     },
 
     menuSearch() {
@@ -1543,8 +1367,6 @@ export default {
     }
 
     // QR scanning system and displaying restaurant below
-
-    // console.log(this.$route.path.slice(6, 8));
 
     if (this.$route.path.slice(6, 8) == "qr") {
       localStorage.setItem("qr", true);

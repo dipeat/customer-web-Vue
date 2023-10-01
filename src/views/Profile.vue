@@ -262,14 +262,6 @@ export default {
       // });
     },
 
-    // getWallet() {
-    //   const slug = this.$store.state.user.username;
-    //   api.get(`/api/v1/customerwallet/${slug}/`).then((response) => {
-    //     // console.log(response.data);
-    //     this.$store.state.walletBalance = response.data[0].total_amount;
-    //   });
-    // },
-
     postWallet() {
       if (this.validity == true) {
         const slug = this.$store.state.user.username;
@@ -297,17 +289,13 @@ export default {
             this.paymentId = response.data.payment_id;
             // Open the Razorpay checkout
             const options = {
-              key: "rzp_test_BLtsjnAxhyqY38",
+              key: "",
               currency: "INR",
               amount: this.amount * 100,
               name: "dipEAT",
               description: "Payment for your wallet",
               order_id: response.data.payment_id,
               handler: (response) => {
-                // console.log(response.razorpay_payment_id);
-                // console.log(response.razorpay_order_id);
-                // console.log(response.razorpay_signature);
-
                 // verify payment
 
                 const data = {
@@ -328,7 +316,6 @@ export default {
 
                     // console.log(this.amount);
                     // console.log(response.data.validity);
-                    // console.log("h2i");
                     this.postWallet();
                   });
 

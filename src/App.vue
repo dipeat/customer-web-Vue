@@ -23,7 +23,7 @@
         <v-list class="mt-10" rounded>
           <v-list-item link to="/" color="purple" v-if="$store.state.isAuthenticated">
             <span> <v-icon color="red">mdi-home</v-icon> </span>&nbsp;&nbsp;&nbsp;
-            <v-list-item-title v-text="'Home'"></v-list-item-title>
+            <v-list-item-title>Home</v-list-item-title>
           </v-list-item>
           <v-list-item
             to="/history"
@@ -32,7 +32,7 @@
             v-if="$store.state.isAuthenticated"
           >
             <span> <v-icon color="orange">mdi-history</v-icon> </span>&nbsp;&nbsp;&nbsp;
-            <v-list-item-title v-text="'History'"></v-list-item-title>
+            <v-list-item-title>History</v-list-item-title>
           </v-list-item>
           <v-list-item
             to="/profile"
@@ -41,15 +41,15 @@
             v-if="$store.state.isAuthenticated"
           >
             <span> <v-icon color="blue">mdi-account</v-icon> </span>&nbsp;&nbsp;&nbsp;
-            <v-list-item-title v-text="'Profile'"></v-list-item-title>
+            <v-list-item-title>Profile</v-list-item-title>
           </v-list-item>
           <v-list-item link to="/feedback" color="purple">
             <span> <v-icon color="green">mdi-leaf</v-icon> </span>&nbsp;&nbsp;&nbsp;
-            <v-list-item-title v-text="'Feedback'"></v-list-item-title>
+            <v-list-item-title>Feedback</v-list-item-title>
           </v-list-item>
           <v-list-item link to="/help" color="purple">
             <span> <v-icon color="pink">mdi-help</v-icon> </span>&nbsp;&nbsp;&nbsp;
-            <v-list-item-title v-text="'Help'"></v-list-item-title>
+            <v-list-item-title>Help</v-list-item-title>
           </v-list-item>
           <v-list-item
             link
@@ -58,7 +58,7 @@
             v-if="$store.state.isAuthenticated"
           >
             <span> <v-icon color="black">mdi-logout</v-icon> </span>&nbsp;&nbsp;&nbsp;
-            <v-list-item-title v-text="'Logout'"></v-list-item-title>
+            <v-list-item-title>Logout</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -222,7 +222,6 @@ import api from "@/main";
 
 import signUp from "./components/signUp.vue";
 import logIn from "./components/logIn.vue";
-import router from "./router";
 import { set } from "vue";
 
 // window.addEventListener("load", () => {
@@ -326,7 +325,6 @@ export default {
         .then((response) => {
           // console.log(response.data);
         });
-      // console.log(Number(this.totalPageVisitCount) + 1);
     });
     // .catch((error) => {
     //   console.log(error);
@@ -339,17 +337,6 @@ export default {
     if (this.$store.state.isAuthenticated) {
       this.$store.dispatch("getWallet");
     }
-
-    // update page visit count data to backend
-    // setTimeout(() => {
-    //   api
-    //     .patch("/api/v1/customeranalytics/", {
-    //       homePageVisitCount: Number(this.totalPageVisitCount) + 1,
-    //     })
-    //     .then((response) => {
-    //       console.log(response.data);
-    //     });
-    // }, 1000);
   },
 };
 </script>
