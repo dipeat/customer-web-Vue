@@ -1,49 +1,9 @@
 <template>
   <v-main>
-    <h4 v-if="likedShops != '' && shopProfileApproved != ''">Favorite Shops</h4>
 
-    <v-slide-group v-model="sliderGroup" center-active v-if="likedShops != ''">
-      <span v-for="(image, index) in shopProfileApproved" :key="index + 0.0159">
-        <v-slide-item
-          v-for="(shops, index) in likedShops"
-          :key="index + 0.0011"
-          v-slot="{ active, toggle }"
-        >
-          <v-card
-            :color="active ? 'transparent' : 'grey lighten-1'"
-            class="ma-1"
-            height="120"
-            width="120"
-            @click="
-              toggle();
-              favShop(shops.shop);
-            "
-            v-if="image.approved == '1' && image.slug == shops.shop"
-          >
-            <v-row class="fill-height">
-              <div>
-                <v-scale-transition>
-                  <v-avatar class="ma-2" size="125" tile v-if="image.slug == shops.shop">
-                    <v-img :src="image.shop_image" @click="favShop(shops.shop)">
-                      <v-row align="end" justify="center">
-                        <v-chip
-                          color="black"
-                          small
-                          size="58"
-                          label
-                          class="white--text mb-5"
-                          >{{ image.owner_name }}
-                        </v-chip>
-                      </v-row>
-                    </v-img>
-                  </v-avatar>
-                </v-scale-transition>
-              </div>
-            </v-row>
-          </v-card>
-        </v-slide-item>
-      </span>
-    </v-slide-group>
+    <v-container>
+      <LikedComponent/>
+    </v-container>
 
     <div v-if="!$store.state.isAuthenticated" class="mt-3">
       <div class="hero-large-bg">
@@ -54,8 +14,12 @@
         />
         <div
           class="text-center text-h3 overline"
-          v-text="`It's all about taste & Experience.`"
-        ></div>
+                  
+        >
+        <p style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;text-transform: none;">
+          Discover flavor, indulge senses, and shop your culinary desires here!
+        </p>
+      </div>
       </div>
 
       <div class="hero-mobile-bg">
@@ -133,335 +97,33 @@
       </v-card>
     </v-container>
 
-    <v-container>
-      <div class="top-orders" id="top-restaurants">
-        <v-row class="mt-5">
-          <v-col sm="" cols="2">
-            <v-divider color="red" class="mt-10"></v-divider>
-          </v-col>
-          <v-col sm="3" cols="8">
-            <div class="text-center mt-3">
-              <h2 class="purple--text text-h3">
-                <strong>Trending</strong>
-              </h2>
-              <div class="red--text caption"><u># 5% off on every order</u></div>
-            </div>
-          </v-col>
-          <v-col sm="" cols="2">
-            <v-divider color="red" class="mt-10"></v-divider>
-          </v-col>
-        </v-row>
-
-        <v-row class="mt-3">
-          <v-col
-            cols="6"
-            sm="4"
-            v-for="(item, index) in liveRestaurant"
-            :key="index + 0.1101"
-          >
-            <div>
-              <div v-for="(image, index) in shopProfileApproved" :key="index + 0.0019">
-                <v-sheet rounded="lg" v-if="image.slug == item.restaurant">
-                  <v-card
-                    class="mx-auto"
-                    max-width="400"
-                    @click="setRestaurant(image.slug)"
-                  >
-                    <v-row dense>
-                      <v-col :cols="12">
-                        <div class="text-center">
-                          <v-img
-                            :src="image.shop_image"
-                            class="white--text align-end"
-                            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                            min-height="100px"
-                            max-height="100px"
-                            @click="setRestaurant(image.slug)"
-                          >
-                            <v-chip class="mb-1" color="white align-bottom" small>
-                              <div class="purple--text font-weight-bold">
-                                {{ image.owner_name }}
-                              </div>
-                            </v-chip>
-                          </v-img>
-                        </div>
-
-                        <v-card-actions @click="setRestaurant(image.slug)">
-                          <v-spacer></v-spacer>
-
-                          <div
-                            v-for="(shopDiscount, index) in maxDiscount"
-                            :key="index + 0.0043"
-                          >
-                            <v-chip
-                              small
-                              outlined
-                              color="purple"
-                              dark
-                              v-if="
-                                item.restaurant == shopDiscount.restaurant &&
-                                shopDiscount.discount > 0 &&
-                                item.open_close
-                              "
-                              ><div>
-                                <strong class="red--text caption"
-                                  ><strong
-                                    >{{ shopDiscount.discount }}% off</strong
-                                  ></strong
-                                >
-                              </div>
-                            </v-chip>
-                          </div>
-                          <div v-if="!item.shop_coming_soon">
-                            <div v-if="!item.open_close">
-                              <strong class="red--text">Closed</strong>
-                            </div>
-                          </div>
-                          <div v-if="item.shop_coming_soon">
-                            <strong class="red--text caption"
-                              ><strong>Comming Soon</strong></strong
-                            >
-                          </div>
-                        </v-card-actions>
-                      </v-col>
-                    </v-row>
-                  </v-card>
-                </v-sheet>
-              </div>
-            </div>
-          </v-col>
-        </v-row>
-      </div>
-    </v-container>
-
     <v-container id="about-us" v-if="!$store.state.isAuthenticated">
-      <v-card
-        max-width="1570"
-        class="loggedIn-nav mx-auto border border-danger"
-        elevation="2"
-        dark
-      >
-        <!-- About Us -->
-        <v-card-actions>
-          <v-row>
-            <v-col cols="12" sm="4">
-              <div class="menu-item text-center">
-                <v-img
-                  class="mt-7"
-                  src="https://dipeat-s3-bucket-1.s3.amazonaws.com/simple_logo.png"
-                  alt=""
-                />
-              </div>
-            </v-col>
-            <v-col cols="12" sm="8">
-              <div class="mt-5 about-justify">
-                We are a team of fooodiess❗, who loves the taste of food when our
-                taste-buds explode🤯. Yes, you guessed us right we are pro chatkara-type
-                eater. The taste of food increase many folds when the meal is served like
-                a pro, on-time, no-waiting. Here in dipEAT, we are happy to facilitate you
-                with dine-in and takeaway checkouts. Book your order according to your
-                convenience and time. We all want to receive food as soon as possible when
-                we order food in the restaurant. Our goal is simple, book order before
-                leaving your place and food is served as you put your foot in the
-                restaurant according to your arrival-time.<br />
-                Peace✌️
-              </div>
-            </v-col>
-          </v-row>
-        </v-card-actions>
-      </v-card>
+      <AboutComponent/>
     </v-container>
 
-    <div
+    <v-container id="top-restaurants">
+      <TrendingRestaurants/>
+    </v-container>
+
+    
+
+    <v-container
       v-if="!$store.state.isAuthenticated"
-      class="text-center box mt-7 mb-7"
-      id="we-offer"
-    >
-      <h2 class="pink--text text-h3 mb-5"><strong>We Offer</strong></h2>
-      <v-row class="text-center">
-        <v-col>
-          <v-card color="grey lighten-4" class="box" height="350" width="290">
-            <h3>Zero Waiting Time</h3>
-            <v-row class="text-end ml-15 mt-2">
-              <v-col>
-                <h2 class="red--text text-h1"><strong>0</strong></h2>
-              </v-col>
-              <v-col class="text-start mt-14">(apx.)</v-col>
-            </v-row>
+      id="we-offer" >
+      <WeOfferComponent/>
+    </v-container>
 
-            <p class="mt-5">
-              Login/SignUp and give order online before leaving your home or office.
-            </p>
-          </v-card>
-        </v-col>
-        <v-col>
-          <v-card color="grey lighten-4" class="box" height="350" width="290">
-            <h3>DineIn & TakeAway</h3>
-            <v-icon class="mt-12" x-large color="pink">mdi-food</v-icon>
-            <p class="mt-12">
-              Choose your preference of Dine-In or TakeAway, and get food at your selected
-              time.
-            </p>
-          </v-card>
-        </v-col>
-        <v-col>
-          <v-card color="grey lighten-4" class="box" height="350" width="290">
-            <h3>Same Prices</h3>
-            <v-icon class="mt-12" x-large color="teal">mdi-currency-inr</v-icon>
-            <p class="mt-12">
-              Select the cuisine as of your choice at price as low as shop menu.
-            </p>
-          </v-card>
-        </v-col>
-      </v-row>
-    </div>
-
-    <div class="top-orders" v-if="!$store.state.isAuthenticated">
-      <h1>
-        <u
-          >Smart platform,<br />
-          Smart service.</u
-        >
-      </h1>
-      <div class="restaurant-menu">
-        <div class="menu-item">
-          <img src="https://dipeat-s3-bucket-1.s3.amazonaws.com/pizza.jpg" alt="" />
-
-          <div class="title grey--text">Pizza</div>
-        </div>
-
-        <div class="menu-item">
-          <img
-            src="https://dipeat-s3-bucket-1.s3.amazonaws.com/fresh-cold-orange-juice.jpg"
-            alt=""
-          />
-
-          <div class="title grey--text">Healthy Drinks</div>
-        </div>
-
-        <div class="menu-item">
-          <img
-            src="https://dipeat-s3-bucket-1.s3.amazonaws.com/dosa-compressed.jpg"
-            alt=""
-          />
-
-          <div class="title grey--text">Masala Dosa</div>
-        </div>
-      </div>
-    </div>
+    <v-container v-if="!$store.state.isAuthenticated">
+      <TopOrderComp/>
+  </v-container>
 
     <v-container v-if="commingSoon != ''">
-      <div class="top-orders commingsoonbox mt-5 mb-5" id="top-restaurants">
-        <h1 class="red--text text-h4"><u>Comming Soon</u></h1>
-
-        <v-row class="mt-3">
-          <v-col
-            cols="6"
-            sm="4"
-            v-for="(item, index) in commingSoon"
-            :key="index + 0.1101"
-          >
-            <div>
-              <div v-for="(image, index) in shopProfileApproved" :key="index + 0.0019">
-                <v-sheet rounded="lg" v-if="image.slug == item.restaurant">
-                  <v-card
-                    class="mx-auto"
-                    max-width="400"
-                    @click="setRestaurant(image.slug)"
-                  >
-                    <v-row dense>
-                      <v-col :cols="12">
-                        <div class="text-center">
-                          <v-img
-                            :src="image.shop_image"
-                            class="white--text align-end"
-                            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                            min-height="100px"
-                            max-height="100px"
-                            @click="setRestaurant(image.slug)"
-                          >
-                            <v-chip class="mb-1" color="white align-bottom" small>
-                              <div class="purple--text font-weight-bold">
-                                {{ image.owner_name }}
-                              </div>
-                            </v-chip>
-                          </v-img>
-                        </div>
-
-                        <v-card-actions @click="setRestaurant(image.slug)">
-                          <v-spacer></v-spacer>
-
-                          <div
-                            v-for="(shopDiscount, index) in maxDiscount"
-                            :key="index + 0.0043"
-                          >
-                            <v-chip
-                              small
-                              outlined
-                              color="purple"
-                              dark
-                              v-if="
-                                item.restaurant == shopDiscount.restaurant &&
-                                shopDiscount.discount > 0 &&
-                                item.open_close
-                              "
-                              ><div>
-                                <strong class="red--text caption"
-                                  ><strong
-                                    >{{ shopDiscount.discount }}% off</strong
-                                  ></strong
-                                >
-                              </div>
-                            </v-chip>
-                          </div>
-                          <div v-if="!item.shop_coming_soon">
-                            <div v-if="!item.open_close">
-                              <strong class="red--text">Closed</strong>
-                            </div>
-                          </div>
-                          <div v-if="item.shop_coming_soon">
-                            <strong class="red--text caption"
-                              ><strong>Comming Soon</strong></strong
-                            >
-                          </div>
-                        </v-card-actions>
-                      </v-col>
-                    </v-row>
-                  </v-card>
-                </v-sheet>
-              </div>
-            </div>
-          </v-col>
-        </v-row>
-      </div>
+      <ComingSoon/>
     </v-container>
 
-    <div v-if="!$store.state.isAuthenticated">
-      <div class="text-h5 pa-3 mt-10 text-center">
-        <strong>Technology Partner</strong>
-      </div>
-
-      <carousel-3d autoplay clickable display="3">
-        <slide v-for="(slide, i) in slides" :index="i" :key="i" class="carousel-bg">
-          <template slot-scope="{ index }">
-            <img :data-index="index" :src="slide.src" height="240" class="mt-3 bg-dark" />
-          </template>
-        </slide>
-      </carousel-3d>
-    </div>
-
-    <div v-if="!$store.state.isAuthenticated">
-      <div class="text-h5 pa-3 mt-3 text-center">
-        <strong>Restaurant Partner</strong>
-      </div>
-      <carousel-3d autoplay clickable display="5" class="text-dark">
-        <slide v-for="(item, i) in items" :index="i" :key="i" class="carousel-bg">
-          <template slot-scope="{ index }">
-            <img :data-index="index" :src="item.src" height="270" class="" />
-          </template>
-        </slide>
-      </carousel-3d>
-    </div>
+    <v-container v-if="!$store.state.isAuthenticated">
+      <Partner/>
+  </v-container>
   </v-main>
 </template>
 
@@ -470,6 +132,13 @@
 import api from "@/main";
 import signUp from "../components/signUp";
 import logIn from "../components/logIn";
+import AboutComponent from '../components/Home/AboutComponent'
+import WeOfferComponent from '../components/Home/WeOfferComponent.vue'
+import TopOrderComp from "../components/Home/TopOrderComp";
+import Partner from '../components/Home/Partner'
+import ComingSoon from '../components/Home/ComingSoon'
+import TrendingRestaurants from '../components/Home/TrendingRestaurants'
+import LikedComponent from "../components/Home/LikedComponent";
 
 export default {
   name: "Home",
@@ -477,6 +146,13 @@ export default {
   components: {
     signUp,
     logIn,
+    AboutComponent,
+    WeOfferComponent,
+    TopOrderComp,
+    Partner,
+    ComingSoon,
+    TrendingRestaurants,
+    LikedComponent
   },
 
   data: () => ({
@@ -488,47 +164,12 @@ export default {
       "deep-purple accent-1",
     ],
 
-    slides: [
-      {
-        src: "https://dipeat-s3-bucket-1.s3.amazonaws.com/pet-pooja-removebg-preview.png",
-      },
-      {
-        src: "https://dipeat-s3-bucket-1.s3.amazonaws.com/Microsoft-Azure-Logo+(1).png",
-      },
-      {
-        src: "https://dipeat-s3-bucket-1.s3.amazonaws.com/phone-pe-logo.png",
-      },
-      {
-        src:
-          "https://dipeat-s3-bucket-1.s3.amazonaws.com/AWS-Cloud-logo-removebg-preview.png",
-      },
-    ],
-    items: [
-      {
-        src: "https://dipeat-s3-bucket-1.s3.amazonaws.com/hoy+punjab+logo.jpg",
-      },
-      {
-        src: "https://dipeat-s3-bucket-1.s3.amazonaws.com/punjXpres+logo.jpg",
-      },
-      {
-        src: "https://dipeat-s3-bucket-1.s3.amazonaws.com/creamplanet+image.jpg",
-      },
-      {
-        src:
-          "https://dukaan-core-file-service.s3.ap-southeast-1.amazonaws.com/upload_file_service/9f6c9dca-881e-45f7-947c-6bcdff6a4473/simm-kitchen-logo-1.jpg",
-      },
-      {
-        src: "https://dipeat-s3-bucket-1.s3.amazonaws.com/food-xpress-logo.jpg",
-      },
-    ],
-
     amount: "",
     likeColor: "",
     menuItem: "",
     status: [],
     commingSoon: [],
     liveRestaurant: [],
-
     restaurantList: [],
     likedShops: [],
     foodOrdered: [],
@@ -667,7 +308,7 @@ export default {
     // this.phonePeValidation();
     this.$eventBus.$on("callMethodLoginHomeRefresh", () => {
       this.getMenu();
-      this.shopStatus();
+      //this.shopStatus();
       this.getLikedShop();
       this.foodOrders();
       this.getShopProfileImage();
@@ -690,9 +331,7 @@ export default {
 </script>
 
 <style scoped>
-.loggedIn-nav {
-  background-image: linear-gradient(135deg, #0e0414 0%, #5905a7 100%);
-}
+
 /*Background Image for Large Devices*/
 .bg-large-image {
   position: relative;
@@ -852,23 +491,7 @@ export default {
   animation-timing-function: 1s;
 }
 
-.commingsoonbox {
-  border: 1px solid #b2b2b2;
-  padding: 25px 25px;
-  margin: 0 0px;
-  border-radius: 10px;
-  font-size: 18px;
-  transition: 0.3s ease;
-  cursor: pointer;
-}
-.commingsoonbox:hover {
-  color: #5729ff;
-  background: #fdd3ba;
-  border: 3px solid;
-  border-color: #f06292;
-  transition: linear 350ms;
-  animation-timing-function: 1s;
-}
+
 
 .box.active ion-icon,
 .box:hover ion-icon {
@@ -890,22 +513,9 @@ export default {
 }
 
 /*Food Items Section*/
-.top-orders {
-  font-family: "Montserrat", sans-serif;
-}
 
-.top-orders h1 {
-  margin: 30px auto;
-  text-align: center;
-  font-size: 2rem;
-}
 
-.restaurant-menu {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.menu-item {
+/* .menu-item {
   width: 260px;
   margin: 20px auto;
   border-radius: 6px;
@@ -916,7 +526,7 @@ export default {
   width: 100%;
   height: auto;
   border-radius: 20%;
-}
+} */
 
 .about-justify {
   text-align: justify;
@@ -927,16 +537,7 @@ export default {
   justify-content: space-between;
 }
 
-.title {
-  font-size: 22px;
-  font-weight: 600;
-  margin: 8px 0;
-  text-align: center;
-}
-.carousel-bg {
-  background-color: #f5f5f5;
-  border-color: #f5f5f5;
-}
+
 
 @media only screen and (max-width: 450px) and (min-width: 100px) {
   .restaurant-menu {

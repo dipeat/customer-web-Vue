@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
+    "@jamescoyle/vue-icon": "^0.1.2",
+    "@mdi/js": "^7.2.96",
     "axios": "^0.27.2",
     "core-js": "^3.6.5",
     "firebase": "^9.17.1",

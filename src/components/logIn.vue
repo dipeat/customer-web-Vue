@@ -8,12 +8,32 @@
         color="purple accent-4"
         v-bind="attrs"
         v-on="on"
-        >LogIn</v-btn
-      >
+        >LogIn
+      </v-btn>
     </template>
-    <v-form @submit.prevent="logIn" ref="form1" v-model="valid1" lazy-validation>
+    <v-form
+      @submit.prevent="logIn"
+      ref="form1"
+      v-model="valid1"
+      lazy-validation
+    >
       <v-card class="pa-4">
-        <v-card-title class="text-h5"> Log In </v-card-title>
+        <v-card-title>
+          <v-container>
+            <v-row justify="center">
+              <v-col cols="auto">
+                <v-btn text color="primary" >Login</v-btn>
+              </v-col>
+              <v-col cols="auto">
+                <v-spacer></v-spacer>
+                
+              </v-col>
+              <v-col cols="auto">
+                <signUp/>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-title>
         <div>
           <v-alert
             border="right"
@@ -51,6 +71,7 @@
           <v-spacer></v-spacer>
           <v-btn color="red" text @click="dialog1 = false"> Cancel </v-btn>
           <v-btn color="primary" text @click="logIn"> LogIn </v-btn>
+
         </v-card-actions>
       </v-card>
     </v-form>
@@ -60,8 +81,12 @@
 <script>
 // import axios from "axios";
 import api from "@/main";
+import signUp from "./signUp";
 
 export default {
+  components:{
+    signUp
+  },
   name: "logIn",
 
   data: () => ({
@@ -155,5 +180,9 @@ export default {
 <style>
 .button-style {
   background-image: linear-gradient(135deg, #4d0875 0%, #9123ff 100%);
+  transition: ease-in-out 600ms;
+}
+.button-style:hover {
+  background-image: linear-gradient(135deg, black, black);
 }
 </style>

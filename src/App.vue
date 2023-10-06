@@ -17,13 +17,22 @@
       elevate-on-scroll
       v-if="$store.state.isAuthenticated"
     >
-      <v-menu transition="slide-y-transition" v-if="$store.state.isAuthenticated">
+      <v-menu
+        transition="slide-y-transition"
+        v-if="$store.state.isAuthenticated"
+      >
         <template v-slot:activator="{ on, attrs }">
           <v-app-bar-nav-icon v-bind="attrs" v-on="on"></v-app-bar-nav-icon>
         </template>
         <v-list class="mt-10" rounded>
-          <v-list-item link to="/" color="purple" v-if="$store.state.isAuthenticated">
-            <span> <v-icon color="red">mdi-home</v-icon> </span>&nbsp;&nbsp;&nbsp;
+          <v-list-item
+            link
+            to="/"
+            color="purple"
+            v-if="$store.state.isAuthenticated"
+          >
+            <span> <v-icon color="red">mdi-home</v-icon> </span
+            >&nbsp;&nbsp;&nbsp;
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item>
           <v-list-item
@@ -32,7 +41,8 @@
             color="purple"
             v-if="$store.state.isAuthenticated"
           >
-            <span> <v-icon color="orange">mdi-history</v-icon> </span>&nbsp;&nbsp;&nbsp;
+            <span> <v-icon color="orange">mdi-history</v-icon> </span
+            >&nbsp;&nbsp;&nbsp;
             <v-list-item-title>History</v-list-item-title>
           </v-list-item>
           <v-list-item
@@ -41,15 +51,18 @@
             color="purple"
             v-if="$store.state.isAuthenticated"
           >
-            <span> <v-icon color="blue">mdi-account</v-icon> </span>&nbsp;&nbsp;&nbsp;
+            <span> <v-icon color="blue">mdi-account</v-icon> </span
+            >&nbsp;&nbsp;&nbsp;
             <v-list-item-title>Profile</v-list-item-title>
           </v-list-item>
           <v-list-item link to="/feedback" color="purple">
-            <span> <v-icon color="green">mdi-leaf</v-icon> </span>&nbsp;&nbsp;&nbsp;
+            <span> <v-icon color="green">mdi-leaf</v-icon> </span
+            >&nbsp;&nbsp;&nbsp;
             <v-list-item-title>Feedback</v-list-item-title>
           </v-list-item>
           <v-list-item link to="/help" color="purple">
-            <span> <v-icon color="pink">mdi-help</v-icon> </span>&nbsp;&nbsp;&nbsp;
+            <span> <v-icon color="pink">mdi-help</v-icon> </span
+            >&nbsp;&nbsp;&nbsp;
             <v-list-item-title>Help</v-list-item-title>
           </v-list-item>
           <v-list-item
@@ -58,7 +71,8 @@
             @click="logout"
             v-if="$store.state.isAuthenticated"
           >
-            <span> <v-icon color="black">mdi-logout</v-icon> </span>&nbsp;&nbsp;&nbsp;
+            <span> <v-icon color="black">mdi-logout</v-icon> </span
+            >&nbsp;&nbsp;&nbsp;
             <v-list-item-title>Logout</v-list-item-title>
           </v-list-item>
         </v-list>
@@ -86,7 +100,12 @@
 
       <!--  -->
 
-      <v-btn icon color="red" v-if="$store.state.isAuthenticated" to="/likedshop">
+      <v-btn
+        icon
+        color="red"
+        v-if="$store.state.isAuthenticated"
+        to="/likedshop"
+      >
         <v-icon>mdi-heart</v-icon>
       </v-btn>
 
@@ -96,7 +115,7 @@
         <h4>{{ $store.state.user.username }}</h4>
       </span>
     </v-app-bar>
-    <nav v-else>
+    <nav  v-else>
       <div class="logo">
         <a href="/">
           <img
@@ -105,53 +124,136 @@
           />
         </a>
       </div>
+      <div class="search" >
+          <v-menu v-if="!isDesktop" offset-x left transition="slide-x-transition" >
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn  fab color="#A33BDF" small v-bind="attrs" v-on="on">
+                <svg-icon
+                  type="mdi"
+                  class="searchButton"
+                  href="#"
+                  :path="path"
+                ></svg-icon>
+              </v-btn>
+            </template>
+            <v-menu rounded="xl" offset-x>
+              <template v-slot:activator="{ attrs, on }">
+                <div  class="searchBox">
+                  <v-text-field 
+                    class="searchInput center-label"
+                    solo
+                    color
+                    v-model="search"
+                    v-bind="attrs"
+                    v-on="on"
+                    flat
+                    background-color="transparent"
+                    hide-details
+                    label="Search Restaurants"
+                    solo-inverted
+                    
+                    @keyup.enter="searchBar()"
+                  ></v-text-field>
+                </div>
+              </template>
+            </v-menu>
+          </v-menu>
+        </div>
       <div class="hamburger">
+        
         <div class="line1"></div>
         <div class="line2"></div>
         <div class="line3"></div>
       </div>
+
       <ul class="nav-links">
-        <li><a href="http://dipeat.com/">Home</a></li>
-        <li><a href="http://partner.dipeat.com/">Partner</a></li>
-        <li><a href="#about-us">About Us</a></li>
-        <li><a href="#top-restaurants">Restaurants</a></li>
+        <div><a href="http://dipeat.com/">Home</a></div>
+        <div><a href="#about-us">About Us</a></div>
+        <!-- <div><a href="#top-restaurants">Restaurants</a></div> -->
+        <div><a href="http://partner.dipeat.com/">Partner</a></div>
+        <div v-if="isDesktop" :class="isDesktop && search">
+          <v-menu offset-x transition="slide-x-transition" bottom right>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn fab color="#A33BDF" small v-bind="attrs" v-on="on">
+                <svg-icon
+                  type="mdi"
+                  class="searchButton"
+                  href="#"
+                  :path="path"
+                ></svg-icon>
+              </v-btn>
+            </template>
+            <v-menu rounded="xl" >
+              <template v-slot:activator="{ attrs, on }">
+                <div  class="searchBox">
+                  <v-text-field
+                    class="searchInput center-label"
+                    solo
+                    v-model="search"
+                    v-bind="attrs"
+                    v-on="on"
+                    flat
+                    :input-attrs="{ style: 'color: black' }"
+                    background-color="transparent"
+                    hide-details
+                    label="Search Restaurants"
+                    solo-inverted
+                    
+                    @keyup.enter="searchBar()"
+                  ></v-text-field>
+                </div>
+              </template>
+            </v-menu>
+          </v-menu>
+        </div>
         <li>
           <a><logIn /></a>
         </li>
-        <li>
+        <!-- <div>
           <a><signUp /></a>
-        </li>
+        </div> -->
       </ul>
     </nav>
 
     <v-sheet>
       <v-main class="mt-13">
-        <v-toolbar color="deep-purple accent-3" class="loggedIn-searchBar" dark flat>
+        <!-- <v-toolbar
+          color="deep-purple accent-3"
+          class="loggedIn-searchBar"
+          dark
+          flat
+        >
           <v-row justify="center">
             <v-col sm="6" class="mt-1">
               <v-menu rounded="xl" offset-y>
                 <template v-slot:activator="{ attrs, on }">
-                  <v-text-field
-                    dense
-                    v-model="search"
-                    v-bind="attrs"
-                    v-on="on"
-                    class="mx-7 mt-2"
-                    flat
+                  
+                  <div class="searchBox">
+                    <v-text-field 
+                      class="searchInput  center-label"
+                      solo
+                      v-model="search"
+                      v-bind="attrs"
+                      v-on="on"
+                      flat
+                      background-color="transparent"
                     hide-details
                     label="Search Restaurants"
-                    prepend-inner-icon="mdi-magnify"
+                    
                     solo-inverted
                     @keyup.enter="searchBar()"
-                    rounded
-                    maxlength="30"
-                  >
-                  </v-text-field>
+                    
+                    />
+                    
+                    <svg-icon type="mdi" class="searchButton mt-2" href="#" :path="path"></svg-icon>
+                    
+                  </div>
                 </template>
               </v-menu>
             </v-col>
           </v-row>
-        </v-toolbar>
+        </v-toolbar> -->
+
         <v-container>
           <router-view />
         </v-container>
@@ -171,15 +273,18 @@
             <div class="contact-details">
               <h1>Contact Us</h1>
               <li>
-                <v-icon dark color="yellow">mdi-email-variant</v-icon>&nbsp;&nbsp;
+                <v-icon dark color="yellow">mdi-email-variant</v-icon
+                >&nbsp;&nbsp;
                 <a href="dipeatdotcom@gmail.com">dipeatdotcom@gmail.com</a>
               </li>
               <li>
-                <v-icon color="light-green accent-3">mdi-leaf</v-icon>&nbsp;&nbsp;
+                <v-icon color="light-green accent-3">mdi-leaf</v-icon
+                >&nbsp;&nbsp;
                 <a href="/feedback">Feedback</a>
               </li>
               <li>
-                <v-icon color="pink accent-2">mdi-food-apple</v-icon>&nbsp;&nbsp;
+                <v-icon color="pink accent-2">mdi-food-apple</v-icon
+                >&nbsp;&nbsp;
                 <a href="http://partner.dipeat.com/">Partner</a>
               </li>
             </div>
@@ -211,7 +316,9 @@
             </div>
           </div>
         </div>
-        <footer class="caption">Copyright © 2023 dipEAT. All Rights Reserved.</footer>
+        <footer class="caption">
+          Copyright © 2023 dipEAT. All Rights Reserved.
+        </footer>
       </section>
     </v-sheet>
   </v-app>
@@ -220,6 +327,8 @@
 <script>
 // import axios from "axios";
 import api from "@/main";
+import SvgIcon from "@jamescoyle/vue-icon";
+import { mdiMagnify } from "@mdi/js";
 
 import signUp from "./components/signUp.vue";
 import logIn from "./components/logIn.vue";
@@ -239,10 +348,12 @@ export default {
   components: {
     signUp,
     logIn,
+    SvgIcon,
   },
 
   data: () => ({
-    //
+    isDesktop : true,
+    path: mdiMagnify,
     drawer: false,
     group: null,
     closeOnClick: true,
@@ -271,6 +382,9 @@ export default {
   },
 
   methods: {
+    checkScreenSize() {
+      this.isDesktop = window.innerWidth >= 768; // Adjust the breakpoint as needed
+    },
     logout() {
       api
         .post("/api/v1/logout/")
@@ -297,9 +411,14 @@ export default {
     },
 
     searchBar() {
-      this.$store.state.searchText = this.search.toLowerCase().replace(/\s/g, "");
+      this.$store.state.searchText = this.search
+        .toLowerCase()
+        .replace(/\s/g, "");
       // console.log(this.$store.state.searchText);
-      localStorage.setItem("searchText", this.search.toLowerCase().replace(/\s/g, ""));
+      localStorage.setItem(
+        "searchText",
+        this.search.toLowerCase().replace(/\s/g, "")
+      );
       localStorage.setItem("searchDisplayText", this.search.toLowerCase());
       this.$eventBus.$emit("callMethodSearchBarRef");
 
@@ -338,6 +457,11 @@ export default {
     if (this.$store.state.isAuthenticated) {
       this.$store.dispatch("getWallet");
     }
+    this.checkScreenSize();
+    window.addEventListener("resize", this.checkScreenSize);
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.checkScreenSize);
   },
 };
 </script>
@@ -454,6 +578,7 @@ nav {
   border: 1px solid rgb(30, 2, 58);
   background-image: linear-gradient(135deg, #1e0129fd 45%, #41127088 10%);
   display: flex;
+  justify-content: center;
   position: fixed;
   z-index: 10;
   font-family: "Montserrat", sans-serif;
@@ -463,6 +588,8 @@ nav {
 .logo {
   padding: 1vh 1vw;
   text-align: center;
+  display: flex;
+  flex-grow: 1;
 }
 .logo img {
   height: 3.4rem;
@@ -492,17 +619,28 @@ nav {
   text-transform: uppercase;
   font-weight: 400;
 }
-.nav-links li a {
+.nav-links div {
+  width: fit-content;
+  margin: 0px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-links div a {
   text-decoration: none;
-  margin: 0 1.3vw;
   color: #ffffff;
-  font-size: medium;
+  font-size: 18px;
+  transition: transform ease-in-out 200ms;
 }
 
-.nav-links li {
+/* .nav-links li {
   position: relative;
+} */
+.nav-links div a:hover {
+  transform: scale(1.4);
+  font-weight: 500;
 }
-.nav-links li a ::before {
+/* .nav-links li a ::before {
   content: "";
   display: block;
   height: 3px;
@@ -511,15 +649,76 @@ nav {
   position: absolute;
   transition: all ease-in-out 250ms;
   margin: 0 0 0 10%;
-}
-.nav-links li a:hover {
+} */
+/* .nav-links li a:hover {
   color: #ffffff;
   font-size: larger;
   padding: 0.6rem 0.8rem;
   transition: ease-in-out 300ms;
   position: relative;
+} */
+
+.searchBox {
+  margin: 0px;
+  background: transparent;
+  border: none;
+  height: 40px;
+  width: 240px;
+  border-radius: 60px;
+  display: flex;
+  align-items: center;
+  
 }
 
+
+.searchButton {
+  color: white;
+  float: right;
+  width: 40px;
+  height: 40px;
+  font-size: 10px;
+  border-radius: 50%;
+  /* background: #a33bdf; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.4s;
+  padding: 7px;
+}
+
+.searchInput {
+  border: none;
+  outline: none;
+  float: left;
+  padding: 0;
+  color: white;
+  background-color: #f2ebeb;
+  border-radius: 40px;
+  width: full;
+  font-size: 16px;
+  transition: 0.4s;
+  line-height: 40px;
+  width: 0px;
+}
+ .searchInput input{
+  color:black;
+}
+.searchInput input:focus{
+  color: black;
+}
+
+
+@media screen and (max-width: 620px) {
+  .searchBox:hover > .searchInput {
+    width: 250px;
+    padding: 0 6px;
+  }
+}
+.search{
+  padding: 1.5vh 1vw;
+  display: flex;
+  flex-grow: 0.3;
+}
 /*Styling Buttons*/
 .login-button {
   background-color: transparent;
@@ -613,6 +812,9 @@ nav {
     clip-path: circle(1000px at 90% -10%);
     -webkit-clip-path: circle(1000px at 90% -10%);
     pointer-events: all;
+  }
+  .nav-links div{
+    margin: 30px 0px;
   }
   .nav-links li {
     opacity: 0;
@@ -766,6 +968,10 @@ footer a {
   .social-info {
     padding: 20px 0;
   }
+}
+
+#app {
+  background-attachment: fixed;
 }
 
 @media (max-width: 480px) {

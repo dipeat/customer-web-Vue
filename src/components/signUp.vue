@@ -11,9 +11,29 @@
         >Register</v-btn
       >
     </template>
-    <v-form @submit.prevent="signUp" ref="form1" v-model="valid1" lazy-validation>
+    <v-form
+      @submit.prevent="signUp"
+      ref="form1"
+      v-model="valid1"
+      lazy-validation
+    >
       <v-card class="pa-4">
-        <v-card-title class="text-h5"> Register </v-card-title>
+        <v-card-title>
+          <v-container>
+            <v-row justify="center">
+              <v-col cols="auto">
+                <login/>
+              </v-col>
+              <v-col cols="auto">
+                <v-spacer></v-spacer>
+                <!-- Add space between buttons -->
+              </v-col>
+              <v-col cols="auto">
+                <v-btn text color="primary">Register</v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-title>
         <div>
           <v-alert
             border="right"
@@ -34,7 +54,12 @@
           counter
           maxlength="9"
         ></v-text-field>
-        <v-text-field v-model="email" label="Email" counter maxlength="50"></v-text-field>
+        <v-text-field
+          v-model="email"
+          label="Email"
+          counter
+          maxlength="50"
+        ></v-text-field>
         <v-text-field
           v-model="password"
           validate-on-blur
@@ -64,8 +89,8 @@
         ></v-text-field>
         <div class="caption">
           Note: By clicking "Register" you agree to our
-          <a href="http://dipeat.com/terms_and_conditions">Terms & Conditions</a>, and
-          <a href="http://dipeat.com/privacy_policy">Privacy Policy</a>.
+          <a href="http://dipeat.com/terms_and_conditions">Terms & Conditions</a
+          >, and <a href="http://dipeat.com/privacy_policy">Privacy Policy</a>.
         </div>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -80,9 +105,12 @@
 <script>
 // import axios from "axios";
 import api from "@/main";
-
+import login from './logIn'
 export default {
   name: "signUp",
+  components:{
+    login
+  },
 
   data: () => ({
     dialog: false,
@@ -137,7 +165,9 @@ export default {
           .catch((error) => {
             if (error.response) {
               for (const property in error.response.data) {
-                this.errors.push(`${property}: ${error.response.data[property]}`);
+                this.errors.push(
+                  `${property}: ${error.response.data[property]}`
+                );
               }
               console.log(JSON.stringify(error.response.data));
               this.errorMessages = JSON.stringify(error.response.data);
@@ -145,7 +175,9 @@ export default {
                 this.errorMessages = "";
               }, 5000);
             } else if (error.message) {
-              this.errorMessages.push("Something went wrong, Please try again.");
+              this.errorMessages.push(
+                "Something went wrong, Please try again."
+              );
               console.log(JSON.stringify(error));
               this.errorMessages = JSON.stringify(error);
               setTimeout(() => {
@@ -163,7 +195,8 @@ export default {
         (v) => !!v || "Confirm Password is required",
         (v) => v.length <= 30 || "Must be less than 30 characters",
         (v) => v.length >= 8 || "Must be atleast 8 characters",
-        (v) => v === this.password || "Password and Confirm Password must be same",
+        (v) =>
+          v === this.password || "Password and Confirm Password must be same",
       ];
     },
   },
