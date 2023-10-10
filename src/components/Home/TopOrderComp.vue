@@ -54,9 +54,9 @@
   border-radius: 6px;
   overflow: hidden;
 }
-@media only screen and (max-width: 750px) and (min-width: 100px){
+@media only screen and (max-width: 600px) and (min-width: 100px){
     .menu-item{
-        width: 150px;
+        width: 100px;
     }
 }
 

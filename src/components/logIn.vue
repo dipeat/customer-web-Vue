@@ -28,7 +28,7 @@
                 <v-spacer></v-spacer>
                 
               </v-col>
-              <v-col cols="auto">
+              <v-col cols="auto" >
                 <signUp/>
               </v-col>
             </v-row>

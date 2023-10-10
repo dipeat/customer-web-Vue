@@ -21,8 +21,8 @@
         <v-card-title>
           <v-container>
             <v-row justify="center">
-              <v-col cols="auto">
-                <login/>
+              <v-col cols="auto" >
+                <login @click="dialog1 = false" />
               </v-col>
               <v-col cols="auto">
                 <v-spacer></v-spacer>
@@ -59,6 +59,8 @@
           label="Email"
           counter
           maxlength="50"
+          :rules="emailRules"
+          required
         ></v-text-field>
         <v-text-field
           v-model="password"
@@ -132,6 +134,10 @@ export default {
       (v) => v.length <= 9 || "Username must be less than 10 characters",
       (v) => v.length >= 3 || "Username must be atleast 3 characters",
     ],
+    emailRules: [
+        (v) => !!v || 'Email is required', // Required validation
+        (v) => /.+@.+\..+/.test(v) || 'Enter a valid email address', // Email format validation
+      ],
 
     signUpPasswordRules1: [
       (v) => !!v || "Password is required",

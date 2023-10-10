@@ -1,44 +1,46 @@
 <template>
   <v-main>
-
     <v-container>
-      <LikedComponent/>
+      <LikedComponent />
     </v-container>
-
+    <!-- src="https://dipeat-s3-bucket-1.s3.amazonaws.com/french-fries-removebg-preview.png" -->
     <div v-if="!$store.state.isAuthenticated" class="mt-3">
       <div class="hero-large-bg">
-        <img
-          src="https://dipeat-s3-bucket-1.s3.amazonaws.com/french-fries-removebg-preview.png"
-          class="bg-large-image"
-          alt="BG Image"
-        />
-        <div
-          class="text-center text-h3 overline"
-                  
-        >
-        <p style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;text-transform: none;">
-          Discover flavor, indulge senses, and shop your culinary desires here!
-        </p>
+        <v-row>
+          <v-col cols="12" lg="5">
+            <v-layout align-center justify-center>
+              <img class="bg-large-image" src="https://dipeat-s3-bucket-1.s3.amazonaws.com/french-fries-removebg-preview.png"/>
+            </v-layout>
+          </v-col>
+          <v-col cols="12" lg="7">
+            <v-layout align-center justify-start fill-height>
+              <div>
+              <p class="text-h3 overline title-style">
+                <span class="font-style">{{ text }}</span><span class="font-style" v-if="showCursor==true">&nbsp;{{ showCursor==true? cursor:''  }}</span>
+                <!-- Discover flavor, indulge senses, and shop your culinary desires here! -->
+              </p>
+              <div v-if="showLoginBtn == true" style="margin-top: 50px;">
+                <Auth :btnType="changeBtnType" />
+              </div>
+              
+            </div>
+            </v-layout>
+            
+          </v-col>
+        </v-row>
       </div>
-      </div>
-
+      <!-- <img :src="food1" class="bg-mobile-image" alt="BG Image" /> -->
+      
       <div class="hero-mobile-bg">
-        <img
-          src="https://dipeat-s3-bucket-1.s3.amazonaws.com/french-fries-removebg-preview.png"
-          class="bg-mobile-image"
-          alt="BG Image"
-        />
-        <div
-          class="text-center overline"
-          v-text="`It's all about taste & Experience.`"
-        ></div>
-      </div>
-    </div>
-
-    <div class="mt-10" v-if="!$store.state.isAuthenticated">
-      <div class="mx-auto text-center">
-        <a><logIn /></a>&nbsp;&nbsp;&nbsp;
-        <a><signUp /></a>
+        <img class="bg-mobile-image" src="https://dipeat-s3-bucket-1.s3.amazonaws.com/french-fries-removebg-preview.png"/>
+        <div class="text-left ml-5 overline" style="min-height: 250px;">
+          <span class="font-style">{{ text }}</span><span class="font-style" v-if="showCursor==true">&nbsp;{{ showCursor==true? cursor:''  }}</span>  
+          <div v-if="showLoginBtn == true" style="margin-top: 30px;">
+            <Auth :btnType="changeBtnType" />
+          </div>
+          
+        </div>
+        
       </div>
     </div>
 
@@ -46,7 +48,9 @@
       <v-card class="mx-auto">
         <v-row>
           <v-col cols="12" md="12" sm="12">
-            <h3 class="ml-4 text-center brown--text">🍔~~ Order Details ~~🍟</h3>
+            <h3 class="ml-4 text-center brown--text">
+              🍔~~ Order Details ~~🍟
+            </h3>
             <v-container>
               <v-row justify="center">
                 <v-col
@@ -55,10 +59,15 @@
                   v-for="(item, index) in foodOrdered"
                   :key="index + 0.55"
                 >
-                  <div v-for="(shop, index) in shopProfileImage" :key="index + 0.0129">
+                  <div
+                    v-for="(shop, index) in shopProfileImage"
+                    :key="index + 0.0129"
+                  >
                     <v-card
                       class="mx-auto"
-                      v-if="item.delivered === false && shop.slug == item.restaurant"
+                      v-if="
+                        item.delivered === false && shop.slug == item.restaurant
+                      "
                       to="/order"
                       align="center"
                       max-width="auto"
@@ -75,7 +84,11 @@
                             <span>At: {{ item.arrival_time }}</span>
                           </v-col>
                           <v-col cols="4" sm="4">
-                            <v-chip outlined color="primary" v-if="item.takeaway == true">
+                            <v-chip
+                              outlined
+                              color="primary"
+                              v-if="item.takeaway == true"
+                            >
                               <span>Takeaway</span>
                             </v-chip>
                             <v-chip outlined color="orange darken-4" v-else>
@@ -83,7 +96,10 @@
                             </v-chip>
                           </v-col>
                           <v-col cols="4" sm="4">
-                            <span><v-icon>mdi-currency-inr</v-icon>{{ item.total }}</span>
+                            <span
+                              ><v-icon>mdi-currency-inr</v-icon
+                              >{{ item.total }}</span
+                            >
                           </v-col>
                         </v-row>
                       </body>
@@ -97,65 +113,64 @@
       </v-card>
     </v-container>
 
-    <v-container id="about-us" v-if="!$store.state.isAuthenticated">
-      <AboutComponent/>
+    <v-container full-width id="about-us" v-if="!$store.state.isAuthenticated">
+      <AboutComponent />
     </v-container>
 
     <v-container id="top-restaurants">
-      <TrendingRestaurants/>
+      <TrendingRestaurants />
     </v-container>
 
-    
-
-    <v-container
-      v-if="!$store.state.isAuthenticated"
-      id="we-offer" >
-      <WeOfferComponent/>
+    <v-container v-if="!$store.state.isAuthenticated" id="we-offer">
+      <WeOfferComponent />
     </v-container>
 
     <v-container v-if="!$store.state.isAuthenticated">
-      <TopOrderComp/>
-  </v-container>
+      <TopOrderComp />
+    </v-container>
 
     <v-container v-if="commingSoon != ''">
-      <ComingSoon/>
+      <ComingSoon />
     </v-container>
 
     <v-container v-if="!$store.state.isAuthenticated">
-      <Partner/>
-  </v-container>
+      <Partner />
+    </v-container>
   </v-main>
 </template>
 
 <script>
 // import axios from "axios";
 import api from "@/main";
-import signUp from "../components/signUp";
-import logIn from "../components/logIn";
-import AboutComponent from '../components/Home/AboutComponent'
-import WeOfferComponent from '../components/Home/WeOfferComponent.vue'
+// import signUp from "../components/signUp";
+// import logIn from "../components/logIn";
+import Auth from '../components/Auth'
+import AboutComponent from "../components/Home/AboutComponent";
+import WeOfferComponent from "../components/Home/WeOfferComponent";
 import TopOrderComp from "../components/Home/TopOrderComp";
-import Partner from '../components/Home/Partner'
-import ComingSoon from '../components/Home/ComingSoon'
-import TrendingRestaurants from '../components/Home/TrendingRestaurants'
+import Partner from "../components/Home/Partner";
+import ComingSoon from "../components/Home/ComingSoon";
+import TrendingRestaurants from "../components/Home/TrendingRestaurants";
 import LikedComponent from "../components/Home/LikedComponent";
 
 export default {
   name: "Home",
 
   components: {
-    signUp,
-    logIn,
+    // signUp,
+    // logIn,
+    Auth,
     AboutComponent,
     WeOfferComponent,
     TopOrderComp,
     Partner,
     ComingSoon,
     TrendingRestaurants,
-    LikedComponent
+    LikedComponent,
   },
 
   data: () => ({
+    food1: require("@/assets/food1.jpg"),
     colors: [
       "blue lighten-3",
       "warning",
@@ -163,7 +178,11 @@ export default {
       "green accent-2",
       "deep-purple accent-1",
     ],
-
+    reqText:"Discover flavor, indulge senses, and shop your culinary desires here!",
+    text: "",
+    cursor: "|",
+    showCursor:true,
+    changeBtnType:'Login',
     amount: "",
     likeColor: "",
     menuItem: "",
@@ -179,6 +198,34 @@ export default {
   }),
 
   methods: {
+    textAnimate() {
+      let currentIndex = 0;
+      const interval = setInterval(() => {
+        this.text += this.reqText[currentIndex];
+        currentIndex++;
+        if (currentIndex === this.reqText.length) {
+          clearInterval(interval);
+        }
+      }, 60);
+    },
+    animateCursor(){
+      this.showCursor = !this.showCursor
+    },
+    animateBtnType(){
+      const interval = setInterval(() =>{
+        if(this.changeBtnType === 'Login'){
+          this.changeBtnType = 'Sign Up'
+          
+        }
+        else{
+          this.changeBtnType = 'Login'
+          
+        }
+        return ()=>clearInterval(interval)
+      },2000)
+    },
+
+
     sliderGroup(value) {
       // console.log(value);
     },
@@ -234,7 +281,9 @@ export default {
         this.status = res.data;
         // console.log(this.status);
         // filter shop coming soon
-        this.commingSoon = this.status.filter((item) => item.shop_coming_soon === true);
+        this.commingSoon = this.status.filter(
+          (item) => item.shop_coming_soon === true
+        );
         this.liveRestaurant = this.status.filter(
           (item) => item.shop_coming_soon === false
         );
@@ -251,7 +300,8 @@ export default {
       api.get("/api/v1/likedshop/").then((response) => {
         this.likedShops = response.data.filter(
           (item) =>
-            item.customer === this.$store.state.user.username && item.liked === true
+            item.customer === this.$store.state.user.username &&
+            item.liked === true
         );
         // console.log(this.likedShops);
       });
@@ -305,6 +355,10 @@ export default {
   // },
 
   mounted() {
+    //typing Animation
+    this.textAnimate();
+    this.cursorInterval = setInterval(this.animateCursor , 350);
+    this.animateBtnType()
     // this.phonePeValidation();
     this.$eventBus.$on("callMethodLoginHomeRefresh", () => {
       this.getMenu();
@@ -318,6 +372,9 @@ export default {
       this.phonePeValidation();
     });
   },
+  beforeDestroy(){
+    clearInterval(this.cursorInterval)
+  },
 
   created() {
     this.getMenu();
@@ -326,32 +383,71 @@ export default {
     this.foodOrders();
     this.getShopProfileImage();
     this.phonePeValidation();
+    
   },
+  computed:{
+    showLoginBtn(){
+      return this.text.length===this.reqText.length
+    },
+  }
 };
 </script>
 
 <style scoped>
-
+/* @import url('https://fonts.googleapis.com/css2?family=Style+Script&display=swap'); */
 /*Background Image for Large Devices*/
-.bg-large-image {
+  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&family=Style+Script&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&family=Style+Script&family=Zeyada&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&family=Style+Script&family=Tangerine:wght@700&family=Zeyada&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Galada&family=Pacifico&family=Style+Script&family=Tangerine:wght@700&family=Zeyada&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Bonheur+Royale&family=Dancing+Script:wght@700&family=Galada&family=Pacifico&family=Style+Script&family=Tangerine:wght@700&family=Zeyada&display=swap');
+
+
+  .bg-large-image {
   position: relative;
-  height: 700px;
+  height: 450px;
   width: 100%;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   background-attachment: fixed;
+  animation : scaleUp 1s infinite alternate;
+}
+@keyframes scaleUp{
+  0%{
+    transform: scale(1.02);
+  }
+  /* 50%{
+    transform: scale(1.06);
+  } */
+  100%{
+    transform : scale(1.1);
+  }
 }
 
 /*Background Image for Mobile Devices*/
 .bg-mobile-image {
   position: relative;
   height: auto;
-  width: 100%;
+  width: 90%;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   background-attachment: fixed;
+  animation : scaleUp 1s infinite alternate;
+}
+.font-style{
+  /* font-family: 'Dancing Script', cursive; */
+  /* font-family: 'Zeyada', cursive; */
+  /* font-family: 'Tangerine', cursive; */
+  /* font-family: 'Galada', cursive; */
+  font-family: 'Bonheur Royale', cursive;
+  font-weight: bold;
+  letter-spacing: 1mm;
+  word-spacing: 2mm;
+  line-height-step: 30px;
+  text-transform: none;
+  font-size: 60px;
 }
 
 /*Responsiveness of Backgorund Image*/
@@ -359,12 +455,19 @@ export default {
   .hero-large-bg {
     display: none;
   }
+  .font-style{
+    font-size: 40px;
+  }
+  .cursor{
+    font-size:25px;
+  }
 }
 
 @media only screen and (min-width: 451px) {
   .hero-mobile-bg {
     display: none;
   }
+  
 }
 
 /*Hero Text or Heading Large Device*/
@@ -491,8 +594,6 @@ export default {
   animation-timing-function: 1s;
 }
 
-
-
 .box.active ion-icon,
 .box:hover ion-icon {
   color: #fff;
@@ -513,7 +614,6 @@ export default {
 }
 
 /*Food Items Section*/
-
 
 /* .menu-item {
   width: 260px;
@@ -536,8 +636,6 @@ export default {
 .order {
   justify-content: space-between;
 }
-
-
 
 @media only screen and (max-width: 450px) and (min-width: 100px) {
   .restaurant-menu {

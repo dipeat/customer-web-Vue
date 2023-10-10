@@ -139,7 +139,7 @@
             <v-menu rounded="xl" offset-x>
               <template v-slot:activator="{ attrs, on }">
                 <div  class="searchBox">
-                  <v-text-field 
+                  <v-text-field dark
                     class="searchInput center-label"
                     solo
                     color
@@ -147,9 +147,9 @@
                     v-bind="attrs"
                     v-on="on"
                     flat
-                    background-color="transparent"
+                    background-color="white"
                     hide-details
-                    label="Search Restaurants"
+                    placeholder="Search Restaurants"
                     solo-inverted
                     
                     @keyup.enter="searchBar()"
@@ -186,17 +186,16 @@
             <v-menu rounded="xl" >
               <template v-slot:activator="{ attrs, on }">
                 <div  class="searchBox">
-                  <v-text-field
+                  <v-text-field dark
                     class="searchInput center-label"
                     solo
                     v-model="search"
                     v-bind="attrs"
                     v-on="on"
                     flat
-                    :input-attrs="{ style: 'color: black' }"
-                    background-color="transparent"
+                    background-color="white"
                     hide-details
-                    label="Search Restaurants"
+                    placeholder="Search Restaurants"
                     solo-inverted
                     
                     @keyup.enter="searchBar()"
@@ -206,12 +205,9 @@
             </v-menu>
           </v-menu>
         </div>
-        <li>
-          <a><logIn /></a>
-        </li>
-        <!-- <div>
-          <a><signUp /></a>
-        </div> -->
+        
+          <Auth btnType="Login" />
+        
       </ul>
     </nav>
 
@@ -329,9 +325,9 @@
 import api from "@/main";
 import SvgIcon from "@jamescoyle/vue-icon";
 import { mdiMagnify } from "@mdi/js";
-
-import signUp from "./components/signUp.vue";
-import logIn from "./components/logIn.vue";
+import Auth from './components/Auth'
+// import signUp from "./components/signUp.vue";
+// import logIn from "./components/logIn.vue";
 import { set } from "vue";
 
 // window.addEventListener("load", () => {
@@ -346,9 +342,10 @@ export default {
   name: "App",
 
   components: {
-    signUp,
-    logIn,
+    // signUp,
+    // logIn,
     SvgIcon,
+    Auth
   },
 
   data: () => ({
@@ -383,7 +380,7 @@ export default {
 
   methods: {
     checkScreenSize() {
-      this.isDesktop = window.innerWidth >= 768; // Adjust the breakpoint as needed
+      this.isDesktop = window.innerWidth >= 760 // Adjust the breakpoint as needed
     },
     logout() {
       api
@@ -477,7 +474,9 @@ export default {
   padding: 0;
   scroll-behavior: smooth;
 }
-
+.v-text-field .v-input__control input::placeholder {
+  color: #0d0c0c; /* Change to your desired placeholder text color */
+}
 /* loading screen */
 
 .loading {
@@ -663,7 +662,7 @@ nav {
   background: transparent;
   border: none;
   height: 40px;
-  width: 240px;
+  width: 140px;
   border-radius: 60px;
   display: flex;
   align-items: center;
@@ -718,6 +717,7 @@ nav {
   padding: 1.5vh 1vw;
   display: flex;
   flex-grow: 0.3;
+  margin-right: 25px;
 }
 /*Styling Buttons*/
 .login-button {
