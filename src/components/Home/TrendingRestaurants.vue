@@ -1,128 +1,241 @@
 <template>
-    <div class="top-orders" >
-        <v-row class="mt-5">
-          <v-col sm="" cols="2">
-            <v-divider color="red" class="mt-10"></v-divider>
-          </v-col>
-          <v-col sm="3" cols="8">
-            <div class="text-center mt-3">
-              <h2 class="purple--text text-h3">
-                <strong>Trending</strong>
-              </h2>
-              <div class="red--text caption"><u># 5% off on every order</u></div>
-            </div>
-          </v-col>
-          <v-col sm="" cols="2">
-            <v-divider color="red" class="mt-10"></v-divider>
-          </v-col>
-        </v-row>
+  <div class="top-orders">
+    <v-row class="mt-5">
+      <v-col sm="" cols="2">
+        <v-divider color="red" class="mt-10"></v-divider>
+      </v-col>
+      <v-col sm="3" cols="8">
+        <div class="text-center mt-3">
+          <h2 class="purple--text text-h3">
+            <strong>Trending</strong>
+          </h2>
+          <div class="red--text caption"><u># 5% off on every order</u></div>
+        </div>
+      </v-col>
+      <v-col sm="" cols="2">
+        <v-divider color="red" class="mt-10"></v-divider>
+      </v-col>
+    </v-row>
 
-        <v-row class="mt-3">
-          <v-col
-            cols="6"
-            sm="4"
-            v-for="(item, index) in liveRestaurant"
-            :key="index + 0.1101"
+    <div class="scrollContainer">
+      <div
+        class="menu-card"
+        :class="{ visible: isVisible }"
+        v-for="(image, index) in images"
+        :key="index"
+      >
+        <v-img class="filtered-images" :src="image" />
+        <h4 class="text-center">{{ index }}</h4>
+      </div>
+    </div>
+
+    <v-row class="mt-3 hotel-container" >
+      <v-col
+        cols="6"
+        sm="3"
+        class="hotels-animate"
+        :class="{ active: hotelVisible }"
+        v-for="(item, index) in displayItems"
+        :key="index + 0.1101"
+      >
+        <div>
+          <div
+            v-for="(image, index) in shopProfileApproved"
+            :key="index + 0.0019"
           >
-            <div>
-              <div v-for="(image, index) in shopProfileApproved" :key="index + 0.0019">
-                <v-sheet rounded="lg" v-if="image.slug == item.restaurant">
-                  <v-card
-                    class="mx-auto"
-                    max-width="400"
-                    @click="setRestaurant(image.slug)"
-                  >
-                    <v-row dense>
-                      <v-col :cols="12">
-                        <div class="text-center">
-                          <v-img
-                            :src="image.shop_image"
-                            class="white--text align-end"
-                            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                            min-height="100px"
-                            max-height="100px"
-                            @click="setRestaurant(image.slug)"
-                          >
-                            <v-chip class="mb-1" color="white align-bottom" small>
-                              <div class="purple--text font-weight-bold">
-                                {{ image.owner_name }}
-                              </div>
-                            </v-chip>
-                          </v-img>
+            <v-sheet rounded="lg" v-if="image.slug == item.restaurant">
+              <v-card
+                class="mx-auto"
+                max-width="400"
+                elevation="3"
+                @click="setRestaurant(image.slug)"
+              >
+                <v-row dense>
+                  <v-col :cols="12">
+                    <div class="text-center">
+                      <v-img
+                        :src="image.shop_image"
+                        class="white--text align-end"
+                        gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                        min-height="150px"
+                        max-height="150px"
+                        @click="setRestaurant(image.slug)"
+                      >
+                      </v-img>
+                    </div>
+
+                    <v-card-actions
+                      class="card-description"
+                      @click="setRestaurant(image.slug)"
+                    >
+                      <v-chip class="chip" small color="white">
+                        <div class="purple--text font-weight-bold">
+                          {{ image.owner_name }}
                         </div>
+                      </v-chip>
 
-                        <v-card-actions @click="setRestaurant(image.slug)">
-                          <v-spacer></v-spacer>
+                      <v-spacer></v-spacer>
 
-                          <div
-                            v-for="(shopDiscount, index) in maxDiscount"
-                            :key="index + 0.0043"
-                          >
-                            <v-chip
-                              small
-                              outlined
-                              color="purple"
-                              dark
-                              v-if="
-                                item.restaurant == shopDiscount.restaurant &&
-                                shopDiscount.discount > 0 &&
-                                item.open_close
-                              "
-                              ><div>
-                                <strong class="red--text caption"
-                                  ><strong
-                                    >{{ shopDiscount.discount }}% off</strong
-                                  ></strong
-                                >
-                              </div>
-                            </v-chip>
-                          </div>
-                          <div v-if="!item.shop_coming_soon">
-                            <div v-if="!item.open_close">
-                              <strong class="red--text">Closed</strong>
-                            </div>
-                          </div>
-                          <div v-if="item.shop_coming_soon">
+                      <div
+                        v-for="(shopDiscount, index) in maxDiscount"
+                        :key="index + 0.0043"
+                      >
+                        <v-chip
+                          small
+                          outlined
+                          color="purple"
+                          dark
+                          v-if="
+                            item.restaurant == shopDiscount.restaurant &&
+                            shopDiscount.discount > 0 &&
+                            item.open_close
+                          "
+                          ><div>
                             <strong class="red--text caption"
-                              ><strong>Comming Soon</strong></strong
+                              ><strong
+                                >{{ shopDiscount.discount }}% off</strong
+                              ></strong
                             >
                           </div>
-                        </v-card-actions>
-                      </v-col>
-                    </v-row>
-                  </v-card>
-                </v-sheet>
-              </div>
-            </div>
-          </v-col>
-        </v-row>
+                        </v-chip>
+                      </div>
+                      <div v-if="!item.shop_coming_soon">
+                        <div v-if="!item.open_close">
+                          <strong class="red--text">Closed</strong>
+                        </div>
+                      </div>
+                      <div v-if="item.shop_coming_soon">
+                        <strong class="red--text caption"
+                          ><strong>Comming Soon</strong></strong
+                        >
+                      </div>
+                    </v-card-actions>
+                  </v-col>
+                </v-row>
+              </v-card>
+            </v-sheet>
+          </div>
+        </div>
+      </v-col>
+    </v-row>
+
+    <!-- Pagination Bar -->
+    <v-row full-width align="center" justify="center" class="pagination-btns">
+      <v-btn small fab @click="prev()" :disabled="this.currentIndex == 1">
+        <svg-icon type="mdi" :path="left"></svg-icon>
+      </v-btn>
+      <div v-for="(page, index) in pages" :key="index">
+        <v-btn
+          fab
+          small
+          :color="page == currentIndex ? 'primary' : ''"
+          v-if="
+            Math.abs(page - currentIndex) < 2 ||
+            page == 1 ||
+            page == 2 ||
+            page == noOfPages ||
+            page == noOfPages - 1
+          "
+          @click="changeCurrentIndex(page)"
+          >{{ page }}
+        </v-btn>
+        <div v-else style="width: 0px">.</div>
       </div>
+      <v-btn
+        small
+        fab
+        @click="next()"
+        :disabled="this.currentIndex == this.noOfPages"
+      >
+        <svg-icon type="mdi" :path="right"></svg-icon>
+      </v-btn>
+    </v-row>
+  </div>
 </template>
 
 <script>
-
 import api from "@/main";
-export default{
-    data : ()=>({
-      amount: "",
+import SvgIcon from "@jamescoyle/vue-icon";
+import { mdiChevronDoubleLeft, mdiChevronDoubleRight } from "@mdi/js";
+
+export default {
+  components: {
+    SvgIcon,
+  },
+  data: () => ({
+    left: mdiChevronDoubleLeft,
+    right: mdiChevronDoubleRight,
+
+    images: {
+      Dosa: "https://dipeat-s3-bucket-1.s3.amazonaws.com/masala-dosa-indian-cuisine-sambar-vegetarian-cuisine-onion-572e9d60dd0ce72a8a09bdfa3b344ca6.png",
+      Burger:
+        "https://dipeat-s3-bucket-1.s3.amazonaws.com/hamburger-chicken-sandwich-veggie-burger-french-fries-fizzy-drinks-steak-burger-b3d2380fa7b662d45f491ea726fa241c+(1).png",
+      Chicken:
+        "https://dipeat-s3-bucket-1.s3.amazonaws.com/roast-chicken-barbecue-chicken-buffalo-wing-roast-goose-chicken-99c7c5f2b1bde7077b750194fcf7e43c.png",
+      "Fried Rice":
+        "https://dipeat-s3-bucket-1.s3.amazonaws.com/pilaf-fried-rice-spanish-rice-white-rice-fried-rice-616ce31c33951d3706a87a20af0d5375.png",
+      Idli: "https://dipeat-s3-bucket-1.s3.amazonaws.com/qld9mtstd2ts2nhjkcg340ddh8.png",
+      Milkshake:
+        "https://dipeat-s3-bucket-1.s3.amazonaws.com/milkshake-ice-cream-smoothie-stock-photography-ice-cream-ad2f432517b041edc5e8e7b74c0a4202.png",
+      Noodles:
+        "https://dipeat-s3-bucket-1.s3.amazonaws.com/5bbdcd3a890db-6886e8b17af0b1dd47997015c52b76ef.png",
+      "North Indian":
+        "https://dipeat-s3-bucket-1.s3.amazonaws.com/indian-cuisine-dal-vegetarian-cuisine-roti-non-veg-food-8683483aaf18d84db2f2c66f3391eb71+(1).png",
+      Roti: "https://dipeat-s3-bucket-1.s3.amazonaws.com/pita-naan-roti-kulcha-indian-cuisine-bread-923f108b824980de2167541df1d9f724.png",
+      "South Indian":
+        "https://dipeat-s3-bucket-1.s3.amazonaws.com/south-indian-cuisine-south-indian-cuisine-vegetarian-cuisine-rasam-menu-cdcebac8b3f180c12c8845c2345b7c1d.png",
+    },
+    amount: "",
     likeColor: "",
     menuItem: "",
     status: [],
     commingSoon: [],
     liveRestaurant: [],
-
     restaurantList: [],
     likedShops: [],
     foodOrdered: [],
     maxDiscount: [],
     shopProfileImage: [],
     shopProfileApproved: [],
-    }),
-    methods:{
-      sliderGroup(value) {
+    isVisible: false,
+    hotelVisible: false,
+    // isDesktop : true,
+    currentIndex: 1,
+    itemsPerPage: 8,
+  }),
+  methods: {
+    sliderGroup(value) {
       // console.log(value);
     },
-
+    checkScreenSize() {
+      this.isDesktop = window.innerWidth >= 760; // Adjust the breakpoint as needed
+    },
+    handleTrendingScroll() {
+      const container = this.$el.querySelector(".scrollContainer");
+      const rect = container.getBoundingClientRect();
+      const textBottom = rect.top + 50;
+      if (textBottom <= window.innerHeight && !this.isVisible) {
+        this.isVisible = true;
+      }
+    },
+    handleRestaurantsScroll() {
+      const container = this.$el.querySelector(".hotels-animate");
+      const rect = container.getBoundingClientRect();
+      const textBottom = rect.top + 50;
+      if (textBottom <= window.innerHeight && !this.hotelVisible) {
+        this.hotelVisible = true;
+      }
+    },
+    //--Pagiation--
+    changeCurrentIndex(index) {
+      this.currentIndex = index;
+    },
+    prev() {
+      this.currentIndex--;
+    },
+    next() {
+      this.currentIndex++;
+    },
     async googleRegister() {
       // console.log("googleRegister");
       const googleUser = await this.$gAuth.signIn();
@@ -174,7 +287,9 @@ export default{
         this.status = res.data;
         // console.log(this.status);
         // filter shop coming soon
-        this.commingSoon = this.status.filter((item) => item.shop_coming_soon === true);
+        this.commingSoon = this.status.filter(
+          (item) => item.shop_coming_soon === true
+        );
         this.liveRestaurant = this.status.filter(
           (item) => item.shop_coming_soon === false
         );
@@ -191,7 +306,8 @@ export default{
       api.get("/api/v1/likedshop/").then((response) => {
         this.likedShops = response.data.filter(
           (item) =>
-            item.customer === this.$store.state.user.username && item.liked === true
+            item.customer === this.$store.state.user.username &&
+            item.liked === true
         );
         // console.log(this.likedShops);
       });
@@ -239,9 +355,9 @@ export default{
           }
         });
     },
-
-    },
-    mounted() {
+  },
+  mounted() {
+    // this.checkScreenSize();
     // this.phonePeValidation();
     this.$eventBus.$on("callMethodLoginHomeRefresh", () => {
       this.getMenu();
@@ -254,6 +370,8 @@ export default{
     this.$eventBus.$on("phonePeValidation", () => {
       this.phonePeValidation();
     });
+    window.addEventListener("scroll", this.handleTrendingScroll);
+    window.addEventListener("scroll", this.handleRestaurantsScroll);
   },
 
   created() {
@@ -264,6 +382,107 @@ export default{
     this.getShopProfileImage();
     this.phonePeValidation();
   },
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.handleAboutScroll);
+    window.addEventListener("scroll", this.handleRestaurantsScroll);
+  },
+  computed: {
+    noOfPages() {
+      return Math.ceil(this.liveRestaurant.length / this.itemsPerPage);
+    },
+    pages() {
+      let arr = [];
+      for (let i = 0; i < this.noOfPages; i++) {
+        arr[i] = i + 1;
+      }
+      return arr;
+    },
+    displayItems() {
+      const start = (this.currentIndex - 1) * this.itemsPerPage;
+      const last = start + this.itemsPerPage;
+      return this.liveRestaurant.slice(start, last);
+    },
+  },
+};
+</script>
+
+<style>
+.filtered-images {
+  max-height: 120px;
+  max-width: 150px;
+  margin-bottom: 10px;
+  transition: ease-in-out 300ms;
 }
 
-</script>
+.filtered-images:hover {
+  transform: scale(1.2);
+}
+.scrollContainer {
+  margin: 50px 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow-x: auto;
+  white-space: nowrap; /* Prevent text from wrapping to the next line */
+  max-width: 100%; /* Ensure it doesn't stretch the parent column */
+}
+@media(min-width: 700px){
+  .hotel-container{
+    height: 500px;
+  }
+}
+
+.menu-card {
+  opacity: 0;
+  height: 150px;
+  transform: scale(0);
+  transition: opacity 1s ease-in-out, transform 0.7s ease-in-out;
+  margin: 0px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.menu-card.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+.card-description {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.chip {
+  position: absolute;
+  bottom: 40px;
+}
+
+.pagination-btns {
+  position: relative;
+  top: 20px;
+  gap: 10px;
+}
+.hotels-animate {
+  opacity: 0;
+  transform: translateY(60%);
+  transition: opacity 1s ease-in-out, transform 1.2s ease-in-out;
+}
+.hotels-animate.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 500px) {
+  .filtered-images {
+    width: 100px;
+    max-height: 80px;
+  }
+  .menu-card {
+    height: 120px;
+  }
+  .chip {
+    position: absolute;
+    /* bottom: 40px; */
+  }
+}
+</style>

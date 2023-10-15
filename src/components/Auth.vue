@@ -2,8 +2,7 @@
   <div>
     <v-btn
       class="btnStyle"
-      full-width
-      large
+      style="width: 100px;height: 50px; margin: 0px; font-size: 16px;"
       rounded
       color="primary"
       dark
@@ -15,7 +14,7 @@
     <v-dialog dark v-model="dialog" max-width="380px">
       <v-card class="pa-4">
         <v-card-title justify-center align-center>
-          <v-row justify="space-around" align="center">
+          <v-row justify="center" align="center">
             <v-btn
               rounded
               x-large
@@ -24,7 +23,7 @@
               @click="isLogin = true"
               >Login</v-btn
             >
-
+            <div style="width: 20px;"></div>
             <v-btn
               rounded
               x-large
@@ -188,6 +187,7 @@ export default {
       errors: [],
       errorMessages: "",
 
+
       logInNameRules: [
         (v) => !!v || "Username is required",
         (v) => v.length <= 9 || "Username must be less than 10 characters",
@@ -333,6 +333,7 @@ export default {
 
 <style scoped>
 .btnStyle {
-  transition: opacity 2s ease-in-out;
+  transition: opacity 2 s ease-in-out;
+  text-align: left;
 }
 </style>

@@ -4,7 +4,7 @@
       <LikedComponent />
     </v-container>
     <!-- src="https://dipeat-s3-bucket-1.s3.amazonaws.com/french-fries-removebg-preview.png" -->
-    <div v-if="!$store.state.isAuthenticated" class="mt-3">
+    <div v-if="!$store.state.isAuthenticated" class="home-height">
       <div class="hero-large-bg">
         <v-row>
           <v-col cols="12" lg="5">
@@ -14,13 +14,13 @@
           </v-col>
           <v-col cols="12" lg="7">
             <v-layout align-center justify-start fill-height>
-              <div>
-              <p class="text-h3 overline title-style">
+              <div class="pa-6">
+              <p class="text-h3 overline title-style ">
                 <span class="font-style">{{ text }}</span><span class="font-style" v-if="showCursor==true">&nbsp;{{ showCursor==true? cursor:''  }}</span>
                 <!-- Discover flavor, indulge senses, and shop your culinary desires here! -->
               </p>
               <div v-if="showLoginBtn == true" style="margin-top: 50px;">
-                <Auth :btnType="changeBtnType" />
+                <Auth :btnType="typingText" />
               </div>
               
             </div>
@@ -36,7 +36,7 @@
         <div class="text-left ml-5 overline" style="min-height: 250px;">
           <span class="font-style">{{ text }}</span><span class="font-style" v-if="showCursor==true">&nbsp;{{ showCursor==true? cursor:''  }}</span>  
           <div v-if="showLoginBtn == true" style="margin-top: 30px;">
-            <Auth :btnType="changeBtnType" />
+            <Auth :btnType="typingText" />
           </div>
           
         </div>
@@ -113,9 +113,9 @@
       </v-card>
     </v-container>
 
-    <v-container full-width id="about-us" v-if="!$store.state.isAuthenticated">
+    <div full-width class="mt-16" id="about-us" v-if="!$store.state.isAuthenticated">
       <AboutComponent />
-    </v-container>
+    </div>
 
     <v-container id="top-restaurants">
       <TrendingRestaurants />
@@ -170,7 +170,7 @@ export default {
   },
 
   data: () => ({
-    food1: require("@/assets/food1.jpg"),
+    
     colors: [
       "blue lighten-3",
       "warning",
@@ -178,11 +178,18 @@ export default {
       "green accent-2",
       "deep-purple accent-1",
     ],
+    // quote animation
     reqText:"Discover flavor, indulge senses, and shop your culinary desires here!",
     text: "",
     cursor: "|",
     showCursor:true,
-    changeBtnType:'Login',
+    //button animation
+    typingText: "",
+    isTyping : true,
+        isLoginChance : true,
+        btnText : '',
+        loginText : 'login',
+        signUpText : 'signUp',
     amount: "",
     likeColor: "",
     menuItem: "",
@@ -211,19 +218,30 @@ export default {
     animateCursor(){
       this.showCursor = !this.showCursor
     },
-    animateBtnType(){
-      const interval = setInterval(() =>{
-        if(this.changeBtnType === 'Login'){
-          this.changeBtnType = 'Sign Up'
-          
-        }
-        else{
-          this.changeBtnType = 'Login'
-          
-        }
-        return ()=>clearInterval(interval)
-      },2000)
-    },
+    typingEffect(){
+            if(this.isTyping){
+                this.btnText = this.isLoginChance ? this.loginText : this.signUpText;
+                this.typingText += this.btnText.charAt(this.typingText.length);
+                if(this.btnText.length === this.typingText.length){
+                    setTimeout(this.eraseTyping , 800); // Wait for 1 second before erasing
+                    this.isTyping = false;
+                }
+                else{
+                    setTimeout(this.typingEffect , 100) //Adjust the typing speed as needed
+                }
+            }
+        },
+        eraseTyping(){
+            if(!this.isTyping && this.typingText.length > 0){
+                this.typingText = this.typingText.slice(0 , -1);
+                setTimeout(this.eraseTyping , 100);
+            }
+            else{
+                this.isLoginChance = !this.isLoginChance;
+                setTimeout(this.typingEffect , 800);
+                this.isTyping = true;
+            }
+        },
 
 
     sliderGroup(value) {
@@ -358,7 +376,7 @@ export default {
     //typing Animation
     this.textAnimate();
     this.cursorInterval = setInterval(this.animateCursor , 350);
-    this.animateBtnType()
+    this.typingEffect();
     // this.phonePeValidation();
     this.$eventBus.$on("callMethodLoginHomeRefresh", () => {
       this.getMenu();
@@ -396,10 +414,7 @@ export default {
 <style scoped>
 /* @import url('https://fonts.googleapis.com/css2?family=Style+Script&display=swap'); */
 /*Background Image for Large Devices*/
-  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&family=Style+Script&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&family=Style+Script&family=Zeyada&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&family=Style+Script&family=Tangerine:wght@700&family=Zeyada&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Galada&family=Pacifico&family=Style+Script&family=Tangerine:wght@700&family=Zeyada&display=swap');
+
   @import url('https://fonts.googleapis.com/css2?family=Bonheur+Royale&family=Dancing+Script:wght@700&family=Galada&family=Pacifico&family=Style+Script&family=Tangerine:wght@700&family=Zeyada&display=swap');
 
 
@@ -510,6 +525,10 @@ export default {
   50% {
     border-color: #ab47bc;
   }
+}
+
+.home-height{
+  margin : 100px 0px;
 }
 
 .hero-mobile-bg .hero-text-overlay {

@@ -115,7 +115,7 @@
         <h4>{{ $store.state.user.username }}</h4>
       </span>
     </v-app-bar>
-    <nav  v-else>
+    <nav v-else>
       <div class="logo">
         <a href="/">
           <img
@@ -124,43 +124,42 @@
           />
         </a>
       </div>
-      <div class="search" >
-          <v-menu v-if="!isDesktop" offset-x left transition="slide-x-transition" >
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn  fab color="#A33BDF" small v-bind="attrs" v-on="on">
-                <svg-icon
-                  type="mdi"
-                  class="searchButton"
-                  href="#"
-                  :path="path"
-                ></svg-icon>
-              </v-btn>
+      <div class="search">
+        <v-menu v-if="!isDesktop" offset-x left transition="slide-x-transition">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn fab color="#A33BDF" small v-bind="attrs" v-on="on">
+              <svg-icon
+                type="mdi"
+                class="searchButton"
+                href="#"
+                :path="path"
+              ></svg-icon>
+            </v-btn>
+          </template>
+          <v-menu rounded="xl" offset-x>
+            <template v-slot:activator="{ attrs, on }">
+              <div class="searchBox">
+                <v-text-field
+                  dark
+                  class="searchInput center-label"
+                  solo
+                  color
+                  v-model="search"
+                  v-bind="attrs"
+                  v-on="on"
+                  flat
+                  background-color="white"
+                  hide-details
+                  placeholder="Search Restaurants"
+                  solo-inverted
+                  @keyup.enter="searchBar()"
+                ></v-text-field>
+              </div>
             </template>
-            <v-menu rounded="xl" offset-x>
-              <template v-slot:activator="{ attrs, on }">
-                <div  class="searchBox">
-                  <v-text-field dark
-                    class="searchInput center-label"
-                    solo
-                    color
-                    v-model="search"
-                    v-bind="attrs"
-                    v-on="on"
-                    flat
-                    background-color="white"
-                    hide-details
-                    placeholder="Search Restaurants"
-                    solo-inverted
-                    
-                    @keyup.enter="searchBar()"
-                  ></v-text-field>
-                </div>
-              </template>
-            </v-menu>
           </v-menu>
-        </div>
+        </v-menu>
+      </div>
       <div class="hamburger">
-        
         <div class="line1"></div>
         <div class="line2"></div>
         <div class="line3"></div>
@@ -183,10 +182,11 @@
                 ></svg-icon>
               </v-btn>
             </template>
-            <v-menu rounded="xl" >
+            <v-menu rounded="xl">
               <template v-slot:activator="{ attrs, on }">
-                <div  class="searchBox">
-                  <v-text-field dark
+                <div class="searchBox">
+                  <v-text-field
+                    dark
                     class="searchInput center-label"
                     solo
                     v-model="search"
@@ -197,7 +197,6 @@
                     hide-details
                     placeholder="Search Restaurants"
                     solo-inverted
-                    
                     @keyup.enter="searchBar()"
                   ></v-text-field>
                 </div>
@@ -205,54 +204,20 @@
             </v-menu>
           </v-menu>
         </div>
-        
-          <Auth btnType="Login" />
+        <div style="width: 20px;">
+          <Auth :btnType="typingText" />
+        </div>
         
       </ul>
     </nav>
 
     <v-sheet>
       <v-main class="mt-13">
-        <!-- <v-toolbar
-          color="deep-purple accent-3"
-          class="loggedIn-searchBar"
-          dark
-          flat
-        >
-          <v-row justify="center">
-            <v-col sm="6" class="mt-1">
-              <v-menu rounded="xl" offset-y>
-                <template v-slot:activator="{ attrs, on }">
-                  
-                  <div class="searchBox">
-                    <v-text-field 
-                      class="searchInput  center-label"
-                      solo
-                      v-model="search"
-                      v-bind="attrs"
-                      v-on="on"
-                      flat
-                      background-color="transparent"
-                    hide-details
-                    label="Search Restaurants"
-                    
-                    solo-inverted
-                    @keyup.enter="searchBar()"
-                    
-                    />
-                    
-                    <svg-icon type="mdi" class="searchButton mt-2" href="#" :path="path"></svg-icon>
-                    
-                  </div>
-                </template>
-              </v-menu>
-            </v-col>
-          </v-row>
-        </v-toolbar> -->
+        
 
-        <v-container>
+        <div>
           <router-view />
-        </v-container>
+        </div>
       </v-main>
       <section id="footer" v-if="!$store.state.isAuthenticated">
         <div class="main-footer">
@@ -325,7 +290,7 @@
 import api from "@/main";
 import SvgIcon from "@jamescoyle/vue-icon";
 import { mdiMagnify } from "@mdi/js";
-import Auth from './components/Auth'
+import Auth from "./components/Auth";
 // import signUp from "./components/signUp.vue";
 // import logIn from "./components/logIn.vue";
 import { set } from "vue";
@@ -345,19 +310,25 @@ export default {
     // signUp,
     // logIn,
     SvgIcon,
-    Auth
+    Auth,
   },
 
   data: () => ({
-    isDesktop : true,
+    isDesktop: true,
     path: mdiMagnify,
     drawer: false,
     group: null,
     closeOnClick: true,
-
     search: "",
     getSearch: "",
     totalPageVisitCount: 0,
+
+    typingText: "",
+    isTyping : true,
+        isLoginChance : true,
+        text : '',
+        loginText : 'login',
+        signUpText : 'signUp',
   }),
 
   beforeCreate() {
@@ -380,8 +351,32 @@ export default {
 
   methods: {
     checkScreenSize() {
-      this.isDesktop = window.innerWidth >= 760 // Adjust the breakpoint as needed
+      this.isDesktop = window.innerWidth >= 760; // Adjust the breakpoint as needed
     },
+    typingEffect(){
+            if(this.isTyping){
+                this.text = this.isLoginChance ? this.loginText : this.signUpText;
+                this.typingText += this.text.charAt(this.typingText.length);
+                if(this.text.length === this.typingText.length){
+                    setTimeout(this.eraseTyping , 800); // Wait for 1 second before erasing
+                    this.isTyping = false;
+                }
+                else{
+                    setTimeout(this.typingEffect , 100) //Adjust the typing speed as needed
+                }
+            }
+        },
+        eraseTyping(){
+            if(!this.isTyping && this.typingText.length > 0){
+                this.typingText = this.typingText.slice(0 , -1);
+                setTimeout(this.eraseTyping , 100);
+            }
+            else{
+                this.isLoginChance = !this.isLoginChance;
+                setTimeout(this.typingEffect , 800);
+                this.isTyping = true;
+            }
+        },
     logout() {
       api
         .post("/api/v1/logout/")
@@ -446,9 +441,11 @@ export default {
     // .catch((error) => {
     //   console.log(error);
     // });
+
   },
 
   mounted() {
+    this.typingEffect();
     // this.$eventBus.$on("callMethodSearchBar", this.searchBar);
     // this.$eventBus.$on("callMethodSetRestaurant", this.setRestaurant);
     if (this.$store.state.isAuthenticated) {
@@ -474,8 +471,10 @@ export default {
   padding: 0;
   scroll-behavior: smooth;
 }
+
 .v-text-field .v-input__control input::placeholder {
-  color: #0d0c0c; /* Change to your desired placeholder text color */
+  color: #0d0c0c;
+  font-size: 12px; /* Change to your desired placeholder text color */
 }
 /* loading screen */
 
@@ -666,9 +665,7 @@ nav {
   border-radius: 60px;
   display: flex;
   align-items: center;
-  
 }
-
 
 .searchButton {
   color: white;
@@ -699,13 +696,12 @@ nav {
   line-height: 40px;
   width: 0px;
 }
- .searchInput input{
-  color:black;
-}
-.searchInput input:focus{
+.searchInput input {
   color: black;
 }
-
+.searchInput input:focus {
+  color: black;
+}
 
 @media screen and (max-width: 620px) {
   .searchBox:hover > .searchInput {
@@ -713,7 +709,7 @@ nav {
     padding: 0 6px;
   }
 }
-.search{
+.search {
   padding: 1.5vh 1vw;
   display: flex;
   flex-grow: 0.3;
@@ -813,7 +809,7 @@ nav {
     -webkit-clip-path: circle(1000px at 90% -10%);
     pointer-events: all;
   }
-  .nav-links div{
+  .nav-links div {
     margin: 30px 0px;
   }
   .nav-links li {
