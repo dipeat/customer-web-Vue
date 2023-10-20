@@ -741,12 +741,9 @@
                               <v-spacer></v-spacer>
                               <a
                                 v-if="!$store.state.isAuthenticated && displayOrder != ''"
-                                ><logIn /></a
-                              >&nbsp;
-                              <a
-                                v-if="!$store.state.isAuthenticated && displayOrder != ''"
-                                ><signUp
-                              /></a>
+                                >
+                                <Auth :btnType="typingText" />
+                              </a>
                             </v-card-actions>
                           </v-card>
                         </v-dialog>
@@ -782,15 +779,17 @@
 // import axios from "axios";
 import api from "@/main";
 import { set } from "vue";
-import signUp from "../components/signUp.vue";
-import logIn from "../components/logIn.vue";
+// import signUp from "../components/signUp.vue";
+// import logIn from "../components/logIn.vue";
+import Auth from '../components/Auth'
 
 export default {
   name: "Menu",
 
   components: {
-    signUp,
-    logIn,
+    // signUp,
+    // logIn,
+    Auth
   },
 
   data() {
@@ -807,6 +806,14 @@ export default {
       dineCheckbox: true,
       filterCategoryList: [],
       displaySelectedItems: [],
+
+      //button animation
+    typingText: "",
+    isTyping : true,
+        isLoginChance : true,
+        btnText : '',
+        loginText : 'login',
+        signUpText : 'signUp',
 
       showNow: false,
 
@@ -857,6 +864,30 @@ export default {
   },
 
   methods: {
+    typingEffect(){
+            if(this.isTyping){
+                this.btnText = this.isLoginChance ? this.loginText : this.signUpText;
+                this.typingText += this.btnText.charAt(this.typingText.length);
+                if(this.btnText.length === this.typingText.length){
+                    setTimeout(this.eraseTyping , 800); // Wait for 1 second before erasing
+                    this.isTyping = false;
+                }
+                else{
+                    setTimeout(this.typingEffect , 100) //Adjust the typing speed as needed
+                }
+            }
+        },
+        eraseTyping(){
+            if(!this.isTyping && this.typingText.length > 0){
+                this.typingText = this.typingText.slice(0 , -1);
+                setTimeout(this.eraseTyping , 100);
+            }
+            else{
+                this.isLoginChance = !this.isLoginChance;
+                setTimeout(this.typingEffect , 800);
+                this.isTyping = true;
+            }
+        },
     tempBucketOrders() {
       this.foodName = [];
 
@@ -1359,7 +1390,7 @@ export default {
 
   mounted() {
     // localStorage.removeItem("restaurant");
-
+    this.typingEffect();
     if (localStorage.getItem("restaurant") != "") {
       setTimeout(() => {
         this.getPackagingCharges();

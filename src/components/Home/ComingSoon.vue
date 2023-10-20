@@ -1,12 +1,27 @@
 <template>
-    <div class="top-orders commingsoonbox mt-5 mb-5" id="top-restaurants">
-        <h1 class="red--text text-h4"><u>Comming Soon</u></h1>
+    <div class="top-orders commingsoonbox mt-5 mb-10" id="top-restaurants">
+      <v-row class="mt-5">
+        <v-col sm="" cols="2">
+          <v-divider color="red" class="mt-10"></v-divider>
+        </v-col>
+        <v-col sm="3" cols="8">
+          <div class="text-center mt-3">
+            <h1 class="red--text text-h4 text-center">Comming Soon</h1>
+          </div>
+        </v-col>
+        <v-col sm="" cols="2">
+          <v-divider color="red" class="mt-10"></v-divider>
+        </v-col>
+      </v-row>
+        
 
-        <v-row class="mt-3">
+        <v-row class="mt-3 hotel-container" >
           <v-col
             cols="6"
-            sm="4"
-            v-for="(item, index) in commingSoon"
+            sm="3"
+            class="hotels-animate"
+            :class="{ active: hotelVisible }"
+            v-for="(item, index) in displayItems"
             :key="index + 0.1101"
           >
             <div>
@@ -15,6 +30,7 @@
                   <v-card
                     class="mx-auto"
                     max-width="400"
+                    elevation="3"
                     @click="setRestaurant(image.slug)"
                   >
                     <v-row dense>
@@ -24,19 +40,20 @@
                             :src="image.shop_image"
                             class="white--text align-end"
                             gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                            min-height="100px"
-                            max-height="100px"
+                            min-height="150px"
+                            max-height="150px"
                             @click="setRestaurant(image.slug)"
                           >
-                            <v-chip class="mb-1" color="white align-bottom" small>
-                              <div class="purple--text font-weight-bold">
-                                {{ image.owner_name }}
-                              </div>
-                            </v-chip>
+                            
                           </v-img>
                         </div>
 
-                        <v-card-actions @click="setRestaurant(image.slug)">
+                        <v-card-actions class="card-description" @click="setRestaurant(image.slug)">
+                          <v-chip class="chip" small color="white">
+                            <div  class="purple--text font-weight-bold">
+                              {{ image.owner_name }}
+                            </div>
+                          </v-chip>
                           <v-spacer></v-spacer>
 
                           <div
@@ -81,14 +98,50 @@
             </div>
           </v-col>
         </v-row>
+        <!-- Pagination Bar -->
+    <v-row full-width align="center" justify="center" class="pagination-btns">
+      <v-btn small fab @click="prev()" :disabled="this.currentIndex == 1">
+        <svg-icon type="mdi" :path="left"></svg-icon>
+      </v-btn>
+      <div v-for="(page, index) in pages" :key="index">
+        <v-btn
+          fab
+          small
+          :color="page == currentIndex ? 'primary' : ''"
+          v-if="
+            Math.abs(page - currentIndex) < 2 ||
+            page == 1 ||
+            page == 2 ||
+            page == noOfPages ||
+            page == noOfPages - 1
+          "
+          @click="changeCurrentIndex(page)"
+          >{{ page }}
+        </v-btn>
+        <div v-else style="width: 0px">.</div>
+      </div>
+      <v-btn
+        small
+        fab
+        @click="next()"
+        :disabled="this.currentIndex == this.noOfPages"
+      >
+        <svg-icon type="mdi" :path="right"></svg-icon>
+      </v-btn>
+    </v-row>
       </div>
     
 </template>
 
 <script>
 import api from "@/main";
+import SvgIcon from "@jamescoyle/vue-icon";
+import { mdiChevronDoubleLeft, mdiChevronDoubleRight } from "@mdi/js";
 
 export default  {
+  components:{
+    SvgIcon
+  },
   data: () => ({
     colors: [
       "blue lighten-3",
@@ -97,6 +150,8 @@ export default  {
       "green accent-2",
       "deep-purple accent-1",
     ],
+    left: mdiChevronDoubleLeft,
+    right: mdiChevronDoubleRight,
 
     amount: "",
     likeColor: "",
@@ -110,9 +165,35 @@ export default  {
     maxDiscount: [],
     shopProfileImage: [],
     shopProfileApproved: [],
+    hotelVisible: false,
+    currentIndex: 1,
+    itemsPerPage: 8,
   }),
 
   methods: {
+    handleRestaurantsScroll() {
+      const container = this.$el.querySelector(".hotel-container");
+      const rect = container.getBoundingClientRect();
+      const textBottom = rect.top ;
+      if (textBottom <= window.innerHeight && !this.hotelVisible) {
+        this.hotelVisible = true;
+      }
+    },
+    //--Pagiation--
+    changeCurrentIndex(index) {
+      this.currentIndex = index;
+    },
+    prev() {
+      this.currentIndex--;
+    },
+    next() {
+      this.currentIndex++;
+    },
+    scrollLeft() {
+      if (this.scrollX < 0) {
+        this.scrollX += this.step;
+      }
+    },
     sliderGroup(value) {
       // console.log(value);
     },
@@ -235,8 +316,23 @@ export default  {
     },
   },
 
-  // computed: {
-  // },
+  computed: {
+    noOfPages() {
+      return Math.ceil(this.commingSoon.length / this.itemsPerPage);
+    },
+    pages() {
+      let arr = [];
+      for (let i = 0; i < this.noOfPages; i++) {
+        arr[i] = i + 1;
+      }
+      return arr;
+    },
+    displayItems() {
+      const start = (this.currentIndex - 1) * this.itemsPerPage;
+      const last = start + this.itemsPerPage;
+      return this.commingSoon.slice(start, last);
+    },
+  },
 
   mounted() {
     // this.phonePeValidation();
@@ -251,6 +347,7 @@ export default  {
     this.$eventBus.$on("phonePeValidation", () => {
       this.phonePeValidation();
     });
+    window.addEventListener("scroll", this.handleRestaurantsScroll);
   },
 
   created() {
@@ -261,26 +358,55 @@ export default  {
     this.getShopProfileImage();
     this.phonePeValidation();
   },
+  beforeDestroy(){
+    window.addEventListener("scroll", this.handleRestaurantsScroll);
+  }
 }
 
 </script>
 
 <style scoped>
 .commingsoonbox {
-  border: 1px solid #b2b2b2;
   padding: 25px 25px;
-  margin: 0 0px;
-  border-radius: 10px;
   font-size: 18px;
+  margin: 0 0px;
+  /*border: 1px solid #b2b2b2;
+  border-radius: 10px;
   transition: 0.3s ease;
-  cursor: pointer;
+  cursor: pointer;*/
 }
-.commingsoonbox:hover {
+/*.commingsoonbox:hover {
   color: #5729ff;
   background: #fdd3ba;
   border: 3px solid;
   border-color: #f06292;
   transition: linear 350ms;
   animation-timing-function: 1s;
+}*/
+.card-description {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+}
+.chip {
+  position: absolute;
+  bottom: 40px;
+}
+
+.hotels-animate {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 1s ease-in-out, transform 0.8s ease-in-out;
+}
+.hotels-animate.active {
+  opacity: 0.5;
+  fill-opacity: black;
+  transform: scale(1);
+}
+
+@media (min-width: 700px) {
+  .hotel-container {
+    height: 500px;
+  }
 }
 </style>

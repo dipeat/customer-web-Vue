@@ -113,29 +113,31 @@
       </v-card>
     </v-container>
 
-    <div full-width class="mt-16" id="about-us" v-if="!$store.state.isAuthenticated">
-      <AboutComponent />
-    </div>
-
     <v-container id="top-restaurants">
       <TrendingRestaurants />
     </v-container>
 
-    <v-container v-if="!$store.state.isAuthenticated" id="we-offer">
-      <WeOfferComponent />
-    </v-container>
+    <div full-width class="mt-16" id="about-us" v-if="!$store.state.isAuthenticated">
+      <AboutComponent />
+    </div>
 
-    <v-container v-if="!$store.state.isAuthenticated">
+    
+
+    <div v-if="!$store.state.isAuthenticated" id="we-offer">
+      <WeOfferComponent />
+    </div>
+
+    <!-- <v-container v-if="!$store.state.isAuthenticated">
       <TopOrderComp />
-    </v-container>
+    </v-container> -->
 
     <v-container v-if="commingSoon != ''">
       <ComingSoon />
     </v-container>
-
-    <v-container v-if="!$store.state.isAuthenticated">
+    
+    <div   v-if="!$store.state.isAuthenticated">
       <Partner />
-    </v-container>
+    </div>
   </v-main>
 </template>
 
@@ -528,7 +530,7 @@ export default {
 }
 
 .home-height{
-  margin : 100px 0px;
+  margin : 10px 0px;
 }
 
 .hero-mobile-bg .hero-text-overlay {

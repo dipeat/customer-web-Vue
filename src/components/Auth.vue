@@ -79,7 +79,9 @@
               hint="At least 8 characters"
             />
           </v-card-text>
-
+          <div>
+            <GoogleAuth/>
+          </div>
           <v-card-actions>
             <a href="" class="caption">Forgot Password?</a>
             <v-spacer></v-spacer>
@@ -143,6 +145,9 @@
               maxlength="30"
             />
           </v-card-text>
+          <div>
+            <GoogleAuth/>
+          </div>
           <div class="caption">
             Note: By clicking "Register" you agree to our
             <a href="http://dipeat.com/terms_and_conditions"
@@ -165,7 +170,11 @@
 
 <script>
 import api from "@/main";
+import GoogleAuth from './GoogleAuth'
 export default {
+  components:{
+    GoogleAuth  
+  },
   props: {
     btnType: String,
   },

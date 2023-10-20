@@ -1,6 +1,6 @@
 <template>
   <div class="top-orders">
-    <v-row class="mt-5">
+    <v-row>
       <v-col sm="" cols="2">
         <v-divider color="red" class="mt-10"></v-divider>
       </v-col>
@@ -17,19 +17,36 @@
       </v-col>
     </v-row>
 
-    <div class="scrollContainer">
-      <div
-        class="menu-card"
-        :class="{ visible: isVisible }"
-        v-for="(image, index) in images"
-        :key="index"
-      >
-        <v-img class="filtered-images" :src="image" />
-        <h4 class="text-center">{{ index }}</h4>
+    <div style="display: flex; align-items: center; flex-direction: row">
+      <div v-if="isDesktopScreen">
+        <v-btn small fab @click="scrollLeft">
+          <svg-icon type="mdi" :path="left"></svg-icon>
+        </v-btn>
+      </div>
+
+      <div class="scrollContainer" ref="container">
+        <div
+          :style="`transform:translateX(${scrollX}px);`"
+          class="menu-card"
+          ref="content"
+          :class="{ visible: isVisible }"
+          v-for="(image, index) in images"
+          :key="index" 
+        >
+          <div class="image-card">
+            <v-img class="filtered-images" :src="image" />
+          </div>
+          <h4 class="text-center">{{ index }}</h4>
+        </div>
+      </div>
+      <div v-if="isDesktopScreen">
+        <v-btn small fab @click="scrollRight">
+          <svg-icon type="mdi" :path="right"></svg-icon>
+        </v-btn>
       </div>
     </div>
 
-    <v-row class="mt-3 hotel-container" >
+    <v-row class="mt-3 hotel-container">
       <v-col
         cols="6"
         sm="3"
@@ -169,7 +186,7 @@ export default {
     images: {
       Dosa: "https://dipeat-s3-bucket-1.s3.amazonaws.com/masala-dosa-indian-cuisine-sambar-vegetarian-cuisine-onion-572e9d60dd0ce72a8a09bdfa3b344ca6.png",
       Burger:
-        "https://dipeat-s3-bucket-1.s3.amazonaws.com/hamburger-chicken-sandwich-veggie-burger-french-fries-fizzy-drinks-steak-burger-b3d2380fa7b662d45f491ea726fa241c+(1).png",
+        "https://dipeat-s3-bucket-1.s3.amazonaws.com/chicken-sandwich-whopper-hamburger-burger-king-specialty-sandwiches-crispy-fried-chicken-burger-king-89618abf5e5f8dcbcb672346d41b78d7.png",
       Chicken:
         "https://dipeat-s3-bucket-1.s3.amazonaws.com/roast-chicken-barbecue-chicken-buffalo-wing-roast-goose-chicken-99c7c5f2b1bde7077b750194fcf7e43c.png",
       "Fried Rice":
@@ -178,7 +195,7 @@ export default {
       Milkshake:
         "https://dipeat-s3-bucket-1.s3.amazonaws.com/milkshake-ice-cream-smoothie-stock-photography-ice-cream-ad2f432517b041edc5e8e7b74c0a4202.png",
       Noodles:
-        "https://dipeat-s3-bucket-1.s3.amazonaws.com/5bbdcd3a890db-6886e8b17af0b1dd47997015c52b76ef.png",
+        "https://dipeat-s3-bucket-1.s3.amazonaws.com/chow-mein-lo-mein-chinese-noodles-yakisoba-fried-noodles-chowmein-c59e20a8f2b28ea51bae6eaa2d23053b.png",
       "North Indian":
         "https://dipeat-s3-bucket-1.s3.amazonaws.com/indian-cuisine-dal-vegetarian-cuisine-roti-non-veg-food-8683483aaf18d84db2f2c66f3391eb71+(1).png",
       Roti: "https://dipeat-s3-bucket-1.s3.amazonaws.com/pita-naan-roti-kulcha-indian-cuisine-bread-923f108b824980de2167541df1d9f724.png",
@@ -199,17 +216,23 @@ export default {
     shopProfileApproved: [],
     isVisible: false,
     hotelVisible: false,
-    // isDesktop : true,
+    isDesktopScreen: true,
     currentIndex: 1,
     itemsPerPage: 8,
+    //scrollItems
+    scrollX: 0,
+    contentWidth: 0,
+    containerWidth: 0,
+    step: 500,
   }),
   methods: {
     sliderGroup(value) {
       // console.log(value);
     },
-    checkScreenSize() {
-      this.isDesktop = window.innerWidth >= 760; // Adjust the breakpoint as needed
+    checkScreen() {
+      this.isDesktopScreen = window.innerWidth >= 750;
     },
+
     handleTrendingScroll() {
       const container = this.$el.querySelector(".scrollContainer");
       const rect = container.getBoundingClientRect();
@@ -219,9 +242,9 @@ export default {
       }
     },
     handleRestaurantsScroll() {
-      const container = this.$el.querySelector(".hotels-animate");
+      const container = this.$el.querySelector(".hotel-container");
       const rect = container.getBoundingClientRect();
-      const textBottom = rect.top + 50;
+      const textBottom = rect.top + 60;
       if (textBottom <= window.innerHeight && !this.hotelVisible) {
         this.hotelVisible = true;
       }
@@ -235,6 +258,16 @@ export default {
     },
     next() {
       this.currentIndex++;
+    },
+    scrollLeft() {
+      if (this.scrollX < 0) {
+        this.scrollX += this.step;
+      }
+    },
+    scrollRight() {
+      // if (this.scrollX > this.containerWidth - this.contentWidth) {
+      this.scrollX -= this.step;
+      // }
     },
     async googleRegister() {
       // console.log("googleRegister");
@@ -357,7 +390,6 @@ export default {
     },
   },
   mounted() {
-    // this.checkScreenSize();
     // this.phonePeValidation();
     this.$eventBus.$on("callMethodLoginHomeRefresh", () => {
       this.getMenu();
@@ -370,8 +402,12 @@ export default {
     this.$eventBus.$on("phonePeValidation", () => {
       this.phonePeValidation();
     });
+    this.checkScreen();
     window.addEventListener("scroll", this.handleTrendingScroll);
     window.addEventListener("scroll", this.handleRestaurantsScroll);
+    //scrollItems
+    // this.contentWidth = this.$refs.content.scrollWidth;
+    // this.containerWidth = this.$refs.container.offsetWidth;
   },
 
   created() {
@@ -408,8 +444,9 @@ export default {
 
 <style>
 .filtered-images {
-  max-height: 120px;
-  max-width: 150px;
+  max-height: 90%;
+  max-width: 70%;
+  padding: 10px;
   margin-bottom: 10px;
   transition: ease-in-out 300ms;
 }
@@ -426,21 +463,32 @@ export default {
   white-space: nowrap; /* Prevent text from wrapping to the next line */
   max-width: 100%; /* Ensure it doesn't stretch the parent column */
 }
-@media(min-width: 700px){
-  .hotel-container{
+@media (min-width: 700px) {
+  .hotel-container {
     height: 500px;
   }
 }
 
 .menu-card {
   opacity: 0;
-  height: 150px;
+  height: 200px;
+  width: 200px;
   transform: scale(0);
   transition: opacity 1s ease-in-out, transform 0.7s ease-in-out;
   margin: 0px 10px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
+  /*background-color: rgb(27, 179, 80);*/
+}
+.image-card{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 180px;
+  /*background-color: red;*/
 }
 .menu-card.visible {
   opacity: 1;
@@ -475,10 +523,11 @@ export default {
 @media (max-width: 500px) {
   .filtered-images {
     width: 100px;
-    max-height: 80px;
+    max-height: 100px;
   }
   .menu-card {
     height: 120px;
+    width:150px;
   }
   .chip {
     position: absolute;

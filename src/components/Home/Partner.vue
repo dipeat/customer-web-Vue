@@ -14,7 +14,7 @@
       </carousel-3d>
     </div>
 
-    <div >
+    <!-- <div >
       <div class="text-h5 pa-3 mt-3 text-center">
         <strong>Restaurant Partner</strong>
       </div>
@@ -25,6 +25,26 @@
           </template>
         </slide>
       </carousel-3d>
+    </div> -->
+    <br/>
+    <br/>
+    <br/>
+    <div class="text-h5 pa-3 text-center">
+      <strong>Restaurant Partner</strong>
+    </div>
+    <div class="marquee-container"  >
+      <div class="marquee" :class="{'paused':!isScrolling}">
+        <img @mouseover="stopScroll" @mouseout="resumeScroll"
+          v-for="(image, index) in items"
+          :key="index"
+          class="marquee-image"
+          :src="image.src"
+          :alt="image.alt"
+        />
+        
+      </div>
+      
+      
     </div>
 </div>
 </template>
@@ -66,7 +86,16 @@ export default{
         src: "https://dipeat-s3-bucket-1.s3.amazonaws.com/food-xpress-logo.jpg",
       },
     ],
-    })
+    isScrolling: true,
+    }),
+    methods: {
+    stopScroll() {
+      this.isScrolling = false;
+    },
+    resumeScroll() {
+      this.isScrolling = true;
+    },
+  },
 }
 </script>
 
@@ -76,4 +105,46 @@ export default{
   background-color: #f5f5f5;
   border-color: #f5f5f5;
 }
+
+.marquee-container {
+  margin-top: 60px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  height: 300px; /* Adjust the height to your needs */
+}
+
+.marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scroll 20s linear infinite; /* Adjust the animation speed (10s in this example) */
+}
+.marquee.paused{
+ animation-play-state: paused;
+}
+.marquee-image {
+  margin:0px 10px; 
+  height: 250px; /* Adjust the image height */
+  width: 400px;
+  cursor: pointer;
+}
+@media(max-width:600px){
+  .marquee-image{
+    height: 100px;
+    width: 100px;
+  }
+  .marquee-container{
+    height: 150px ;
+  }
+}
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
+  }
+ 
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
 </style>

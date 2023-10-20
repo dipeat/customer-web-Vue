@@ -236,28 +236,28 @@
               <li>
                 <v-icon dark color="yellow">mdi-email-variant</v-icon
                 >&nbsp;&nbsp;
-                <a href="dipeatdotcom@gmail.com">dipeatdotcom@gmail.com</a>
+                <a class="footer-email"  href="dipeatdotcom@gmail.com">dipeatdotcom@gmail.com</a>
               </li>
               <li>
                 <v-icon color="light-green accent-3">mdi-leaf</v-icon
                 >&nbsp;&nbsp;
-                <a href="/feedback">Feedback</a>
+                <a class="footer-feedback"  href="/feedback">Feedback</a>
               </li>
               <li>
                 <v-icon color="pink accent-2">mdi-food-apple</v-icon
                 >&nbsp;&nbsp;
-                <a href="http://partner.dipeat.com/">Partner</a>
+                <a class="footer-partner" href="http://partner.dipeat.com/">Partner</a>
               </li>
             </div>
           </div>
           <div class="com" data-aos="fade-up">
             <ul>
-              <li><a href="#about-us">About Us</a></li>
-              <li><a href="/recognition">Recognition</a></li>
-              <li><a href="#we-offer">Pricing</a></li>
-              <li><a href="/privacy_policy">Privacy Policy</a></li>
-              <li><a href="/terms_and_conditions">Terms & Conditions</a></li>
-              <li><a href="/refund_policy">Cancellation/Refund Policy</a></li>
+              <li><a class="footer-links" href="#about-us">About Us</a></li>
+              <li><a class="footer-links" href="/recognition">Recognition</a></li>
+              <li><a class="footer-links" href="#we-offer">Pricing</a></li>
+              <li><a class="footer-links" href="/privacy_policy">Privacy Policy</a></li>
+              <li><a class="footer-links" href="/terms_and_conditions">Terms & Conditions</a></li>
+              <li><a class="footer-links" href="/refund_policy">Refund Policy</a></li>
             </ul>
           </div>
           <div class="social-info" data-aos="fade-up">
@@ -981,4 +981,27 @@ footer a {
     padding: 10px 0;
   }
 }
+.footer-email .footer-feedback .footer-partner{
+  transition: color ease-in-out 0.1s;
+}
+.footer-email:hover{
+  color: #FFEB3B;
+}
+
+.footer-feedback:hover{
+  color: #76FF03;
+}
+.footer-partner:hover{
+  color: #FF4081;
+}
+.footer-links{
+  transform: scale(1);
+  transition: transform 0.3s, font-size 0.3s;
+}
+.footer-links:hover{
+  transform: scale(1.1);
+  font-size: 24px;
+}
+
+
 </style>
