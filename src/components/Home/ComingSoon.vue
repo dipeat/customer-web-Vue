@@ -6,7 +6,7 @@
         </v-col>
         <v-col sm="3" cols="8">
           <div class="text-center mt-3">
-            <h1 class="red--text text-h4 text-center">Comming Soon</h1>
+            <h1 class="red--text text-h4 text-center">Coming Soon</h1>
           </div>
         </v-col>
         <v-col sm="" cols="2">
@@ -86,7 +86,7 @@
                           </div>
                           <div v-if="item.shop_coming_soon">
                             <strong class="red--text caption"
-                              ><strong>Comming Soon</strong></strong
+                              ><strong>Coming Soon</strong></strong
                             >
                           </div>
                         </v-card-actions>

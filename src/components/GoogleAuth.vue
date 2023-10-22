@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
         <v-chip size="medium" class="ma-2" v-bind="attrs" v-on="on">
-            Signup using Google
+            Contine with Google 
             <v-avatar right>
                 
                     <v-img :src="google"/>
@@ -37,7 +37,7 @@
 export default {
   data: () => ({
     dialog: false,
-    google: require('@/assets/google.jpg')
+    google: "https://dipeat-s3-bucket-1.s3.amazonaws.com/google.jpg",
   }),
 };
 </script>

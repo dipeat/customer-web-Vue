@@ -80,7 +80,7 @@ export default{
       },
       {
         src:
-          "https://cdn3.mydukaan.io/app/image/300x300/?url=https://dukaan-core-file-service.s3.ap-southeast-1.amazonaws.com/upload_file_service/9f6c9dca-881e-45f7-947c-6bcdff6a4473/simm-kitchen-logo-1.jpg",
+          "https://dipeat-s3-bucket-1.s3.amazonaws.com/simmKitchen.jpg",
       },
       {
         src: "https://dipeat-s3-bucket-1.s3.amazonaws.com/food-xpress-logo.jpg",

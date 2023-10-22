@@ -51,10 +51,10 @@
 <script>
 export default{
   data:()=>({
-    juice : require("@/assets/juice.png"),
-    sandwich : require("@/assets/sandwich.png"),
-    donut: require("@/assets/donut.png"),
-    cash:require("@/assets/cash.png"),
+    juice : "https://dipeat-s3-bucket-1.s3.amazonaws.com/juice.png",
+    sandwich : "https://dipeat-s3-bucket-1.s3.amazonaws.com/sandwich.png",
+    donut: "https://dipeat-s3-bucket-1.s3.amazonaws.com/donut.png",
+    cash: "https://dipeat-s3-bucket-1.s3.amazonaws.com/cash.png",
     onImgHover:false,
     onPriceHover:false
   })
