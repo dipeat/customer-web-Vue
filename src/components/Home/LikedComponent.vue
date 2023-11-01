@@ -105,9 +105,9 @@ export default {
         );
       });
     },
-
+    
     favShop(shop) {
-      this.$store.state.restaurant = shop;
+    this.$store.state.restaurant = shop;
       localStorage.setItem("restaurant", shop);
       this.$router.push(`/menu/${shop}`);
     },

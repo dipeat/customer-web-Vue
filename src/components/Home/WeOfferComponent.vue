@@ -1,8 +1,8 @@
 <template>
   <div class="offer">
-    <h2 class="pink--text text-h2 pt-5 text-center">
+    <h2 class="white--text text-h2 pt-5 text-center">
       <strong>We offer</strong>
-      <v-row class="mt-10" d-flex align="center" justify="center">
+      <div class="mt-10 main">
         <v-col d-flex align="center" justify="center">
           <div   class="pa-4 card-box" >
             <p class="text-center text-h3">Swift and seamless</p>
@@ -14,6 +14,7 @@
             </p>
           </div>
         </v-col>
+        
 
         <v-col d-flex align="center" justify="center">
           <div   class="pa-4 card-box" @mouseover="onImgHover = true" @mouseout="onImgHover = false">
@@ -43,7 +44,7 @@
             </p>
           </div>
         </v-col>
-      </v-row>
+      </div>
     </h2>
   </div>
 </template>
@@ -74,6 +75,12 @@ export default{
   min-height: 650px;
   
 }
+.main{
+  display: grid;
+  grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));;
+  align-items: center;
+  justify-content: center;
+}
 .card-box{
   color: black;
   width:350px;
@@ -81,17 +88,11 @@ export default{
   background-color: rgb(227, 215, 215);
   display: flex;
   flex-direction: column; 
-  justify-content: space-between;
+  justify-content: space-around;
   border-radius: 20px;
   cursor:pointer;
   transition:background 0.5s ease;
   box-shadow: rgb(59, 59, 59) 2px 9px 8px;
-}
-@media(max-width:600px){
-  .card-box{
-    width:330px;
-    height: 480px;
-  }
 }
 .card-box:hover{
   background:linear-gradient(135deg , #2d0138,#381042);
@@ -136,7 +137,6 @@ export default{
 .cash-effect{
   opacity: 0.2  ;
   transform:scale(3) translateY(40px);
-
   transition: transform ease-in-out 400ms;
 }
 .hand{
@@ -145,9 +145,19 @@ export default{
 }
 .hand-effect{
   opacity: 1;
-  transform: scale(1.5);
+  transform: scale(1.2  );
   transition: transform ease-in-out 300ms;
 } 
+@media(max-width:600px){
+  .card-box{
+    width:330px;
+    height: 480px;
+  }
+  .cash-effect{
+    transform:scale(1.2) translateY(40px);
+    
+  }
+}
 
 
 </style>

@@ -19,19 +19,19 @@
 
     <div style="display: flex; align-items: center; flex-direction: row">
       <div v-if="isDesktopScreen">
-        <v-btn small fab @click="scrollLeft">
+        <v-btn  small fab @click="scrollLeft">
           <svg-icon type="mdi" :path="left"></svg-icon>
         </v-btn>
       </div>
 
-      <div class="scrollContainer" ref="container">
+      <div class="scrollContainer" @wheel="preventHorizontalScroll" ref="container">
         <div
           :style="`transform:translateX(${scrollX}px);`"
           class="menu-card"
           ref="content"
-          :class="{ visible: isVisible }"
+          :class="{ visible: isVisible}"
           v-for="(image, index) in images"
-          :key="index" 
+          :key="index"
         >
           <div class="image-card">
             <v-img class="filtered-images" :src="image" />
@@ -100,7 +100,7 @@
                         <v-chip
                           small
                           outlined
-                          color="purple"
+                          color="purple mt-5"
                           dark
                           v-if="
                             item.restaurant == shopDiscount.restaurant &&
@@ -117,13 +117,13 @@
                         </v-chip>
                       </div>
                       <div v-if="!item.shop_coming_soon">
-                        <div v-if="!item.open_close">
+                        <div v-if="!item.open_close" class="mt-5">
                           <strong class="red--text">Closed</strong>
                         </div>
                       </div>
-                      <div v-if="item.shop_coming_soon">
+                      <div v-if="item.shop_coming_soon" class="mt-5">
                         <strong class="red--text caption"
-                          ><strong>Comming Soon</strong></strong
+                          ><strong>Coming Soon</strong></strong
                         >
                       </div>
                     </v-card-actions>
@@ -221,18 +221,30 @@ export default {
     itemsPerPage: 8,
     //scrollItems
     scrollX: 0,
-    contentWidth: 0,
-    containerWidth: 0,
+    overflowX:0,
+    
     step: 500,
   }),
   methods: {
     sliderGroup(value) {
       // console.log(value);
     },
-    checkScreen() {
-      this.isDesktopScreen = window.innerWidth >= 750;
+    calculateOverflowX() {
+      const container = this.$refs.container;
+      if (container) {
+        this.overflowX = container.scrollWidth;
+      }
     },
-
+    // resetScrollX(){
+    //   if(this.isDesktopScreen === false){
+    //     this.scrollX = 0;
+    //   }
+    // },
+    preventHorizontalScroll(event) {
+      if (event.deltaX !== 0  && this.isDesktopScreen) {
+        event.preventDefault();
+      }
+    },
     handleTrendingScroll() {
       const container = this.$el.querySelector(".scrollContainer");
       const rect = container.getBoundingClientRect();
@@ -240,6 +252,7 @@ export default {
       if (textBottom <= window.innerHeight && !this.isVisible) {
         this.isVisible = true;
       }
+      
     },
     handleRestaurantsScroll() {
       const container = this.$el.querySelector(".hotel-container");
@@ -260,14 +273,16 @@ export default {
       this.currentIndex++;
     },
     scrollLeft() {
-      if (this.scrollX < 0) {
+      if (this.scrollX <0) {
         this.scrollX += this.step;
       }
+      // console.log(this.overflowX)
+      // console.log(this.scrollX)
     },
     scrollRight() {
-      // if (this.scrollX > this.containerWidth - this.contentWidth) {
+      if (this.scrollX > -this.overflowX) {
       this.scrollX -= this.step;
-      // }
+      }
     },
     async googleRegister() {
       // console.log("googleRegister");
@@ -390,6 +405,8 @@ export default {
     },
   },
   mounted() {
+    this.calculateOverflowX();
+    
     // this.phonePeValidation();
     this.$eventBus.$on("callMethodLoginHomeRefresh", () => {
       this.getMenu();
@@ -402,15 +419,23 @@ export default {
     this.$eventBus.$on("phonePeValidation", () => {
       this.phonePeValidation();
     });
-    this.checkScreen();
+    // this.checkScreen();
     window.addEventListener("scroll", this.handleTrendingScroll);
     window.addEventListener("scroll", this.handleRestaurantsScroll);
     //scrollItems
-    // this.contentWidth = this.$refs.content.scrollWidth;
-    // this.containerWidth = this.$refs.container.offsetWidth;
+    const mediaQuery = window.matchMedia('(min-width: 500px)');
+    
+    // Check the initial state
+    this.isDesktopScreen = mediaQuery.matches;
+
+    // Add an event listener to handle changes
+    mediaQuery.addListener((event) => {
+      this.isDesktopScreen = event.matches;
+    });
   },
 
   created() {
+    
     this.getMenu();
     this.shopStatus();
     this.getLikedShop();

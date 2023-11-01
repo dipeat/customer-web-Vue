@@ -2,12 +2,13 @@
   <div>
     <v-btn
       class="btnStyle"
-      style="width: 100px;height: 50px; margin: 0px; font-size: 16px;"
+      style="width: 100px; height: 50px; margin: 0px; font-size: 16px"
       rounded
       color="primary"
       dark
       @click.stop="dialog = true"
-    :key="btnType">
+      :key="btnType"
+    >
       {{ btnType }}
     </v-btn>
 
@@ -23,7 +24,7 @@
               @click="isLogin = true"
               >Login</v-btn
             >
-            <div style="width: 20px;"></div>
+            <div style="width: 20px"></div>
             <v-btn
               rounded
               x-large
@@ -57,12 +58,12 @@
               </v-alert>
             </div>
             <v-text-field
-              v-model="loginUsername"
+              v-model="loginEmail"
               color="primary"
               counter
-              maxlength="9"
-              label="Username"
-              :rules="logInNameRules"
+              maxlength="50"
+              label="Email"
+              :rules="emailRules"
             />
             <v-text-field
               v-model="loginPassword"
@@ -79,11 +80,11 @@
               hint="At least 8 characters"
             />
           </v-card-text>
-          <div>
-            <GoogleAuth/>
-          </div>
+          <!-- <div>
+            <GoogleAuth />
+          </div> -->
           <v-card-actions>
-            <a href="" class="caption">Forgot Password?</a>
+            <a href="/forget-password" class="caption">Forgot Password?</a>
             <v-spacer></v-spacer>
 
             <v-btn color="red" text @click="dialog = false"> Cancel </v-btn>
@@ -99,14 +100,7 @@
           lazy-validation
         >
           <v-card-text>
-            <v-text-field
-              color="primary"
-              v-model="username"
-              :rules="signUpNameRules"
-              label="Username"
-              counter
-              maxlength="9"
-            />
+            
             <v-text-field
               color="primary"
               v-model="email"
@@ -145,9 +139,9 @@
               maxlength="30"
             />
           </v-card-text>
-          <div>
-            <GoogleAuth/>
-          </div>
+          <!-- <div>
+            <GoogleAuth />
+          </div> -->
           <div class="caption">
             Note: By clicking "Register" you agree to our
             <a href="http://dipeat.com/terms_and_conditions"
@@ -165,15 +159,26 @@
         </v-form>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="verificationPopup" max-width="380px" dark>
+      <v-card class="pa-4" align-center justify-center>
+        <v-card-text align-center justify-center>
+          {{ signUpResponse }}
+        </v-card-text>
+        <v-card-actions>
+          <v-btn @click="verificationPopup = false">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
 import api from "@/main";
-import GoogleAuth from './GoogleAuth'
+import GoogleAuth from "./GoogleAuth";
 export default {
-  components:{
-    GoogleAuth  
+  components: {
+    GoogleAuth,
   },
   props: {
     btnType: String,
@@ -181,13 +186,16 @@ export default {
   data() {
     return {
       dialog: false,
+      verificationPopup: false,
       isLogin: true,
       show1: false,
       show2: false,
       show3: false,
       valid1: true,
       valid2: true,
-      loginUsername: "",
+      userid: "",
+      signUpResponse: "",
+      loginEmail: "",
       loginPassword: "",
       username: "",
       email: "",
@@ -196,12 +204,11 @@ export default {
       errors: [],
       errorMessages: "",
 
-
-      logInNameRules: [
-        (v) => !!v || "Username is required",
-        (v) => v.length <= 9 || "Username must be less than 10 characters",
-        (v) => v.length >= 3 || "Username must be atleast 3 characters",
-      ],
+      // logInNameRules: [
+      //   (v) => !!v || "Username is required",
+      //   (v) => v.length <= 9 || "Username must be less than 10 characters",
+      //   (v) => v.length >= 3 || "Username must be atleast 3 characters",
+      // ],
 
       logInPasswordRules1: [
         (v) => !!v || "Password is required",
@@ -229,39 +236,55 @@ export default {
     logIn() {
       if (this.$refs.form1.validate()) {
         api
-          .post("/api/v1/login/", {
-            username: this.loginUsername.toLowerCase(),
+          .post("/api/v1/signin/email/customer/", {
+            email: this.loginEmail.toLowerCase(),
             password: this.loginPassword,
           })
           .then((response) => {
-            if (response.data.is_customer == true) {
-              const token = response.data.token;
-              this.$store.commit("setToken", token);
-              api.defaults.headers.common["Authorization"] = "Token " + token;
-              localStorage.setItem("token", token);
-
-              this.$store.commit("setUser", {
-                username: response.data.username,
-                id: response.data.user_id,
-              });
-
-              localStorage.setItem("username", response.data.username);
-              localStorage.setItem("userid", response.data.user_id);
-
-              // console.log(response);
-              // console.log(response.data.token);
-              this.dialog1 = false;
-              if (
-                localStorage.getItem("restaurant") == "" ||
-                localStorage.getItem("restaurant") == null ||
-                localStorage.getItem("restaurant") == undefined
-              ) {
-                this.$router.push("/");
-              }
-              this.$eventBus.$emit("callMethodLoginHomeRefresh");
-            } else if (response.data.is_customer == false) {
-              alert("You are not a customer yet. Please sign-up.");
+            //console.log(response);
+            if (response.data.message === "You are Successfully logged in") {
+              
+              this.userid = response.data.id;
+                  // console.log(res);
+                  this.$store.commit("setUser", {
+                    username: response.data.email
+                      .toLowerCase()
+                      .split("@gmail.com")[0],
+                    id: response.data.id,
+                  });
+                  localStorage.setItem(
+                    "username",
+                    response.data.email.toLowerCase().split("@gmail.com")[0]
+                  );
+                  localStorage.setItem("userid", this.userid);
+                  const token = this.userid;
+                  this.$store.commit("setToken", token);
+                  api.defaults.headers.common["Authorization"] =
+                    "Token " + token;
+                  localStorage.setItem("token", token);
+                  
+                  this.dialog1 = false;
+                  if (
+                    localStorage.getItem("restaurant") == "" ||
+                    localStorage.getItem("restaurant") == null ||
+                    localStorage.getItem("restaurant") == undefined
+                  ) {
+                    this.$router.push("/");
+                    
+                  }
+                  
+                  setTimeout(()=>{
+                      window.location.reload();
+                    },1000)
+                  this.$eventBus.$emit("callMethodLoginHomeRefresh");
+              
+            } else if (response.data === "Invalid Username or Password") {
+              this.errorMessages = "Invalid username or password";
+              setTimeout(() => {
+                this.errorMessages = "";
+              }, 5000);
             }
+            
           })
           .catch((error) => {
             console.log(error);
@@ -275,42 +298,29 @@ export default {
     signUp() {
       if (this.$refs.form2.validate()) {
         const formData = {
-          username: this.username.toLowerCase(),
+          // username: this.username.toLowerCase(),
           email: this.email.toLowerCase(),
           password: this.password,
-          password1: this.password1,
+          // password1: this.password1,
         };
         api
-          .post("/api/v1/signup/customer/", formData)
+          .post("/api/v1/signup/email/customer", formData)
           .then((response) => {
             this.dialog = false;
-
-            setTimeout(() => {
-              alert("SignUp Successful, Please Login");
-            }, 1000);
+            this.verificationPopup = true;
+            //console.log(response.data.email[0]);
+            //console.log(response);
+            if(response.data === "Customer Successfully Created"){
+              this.signUpResponse = "Your account is created,Please check your email for verification !";
+            }
+            
+            // setTimeout(() => {
+            //   alert("Please check your email for verification !");
+            // }, 1000);
           })
           .catch((error) => {
-            if (error.response) {
-              for (const property in error.response.data) {
-                this.errors.push(
-                  `${property}: ${error.response.data[property]}`
-                );
-              }
-              console.log(JSON.stringify(error.response.data));
-              this.errorMessages = JSON.stringify(error.response.data);
-              setTimeout(() => {
-                this.errorMessages = "";
-              }, 5000);
-            } else if (error.message) {
-              this.errorMessages.push(
-                "Something went wrong, Please try again."
-              );
-              console.log(JSON.stringify(error));
-              this.errorMessages = JSON.stringify(error);
-              setTimeout(() => {
-                this.errorMessages = "";
-              }, 5000);
-            }
+            
+            //console.log(error)
           });
       }
     },
