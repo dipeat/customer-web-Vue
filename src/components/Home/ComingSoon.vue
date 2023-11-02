@@ -84,7 +84,7 @@
                               <strong class="red--text">Closed</strong>
                             </div>
                           </div>
-                          <div v-if="item.shop_coming_soon">
+                          <div v-if="item.shop_coming_soon" class="mt-5">
                             <strong class="red--text caption"
                               ><strong>Coming Soon</strong></strong
                             >

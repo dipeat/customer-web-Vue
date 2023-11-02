@@ -59,8 +59,13 @@ export default {
   data: () => ({
     status: [],
     likedShops: [],
+    shopProfileImage: [],
+    shopProfileApproved: [],
   }),
   methods: {
+    sliderGroup(value) {
+      // console.log(value);
+    },
     phonePeValidation() {
       api.post("/api/v1/phonepe_validation/", {}).then((response) => {
         // console.log(response.data);
@@ -105,9 +110,9 @@ export default {
         );
       });
     },
-
+    
     favShop(shop) {
-      this.$store.state.restaurant = shop;
+    this.$store.state.restaurant = shop;
       localStorage.setItem("restaurant", shop);
       this.$router.push(`/menu/${shop}`);
     },

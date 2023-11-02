@@ -250,7 +250,7 @@
               </li>
             </div>
           </div>
-          <div class="com" data-aos="fade-up">
+          <!-- <div class="com" data-aos="fade-up">
             <ul>
               <li><a class="footer-links" href="#about-us">About Us</a></li>
               <li><a class="footer-links" href="/recognition">Recognition</a></li>
@@ -259,6 +259,16 @@
               <li><a class="footer-links" href="/terms_and_conditions">Terms & Conditions</a></li>
               <li><a class="footer-links" href="/refund_policy">Refund Policy</a></li>
             </ul>
+          </div> -->
+          <div class="com" data-aos="fade-up">
+            
+              <div><a class="footer-links" href="#about-us">About Us</a></div>
+              <div><a class="footer-links" href="/recognition">Recognition</a></div>
+              <div><a class="footer-links" href="#we-offer">Pricing</a></div>
+              <div><a class="footer-links" href="/privacy_policy">Privacy Policy</a></div>
+              <div><a class="footer-links" href="/terms_and_conditions">Terms & Conditions</a></div>
+              <div><a class="footer-links" href="/refund_policy">Refund Policy</a></div>
+            
           </div>
           <div class="social-info" data-aos="fade-up">
             <h1>Social Media</h1>
@@ -379,7 +389,7 @@ export default {
         },
     logout() {
       api
-        .post("/api/v1/logout/")
+        .get("/api/v1/signout/")
         .then((response) => {
           api.defaults.headers.common["Authorization"] = null;
 
@@ -949,9 +959,25 @@ footer a {
 .mdi-twitter:hover {
   color: #1da1f2;
 }
-
+/*
 .com ul li {
+
   padding: 5px 0;
+  font-size: 20px;
+}*/
+.com{
+  display: flex column align-center justify-start;
+  width: 20%;
+}
+.com>div{
+  display: flex column align-center justify-center;
+  height: 50px;
+  width: 100%;
+  
+}
+.com>div>a{
+  text-decoration: none;
+  color: white;
   font-size: 20px;
 }
 
@@ -976,9 +1002,15 @@ footer a {
   }
   .sociallogos {
     padding: 10px 0;
-  }
+    margin-left: 20px;
+  }/*
   .com {
     padding: 10px 0;
+  }*/
+  .com{
+    display: flex column align-center justify-start;
+    width: 100%;
+    margin-left: 20px;
   }
 }
 .footer-email .footer-feedback .footer-partner{

@@ -15,6 +15,10 @@ import termsConditions from '../views/termsConditions.vue'
 import refundPolicy from '../views/refundPolicy.vue'
 import Feedback from '../views/Feedback.vue'
 import Recognition from '../views/Recognition.vue'
+import CustomerVerified from '../views/CustomerVerified.vue'
+import ForgetPassword from '../views/ForgetPassword.vue'
+import ChangePassword from '../views/ChangePassword.vue'
+
 
 import store from '../store'
 Vue.use(VueRouter)
@@ -134,7 +138,21 @@ const routes = [
     name: 'Recognition',
     component: Recognition,
   },
-
+  {
+    path:'/verify/:id',
+    name:'CustomerVerified',
+    component: CustomerVerified
+  },
+  {
+    path:'/forget-password',
+    name:'ForgetPassword',
+    component: ForgetPassword
+  },
+  {
+    path:'/forgetpassword/:id',
+    name:'ChangePassword',
+    component:ChangePassword
+  }
 
 ]
 
@@ -146,7 +164,7 @@ const router = new VueRouter({
     if (savedPosition) {
       return savedPosition;
     } else {
-      return { x: 0, y: 0 }; // Scroll to the top when navigating to a new route.
+      return { x: 0, y: 0 }; 
     }
   },
 })

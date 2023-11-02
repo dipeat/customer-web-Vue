@@ -13,7 +13,7 @@ export default new Vuex.Store({
       username: '',
     },
     isAuthenticated: false,
-    token: '',
+    // token: '',
     restaurant:'',
     transactionId:'',
     searchText:'',
@@ -21,11 +21,11 @@ export default new Vuex.Store({
   },
   mutations: {
     initializeStore(state) {
-      if (localStorage.getItem('token')) {
-        state.token = localStorage.getItem('token')
-        state.isAuthenticated = true
+      if (localStorage.getItem('username')) {
         state.user.username = localStorage.getItem('username')
+        state.isAuthenticated = true
         state.user.id = localStorage.getItem('userid')
+        // state.user.id = localStorage.getItem('userid')
 
       } else {
         state.user.id = ''
