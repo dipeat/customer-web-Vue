@@ -100,7 +100,6 @@
           lazy-validation
         >
           <v-card-text>
-            
             <v-text-field
               color="primary"
               v-model="email"
@@ -243,48 +242,48 @@ export default {
           .then((response) => {
             //console.log(response);
             if (response.data.message === "You are Successfully logged in") {
-              
               this.userid = response.data.id;
-                  // console.log(res);
-                  this.$store.commit("setUser", {
-                    username: response.data.email
-                      .toLowerCase()
-                      .split("@gmail.com")[0],
-                    id: response.data.id,
-                  });
-                  localStorage.setItem(
-                    "username",
-                    response.data.email.toLowerCase().split("@gmail.com")[0]
-                  );
-                  localStorage.setItem("userid", this.userid);
-                  const token = this.userid;
-                  this.$store.commit("setToken", token);
-                  api.defaults.headers.common["Authorization"] =
-                    "Token " + token;
-                  localStorage.setItem("token", token);
-                  
-                  this.dialog1 = false;
-                  if (
-                    localStorage.getItem("restaurant") == "" ||
-                    localStorage.getItem("restaurant") == null ||
-                    localStorage.getItem("restaurant") == undefined
-                  ) {
-                    this.$router.push("/");
-                    
-                  }
-                  
-                  setTimeout(()=>{
-                      window.location.reload();
-                    },1000)
-                  this.$eventBus.$emit("callMethodLoginHomeRefresh");
-              
+              // console.log(res);
+              this.$store.commit("setUser", {
+                username: response.data.email
+                  .toLowerCase()
+                  .split("@gmail.com")[0],
+                id: response.data.id,
+              });
+              localStorage.setItem(
+                "username",
+                response.data.email.toLowerCase().split("@gmail.com")[0]
+              );
+              localStorage.setItem("userid", this.userid);
+              const token = this.userid;
+              this.$store.commit("setToken", token);
+              api.defaults.headers.common["Authorization"] = "Token " + token;
+              localStorage.setItem("token", token);
+
+              this.dialog1 = false;
+              if (
+                localStorage.getItem("restaurant") == "" ||
+                localStorage.getItem("restaurant") == null ||
+                localStorage.getItem("restaurant") == undefined
+              ) {
+                this.$router.push("/");
+              }
+
+              setTimeout(() => {
+                window.location.reload();
+              }, 1000);
+              this.$eventBus.$emit("callMethodLoginHomeRefresh");
             } else if (response.data === "Invalid Username or Password") {
               this.errorMessages = "Invalid username or password";
-              setTimeout(() => {
-                this.errorMessages = "";
-              }, 5000);
+            } else if (response.data === "Please Verify Your Account") {
+              this.errorMessages = "Please Verify Your Account";
+            } else if (response.data === "You are Not a Customer") {
+              this.errorMessages = "You do not have a account. Please sign-up.";
             }
-            
+
+            setTimeout(() => {
+              this.errorMessages = "";
+            }, 5000);
           })
           .catch((error) => {
             console.log(error);
@@ -310,16 +309,23 @@ export default {
             this.verificationPopup = true;
             //console.log(response.data.email[0]);
             //console.log(response);
-            if(response.data === "Customer Successfully Created"){
-              this.signUpResponse = "Your account is created,Please check your email for verification !";
+            if (response.data === "Customer Successfully Created") {
+              this.signUpResponse =
+                "Your account is created,Please check your email for verification !";
+            } else if (
+              response.data.email[0] === "user with this email already exists."
+            ) {
+              this.signUpResponse = "Email  Already Exists, Try Logging In.";
+              // setTimeout(() => {
+              //   alert("Email  Already Exists, Try Logging In.");
+              // }, 1000);
             }
-            
+
             // setTimeout(() => {
             //   alert("Please check your email for verification !");
             // }, 1000);
           })
           .catch((error) => {
-            
             //console.log(error)
           });
       }

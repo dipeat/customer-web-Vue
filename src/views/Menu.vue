@@ -1414,13 +1414,13 @@ export default {
         localStorage.getItem("restaurant") == "" ||
         localStorage.getItem("restaurant") == null
       ) {
-        localStorage.setItem("restaurant", this.$route.path.slice(9, 20));
+        localStorage.setItem("restaurant", this.$route.path.slice(9, 90));
         window.location.reload();
       }
 
       if (localStorage.getItem("restaurant") != "") {
-        if (this.$route.path.slice(9, 20) != localStorage.getItem("restaurant")) {
-          localStorage.setItem("restaurant", this.$route.path.slice(9, 20));
+        if (this.$route.path.slice(9, 90) != localStorage.getItem("restaurant")) {
+          localStorage.setItem("restaurant", this.$route.path.slice(9, 90));
           window.location.reload();
         }
       }
@@ -1430,13 +1430,13 @@ export default {
         localStorage.getItem("restaurant") == "" ||
         localStorage.getItem("restaurant") == null
       ) {
-        localStorage.setItem("restaurant", this.$route.path.slice(6, 20));
+        localStorage.setItem("restaurant", this.$route.path.slice(6, 90));
         window.location.reload();
       }
 
       if (localStorage.getItem("restaurant") != "") {
-        if (this.$route.path.slice(6, 20) != localStorage.getItem("restaurant")) {
-          localStorage.setItem("restaurant", this.$route.path.slice(6, 20));
+        if (this.$route.path.slice(6, 90) != localStorage.getItem("restaurant")) {
+          localStorage.setItem("restaurant", this.$route.path.slice(6, 90));
           window.location.reload();
         }
       }
