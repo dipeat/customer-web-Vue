@@ -930,7 +930,7 @@ export default {
             arrival_timeTemp: strTime,
             order_numberTemp: this.orderNumberCount,
             order_from_qrTemp: Boolean(localStorage.getItem("qr")),
-            slugTemp: this.$store.state.user.username + "a-_a" + Date.now(),
+            slugTemp: this.$store.state.user.id + "a-_a" + Date.now(),
 
             customerName: this.$store.state.user.username,
             amount: Number(this.totalAfterDiscount) * 100,
@@ -956,7 +956,7 @@ export default {
             arrival_timeTemp: strTime,
             order_numberTemp: this.orderNumberCount,
             order_from_qrTemp: Boolean(localStorage.getItem("qr")),
-            slugTemp: this.$store.state.user.username + "a-_a" + Date.now(),
+            slugTemp: this.$store.state.user.id + "a-_a" + Date.now(),
 
             customerName: this.$store.state.user.username,
             amount: Number(this.totalAfterDiscount) * 100,
@@ -1089,11 +1089,11 @@ export default {
 
     postWallet() {
       if (this.validity == true) {
-        const slug = this.$store.state.user.username;
+        const slug = this.$store.state.user.id;
         const data = {
           total_amount: Number(this.$store.state.walletBalance) + Number(this.amount),
           user: this.$store.state.user.id,
-          slug: this.$store.state.user.username,
+          slug: this.$store.state.user.id,
         };
         api.patch(`/api/v1/customerwallet/${slug}/`, data).then((response) => {
           // console.log(response.data);
@@ -1253,7 +1253,7 @@ export default {
     },
 
     likeShop(item) {
-      const slug_customer = this.$store.state.user.username + localStorage.getItem("restaurant");
+      const slug_customer = this.$store.state.user.id + localStorage.getItem("restaurant");
 
       if (this.likeColor === "red") {
         this.likeColor = "";
@@ -1284,7 +1284,7 @@ export default {
       api.get("/api/v1/likedshop/").then((response) => {
         // filter on basis of customer
         this.likedShops = response.data.filter(
-          (item) => item.customer === this.$store.state.user.username
+          (item) => item.customer === this.$store.state.user.id
         );
         // console.log(this.likedShops);
         for (let i = 0; i < this.likedShops.length; i++) {
