@@ -225,9 +225,9 @@ export default {
         formData.append("email", this.email);
         formData.append("intro", this.introduction);
         formData.append("user", this.$store.state.user.id);
-        formData.append("slug", this.$store.state.user.username);
+        formData.append("slug", this.$store.state.user.id);
 
-        const slug = this.$store.state.user.username;
+        const slug = this.$store.state.user.id;
 
         api.patch(`/api/v1/customerprofile/${slug}/`, formData);
         // .then((response) => {
@@ -246,7 +246,7 @@ export default {
     },
 
     getCustomerProfile() {
-      const slug = this.$store.state.user.username;
+      const slug = this.$store.state.user.id;
       api.get(`/api/v1/customerprofile/${slug}/`).then((response) => {
         // console.log(response.data);
         this.get_profile.mobile_number = response.data[0].phone;
@@ -264,11 +264,11 @@ export default {
 
     postWallet() {
       if (this.validity == true) {
-        const slug = this.$store.state.user.username;
+        const slug = this.$store.state.user.id;
         const data = {
           total_amount: Number(this.$store.state.walletBalance) + Number(this.amount),
           user: this.$store.state.user.id,
-          slug: this.$store.state.user.username,
+          slug: this.$store.state.user.id,
         };
         api.patch(`/api/v1/customerwallet/${slug}/`, data).then((response) => {
           // console.log(response.data);
