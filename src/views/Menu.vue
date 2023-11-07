@@ -1318,14 +1318,14 @@ export default {
     getShopProfileImage() {
       api.get(`/api/v1/ClientProfile4Image/`).then((res) => {
         this.shopProfileImage = res.data.filter(
-          (item) => item.slug === localStorage.getItem("restaurant")
+          (item) => item.shop_identifier === localStorage.getItem("restaurant")
         );
         this.orderNumberCount = this.shopProfileImage[0].order_number;
         // console.log(this.orderNumberCount);
       });
     },
     getPackagingCharges() {
-      const slug = localStorage.getItem("restaurant");
+      const slug = localStorage.getItem("restaurant_id");
       api.get(`/api/v1/takeaway/${slug}/`).then((response) => {
         this.packagingCharges = response.data[0].packaging_charge;
         this.acceptDineIn = response.data[0].only_dineinShop;
