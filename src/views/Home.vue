@@ -66,7 +66,7 @@
                     <v-card
                       class="mx-auto"
                       v-if="
-                        item.delivered === false && shop.slug == item.restaurant
+                        item.delivered === false && shop.shop_identifier == item.restaurant
                       "
                       to="/order"
                       align="center"

@@ -13,7 +13,7 @@
       </v-container>
       <v-container v-for="(item, index) in foodOrdered" :key="index">
         <div v-for="(shop, index) in shopProfileImage" :key="index + 0.0329">
-          <div v-if="shop.slug == item.restaurant">
+          <div v-if="shop.shop_identifier == item.restaurant">
             <div>
               <v-btn color="blue" text small @click="setRestaurant(item.restaurant)">{{
                 shop.owner_name

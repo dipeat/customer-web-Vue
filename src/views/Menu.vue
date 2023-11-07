@@ -1253,7 +1253,7 @@ export default {
     },
 
     likeShop(item) {
-      const slug_customer = this.$store.state.user.id + localStorage.getItem("restaurant");
+      const slug_customer = this.$store.state.user.id + 'a-_-b';
 
       if (this.likeColor === "red") {
         this.likeColor = "";
