@@ -1284,7 +1284,7 @@ export default {
       api.get("/api/v1/likedshop/").then((response) => {
         // filter on basis of customer
         this.likedShops = response.data.filter(
-          (item) => item.customer === this.$store.state.user.id
+          (item) => item.customer === this.$store.state.user.username
         );
         // console.log(this.likedShops);
         for (let i = 0; i < this.likedShops.length; i++) {
