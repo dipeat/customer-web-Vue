@@ -60,12 +60,12 @@
             v-for="(image, index) in shopProfileApproved"
             :key="index + 0.0019"
           >
-            <v-sheet rounded="lg" v-if="image.slug == item.restaurant">
+            <v-sheet rounded="lg" v-if="image.slug == item.slug">
               <v-card
                 class="mx-auto"
                 max-width="400"
                 elevation="3"
-                @click="setRestaurant(image.slug)"
+                @click="setRestaurant(image.shop_identifier);setRestaurantID(image.slug)"
               >
                 <v-row dense>
                   <v-col :cols="12">
@@ -76,14 +76,14 @@
                         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                         min-height="150px"
                         max-height="150px"
-                        @click="setRestaurant(image.slug)"
+                        @click="setRestaurant(image.shop_identifier);setRestaurantID(image.slug)"
                       >
                       </v-img>
                     </div>
 
                     <v-card-actions
                       class="card-description"
-                      @click="setRestaurant(image.slug)"
+                      @click="setRestaurant(image.shop_identifier);setRestaurantID(image.slug)"
                     >
                       <v-chip class="chip" small color="white">
                         <div class="purple--text font-weight-bold">
@@ -330,6 +330,11 @@ export default {
       this.$router.push(`/menu/${item}`);
     },
 
+    setRestaurantID(item) {
+      
+      localStorage.setItem("restaurant_id", item);
+    },
+
     shopStatus() {
       api.get(`/api/v1/shopstatus/`).then((res) => {
         this.status = res.data;
@@ -383,6 +388,7 @@ export default {
           this.shopProfileApproved = this.shopProfileApproved.filter(
             (item) => item.approved === true
           );
+
 
           // restaurants in this.liveRestaurant === this.shopProfileApproved should be same
           const approvedShopforLive = this.liveRestaurant.filter((item) =>
