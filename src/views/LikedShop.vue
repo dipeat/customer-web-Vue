@@ -4,13 +4,13 @@
       <v-row>
         <v-col cols="6" sm="4" v-for="(item, index) in likedShops" :key="index">
           <div v-for="(image, index) in shopProfileImage" :key="index + 0.0019">
-            <v-sheet rounded="lg" v-if="image.slug == item.shop">
+            <v-sheet rounded="lg" v-if="image.shop_identifier == item.shop">
               <v-card class="mx-auto" max-width="400" @click="setRestaurant(item.shop)">
                 <v-row dense>
                   <v-col :cols="12">
                     <v-img
                       :src="image.shop_image"
-                      v-if="image.slug == item.shop"
+                      v-if="image.shop_identifier == item.shop"
                       class="white--text align-end text-center"
                       gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                       max-height="100px"
