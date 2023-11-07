@@ -18,7 +18,7 @@
               toggle();
               favShop(shops.shop);
             "
-            v-if="image.approved == '1' && image.slug == shops.shop"
+            v-if="image.approved == '1' && image.shop_identifier == shops.shop"
           >
             <v-row class="fill-height">
               <div>
@@ -27,7 +27,7 @@
                     class="ma-2"
                     size="125"
                     tile
-                    v-if="image.slug == shops.shop"
+                    v-if="image.shop_identifier == shops.shop"
                   >
                     <v-img :src="image.shop_image" @click="favShop(shops.shop)">
                       <v-row align="end" justify="center">
