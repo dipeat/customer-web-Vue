@@ -741,7 +741,7 @@
                               <v-spacer></v-spacer>
                               <a
                                 v-if="!$store.state.isAuthenticated && displayOrder != ''"
-                                >
+                              >
                                 <Auth :btnType="typingText" />
                               </a>
                             </v-card-actions>
@@ -781,7 +781,7 @@ import api from "@/main";
 import { set } from "vue";
 // import signUp from "../components/signUp.vue";
 // import logIn from "../components/logIn.vue";
-import Auth from '../components/Auth'
+import Auth from "../components/Auth";
 
 export default {
   name: "Menu",
@@ -789,7 +789,7 @@ export default {
   components: {
     // signUp,
     // logIn,
-    Auth
+    Auth,
   },
 
   data() {
@@ -808,12 +808,12 @@ export default {
       displaySelectedItems: [],
 
       //button animation
-    typingText: "",
-    isTyping : true,
-        isLoginChance : true,
-        btnText : '',
-        loginText : 'login',
-        signUpText : 'signUp',
+      typingText: "",
+      isTyping: true,
+      isLoginChance: true,
+      btnText: "",
+      loginText: "login",
+      signUpText: "signUp",
 
       showNow: false,
 
@@ -864,30 +864,28 @@ export default {
   },
 
   methods: {
-    typingEffect(){
-            if(this.isTyping){
-                this.btnText = this.isLoginChance ? this.loginText : this.signUpText;
-                this.typingText += this.btnText.charAt(this.typingText.length);
-                if(this.btnText.length === this.typingText.length){
-                    setTimeout(this.eraseTyping , 800); // Wait for 1 second before erasing
-                    this.isTyping = false;
-                }
-                else{
-                    setTimeout(this.typingEffect , 100) //Adjust the typing speed as needed
-                }
-            }
-        },
-        eraseTyping(){
-            if(!this.isTyping && this.typingText.length > 0){
-                this.typingText = this.typingText.slice(0 , -1);
-                setTimeout(this.eraseTyping , 100);
-            }
-            else{
-                this.isLoginChance = !this.isLoginChance;
-                setTimeout(this.typingEffect , 800);
-                this.isTyping = true;
-            }
-        },
+    typingEffect() {
+      if (this.isTyping) {
+        this.btnText = this.isLoginChance ? this.loginText : this.signUpText;
+        this.typingText += this.btnText.charAt(this.typingText.length);
+        if (this.btnText.length === this.typingText.length) {
+          setTimeout(this.eraseTyping, 800); // Wait for 1 second before erasing
+          this.isTyping = false;
+        } else {
+          setTimeout(this.typingEffect, 100); //Adjust the typing speed as needed
+        }
+      }
+    },
+    eraseTyping() {
+      if (!this.isTyping && this.typingText.length > 0) {
+        this.typingText = this.typingText.slice(0, -1);
+        setTimeout(this.eraseTyping, 100);
+      } else {
+        this.isLoginChance = !this.isLoginChance;
+        setTimeout(this.typingEffect, 800);
+        this.isTyping = true;
+      }
+    },
     tempBucketOrders() {
       this.foodName = [];
 
@@ -1253,7 +1251,7 @@ export default {
     },
 
     likeShop(item) {
-      const slug_customer = this.$store.state.user.id + 'a-_-b';
+      const slug_customer = this.$store.state.user.id + "a-_-b";
 
       if (this.likeColor === "red") {
         this.likeColor = "";

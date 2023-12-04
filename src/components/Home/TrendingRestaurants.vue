@@ -19,7 +19,7 @@
 
     <div style="display: flex; align-items: center; flex-direction: row">
       <div v-if="isDesktopScreen">
-        <v-btn  small fab @click="scrollLeft">
+        <v-btn small fab @click="scrollLeft">
           <svg-icon type="mdi" :path="left"></svg-icon>
         </v-btn>
       </div>
@@ -29,7 +29,7 @@
           :style="`transform:translateX(${scrollX}px);`"
           class="menu-card"
           ref="content"
-          :class="{ visible: isVisible}"
+          :class="{ visible: isVisible }"
           v-for="(image, index) in images"
           :key="index"
         >
@@ -56,16 +56,16 @@
         :key="index + 0.1101"
       >
         <div>
-          <div
-            v-for="(image, index) in shopProfileApproved"
-            :key="index + 0.0019"
-          >
-            <v-sheet rounded="lg" v-if="image.slug == item.slug">
+          <div v-for="(image, index) in shopProfileApproved" :key="index + 0.0019">
+            <v-sheet rounded="lg" v-if="image.slug == item.clientprofile_slug">
               <v-card
                 class="mx-auto"
                 max-width="400"
                 elevation="3"
-                @click="setRestaurant(image.shop_identifier);setRestaurantID(image.slug)"
+                @click="
+                  setRestaurant(image.shop_identifier);
+                  setRestaurantID(image.slug);
+                "
               >
                 <v-row dense>
                   <v-col :cols="12">
@@ -76,14 +76,20 @@
                         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                         min-height="150px"
                         max-height="150px"
-                        @click="setRestaurant(image.shop_identifier);setRestaurantID(image.slug)"
+                        @click="
+                          setRestaurant(image.shop_identifier);
+                          setRestaurantID(image.slug);
+                        "
                       >
                       </v-img>
                     </div>
 
                     <v-card-actions
                       class="card-description"
-                      @click="setRestaurant(image.shop_identifier);setRestaurantID(image.slug)"
+                      @click="
+                        setRestaurant(image.shop_identifier);
+                        setRestaurantID(image.slug);
+                      "
                     >
                       <v-chip class="chip" small color="white">
                         <div class="purple--text font-weight-bold">
@@ -109,9 +115,7 @@
                           "
                           ><div>
                             <strong class="red--text caption"
-                              ><strong
-                                >{{ shopDiscount.discount }}% off</strong
-                              ></strong
+                              ><strong>{{ shopDiscount.discount }}% off</strong></strong
                             >
                           </div>
                         </v-chip>
@@ -158,12 +162,7 @@
         </v-btn>
         <div v-else style="width: 0px">.</div>
       </div>
-      <v-btn
-        small
-        fab
-        @click="next()"
-        :disabled="this.currentIndex == this.noOfPages"
-      >
+      <v-btn small fab @click="next()" :disabled="this.currentIndex == this.noOfPages">
         <svg-icon type="mdi" :path="right"></svg-icon>
       </v-btn>
     </v-row>
@@ -184,7 +183,8 @@ export default {
     right: mdiChevronDoubleRight,
 
     images: {
-      Dosa: "https://dipeat-s3-bucket-1.s3.amazonaws.com/masala-dosa-indian-cuisine-sambar-vegetarian-cuisine-onion-572e9d60dd0ce72a8a09bdfa3b344ca6.png",
+      Dosa:
+        "https://dipeat-s3-bucket-1.s3.amazonaws.com/masala-dosa-indian-cuisine-sambar-vegetarian-cuisine-onion-572e9d60dd0ce72a8a09bdfa3b344ca6.png",
       Burger:
         "https://dipeat-s3-bucket-1.s3.amazonaws.com/chicken-sandwich-whopper-hamburger-burger-king-specialty-sandwiches-crispy-fried-chicken-burger-king-89618abf5e5f8dcbcb672346d41b78d7.png",
       Chicken:
@@ -198,7 +198,8 @@ export default {
         "https://dipeat-s3-bucket-1.s3.amazonaws.com/chow-mein-lo-mein-chinese-noodles-yakisoba-fried-noodles-chowmein-c59e20a8f2b28ea51bae6eaa2d23053b.png",
       "North Indian":
         "https://dipeat-s3-bucket-1.s3.amazonaws.com/indian-cuisine-dal-vegetarian-cuisine-roti-non-veg-food-8683483aaf18d84db2f2c66f3391eb71+(1).png",
-      Roti: "https://dipeat-s3-bucket-1.s3.amazonaws.com/pita-naan-roti-kulcha-indian-cuisine-bread-923f108b824980de2167541df1d9f724.png",
+      Roti:
+        "https://dipeat-s3-bucket-1.s3.amazonaws.com/pita-naan-roti-kulcha-indian-cuisine-bread-923f108b824980de2167541df1d9f724.png",
       "South Indian":
         "https://dipeat-s3-bucket-1.s3.amazonaws.com/south-indian-cuisine-south-indian-cuisine-vegetarian-cuisine-rasam-menu-cdcebac8b3f180c12c8845c2345b7c1d.png",
     },
@@ -221,8 +222,8 @@ export default {
     itemsPerPage: 8,
     //scrollItems
     scrollX: 0,
-    overflowX:0,
-    
+    overflowX: 0,
+
     step: 500,
   }),
   methods: {
@@ -241,7 +242,7 @@ export default {
     //   }
     // },
     preventHorizontalScroll(event) {
-      if (event.deltaX !== 0  && this.isDesktopScreen) {
+      if (event.deltaX !== 0 && this.isDesktopScreen) {
         event.preventDefault();
       }
     },
@@ -252,7 +253,6 @@ export default {
       if (textBottom <= window.innerHeight && !this.isVisible) {
         this.isVisible = true;
       }
-      
     },
     handleRestaurantsScroll() {
       const container = this.$el.querySelector(".hotel-container");
@@ -273,7 +273,7 @@ export default {
       this.currentIndex++;
     },
     scrollLeft() {
-      if (this.scrollX <0) {
+      if (this.scrollX < 0) {
         this.scrollX += this.step;
       }
       // console.log(this.overflowX)
@@ -281,13 +281,13 @@ export default {
     },
     scrollRight() {
       if (this.scrollX > -this.overflowX) {
-      this.scrollX -= this.step;
+        this.scrollX -= this.step;
       }
     },
     async googleRegister() {
       // console.log("googleRegister");
       const googleUser = await this.$gAuth.signIn();
-      console.log(googleUser);
+      // console.log(googleUser);
     },
 
     phonePeValidation() {
@@ -331,7 +331,6 @@ export default {
     },
 
     setRestaurantID(item) {
-      
       localStorage.setItem("restaurant_id", item);
     },
 
@@ -340,12 +339,12 @@ export default {
         this.status = res.data;
         // console.log(this.status);
         // filter shop coming soon
-        this.commingSoon = this.status.filter(
-          (item) => item.shop_coming_soon === true
-        );
+        this.commingSoon = this.status.filter((item) => item.shop_coming_soon === true);
         this.liveRestaurant = this.status.filter(
           (item) => item.shop_coming_soon === false
         );
+        // console.log(this.commingSoon);
+        // console.log(this.liveRestaurant);
       });
     },
 
@@ -359,8 +358,7 @@ export default {
       api.get("/api/v1/likedshop/").then((response) => {
         this.likedShops = response.data.filter(
           (item) =>
-            item.customer === this.$store.state.user.username &&
-            item.liked === true
+            item.customer === this.$store.state.user.username && item.liked === true
         );
         // console.log(this.likedShops);
       });
@@ -386,15 +384,16 @@ export default {
           // console.log(this.shopProfileImage);
           // filter the data based on if it is approved or not
           this.shopProfileApproved = this.shopProfileApproved.filter(
-            (item) => item.approved === true
+            (item) => item.approved === true && item.shop_coming_soon === "False"
           );
-
+          // console.log(this.shopProfileApproved);
 
           // restaurants in this.liveRestaurant === this.shopProfileApproved should be same
           const approvedShopforLive = this.liveRestaurant.filter((item) =>
-            this.shopProfileApproved.some((el) => el.slug === item.slug)
+            this.shopProfileApproved.some((el) => el.slug === item.clientprofile_slug)
           );
           this.liveRestaurant = approvedShopforLive;
+          // console.log(this.liveRestaurant);
 
           const approvedShopforCommingSoon = this.commingSoon.filter((item) =>
             this.shopProfileApproved.some((el) => el.slug === item.slug)
@@ -412,7 +411,7 @@ export default {
   },
   mounted() {
     this.calculateOverflowX();
-    
+
     // this.phonePeValidation();
     this.$eventBus.$on("callMethodLoginHomeRefresh", () => {
       this.getMenu();
@@ -429,8 +428,8 @@ export default {
     window.addEventListener("scroll", this.handleTrendingScroll);
     window.addEventListener("scroll", this.handleRestaurantsScroll);
     //scrollItems
-    const mediaQuery = window.matchMedia('(min-width: 500px)');
-    
+    const mediaQuery = window.matchMedia("(min-width: 500px)");
+
     // Check the initial state
     this.isDesktopScreen = mediaQuery.matches;
 
@@ -438,10 +437,10 @@ export default {
     mediaQuery.addListener((event) => {
       this.isDesktopScreen = event.matches;
     });
+    // console.log(this.displayItems);
   },
 
   created() {
-    
     this.getMenu();
     this.shopStatus();
     this.getLikedShop();
@@ -513,7 +512,7 @@ export default {
   justify-content: space-between;
   /*background-color: rgb(27, 179, 80);*/
 }
-.image-card{
+.image-card {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -558,7 +557,7 @@ export default {
   }
   .menu-card {
     height: 120px;
-    width:150px;
+    width: 150px;
   }
   .chip {
     position: absolute;

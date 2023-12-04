@@ -17,22 +17,13 @@
       elevate-on-scroll
       v-if="$store.state.isAuthenticated"
     >
-      <v-menu
-        transition="slide-y-transition"
-        v-if="$store.state.isAuthenticated"
-      >
+      <v-menu transition="slide-y-transition" v-if="$store.state.isAuthenticated">
         <template v-slot:activator="{ on, attrs }">
           <v-app-bar-nav-icon v-bind="attrs" v-on="on"></v-app-bar-nav-icon>
         </template>
         <v-list class="mt-10" rounded>
-          <v-list-item
-            link
-            to="/"
-            color="purple"
-            v-if="$store.state.isAuthenticated"
-          >
-            <span> <v-icon color="red">mdi-home</v-icon> </span
-            >&nbsp;&nbsp;&nbsp;
+          <v-list-item link to="/" color="purple" v-if="$store.state.isAuthenticated">
+            <span> <v-icon color="red">mdi-home</v-icon> </span>&nbsp;&nbsp;&nbsp;
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item>
           <v-list-item
@@ -41,8 +32,7 @@
             color="purple"
             v-if="$store.state.isAuthenticated"
           >
-            <span> <v-icon color="orange">mdi-history</v-icon> </span
-            >&nbsp;&nbsp;&nbsp;
+            <span> <v-icon color="orange">mdi-history</v-icon> </span>&nbsp;&nbsp;&nbsp;
             <v-list-item-title>History</v-list-item-title>
           </v-list-item>
           <v-list-item
@@ -51,18 +41,15 @@
             color="purple"
             v-if="$store.state.isAuthenticated"
           >
-            <span> <v-icon color="blue">mdi-account</v-icon> </span
-            >&nbsp;&nbsp;&nbsp;
+            <span> <v-icon color="blue">mdi-account</v-icon> </span>&nbsp;&nbsp;&nbsp;
             <v-list-item-title>Profile</v-list-item-title>
           </v-list-item>
           <v-list-item link to="/feedback" color="purple">
-            <span> <v-icon color="green">mdi-leaf</v-icon> </span
-            >&nbsp;&nbsp;&nbsp;
+            <span> <v-icon color="green">mdi-leaf</v-icon> </span>&nbsp;&nbsp;&nbsp;
             <v-list-item-title>Feedback</v-list-item-title>
           </v-list-item>
           <v-list-item link to="/help" color="purple">
-            <span> <v-icon color="pink">mdi-help</v-icon> </span
-            >&nbsp;&nbsp;&nbsp;
+            <span> <v-icon color="pink">mdi-help</v-icon> </span>&nbsp;&nbsp;&nbsp;
             <v-list-item-title>Help</v-list-item-title>
           </v-list-item>
           <v-list-item
@@ -71,8 +58,7 @@
             @click="logout"
             v-if="$store.state.isAuthenticated"
           >
-            <span> <v-icon color="black">mdi-logout</v-icon> </span
-            >&nbsp;&nbsp;&nbsp;
+            <span> <v-icon color="black">mdi-logout</v-icon> </span>&nbsp;&nbsp;&nbsp;
             <v-list-item-title>Logout</v-list-item-title>
           </v-list-item>
         </v-list>
@@ -100,12 +86,7 @@
 
       <!--  -->
 
-      <v-btn
-        icon
-        color="red"
-        v-if="$store.state.isAuthenticated"
-        to="/likedshop"
-      >
+      <v-btn icon color="red" v-if="$store.state.isAuthenticated" to="/likedshop">
         <v-icon>mdi-heart</v-icon>
       </v-btn>
 
@@ -128,12 +109,7 @@
         <v-menu v-if="!isDesktop" offset-x left transition="slide-x-transition">
           <template v-slot:activator="{ on, attrs }">
             <v-btn fab color="#A33BDF" small v-bind="attrs" v-on="on">
-              <svg-icon
-                type="mdi"
-                class="searchButton"
-                href="#"
-                :path="path"
-              ></svg-icon>
+              <svg-icon type="mdi" class="searchButton" href="#" :path="path"></svg-icon>
             </v-btn>
           </template>
           <v-menu rounded="xl" offset-x>
@@ -204,16 +180,46 @@
             </v-menu>
           </v-menu>
         </div>
-        <div style="width: 20px;">
+        <div style="width: 20px">
           <Auth :btnType="typingText" />
         </div>
-        
       </ul>
     </nav>
 
     <v-sheet>
       <v-main class="mt-13">
-        
+        <v-toolbar
+          color="deep-purple accent-3"
+          class="loggedIn-searchBar"
+          dark
+          flat
+          v-if="$store.state.isAuthenticated"
+        >
+          <v-row justify="center">
+            <v-col sm="6" class="mt-1">
+              <v-menu rounded="xl" offset-y>
+                <template v-slot:activator="{ attrs, on }">
+                  <v-text-field
+                    dense
+                    v-model="search"
+                    v-bind="attrs"
+                    v-on="on"
+                    class="mx-7 mt-2"
+                    flat
+                    hide-details
+                    label="Search Restaurants"
+                    prepend-inner-icon="mdi-magnify"
+                    solo-inverted
+                    @keyup.enter="searchBar()"
+                    rounded
+                    maxlength="30"
+                  >
+                  </v-text-field>
+                </template>
+              </v-menu>
+            </v-col>
+          </v-row>
+        </v-toolbar>
 
         <div>
           <router-view />
@@ -234,18 +240,17 @@
             <div class="contact-details">
               <h1>Contact Us</h1>
               <li>
-                <v-icon dark color="yellow">mdi-email-variant</v-icon
-                >&nbsp;&nbsp;
-                <a class="footer-email"  href="dipeatdotcom@gmail.com">dipeatdotcom@gmail.com</a>
+                <v-icon dark color="yellow">mdi-email-variant</v-icon>&nbsp;&nbsp;
+                <a class="footer-email" href="dipeatdotcom@gmail.com"
+                  >dipeatdotcom@gmail.com</a
+                >
               </li>
               <li>
-                <v-icon color="light-green accent-3">mdi-leaf</v-icon
-                >&nbsp;&nbsp;
-                <a class="footer-feedback"  href="/feedback">Feedback</a>
+                <v-icon color="light-green accent-3">mdi-leaf</v-icon>&nbsp;&nbsp;
+                <a class="footer-feedback" href="/feedback">Feedback</a>
               </li>
               <li>
-                <v-icon color="pink accent-2">mdi-food-apple</v-icon
-                >&nbsp;&nbsp;
+                <v-icon color="pink accent-2">mdi-food-apple</v-icon>&nbsp;&nbsp;
                 <a class="footer-partner" href="http://partner.dipeat.com/">Partner</a>
               </li>
             </div>
@@ -261,14 +266,14 @@
             </ul>
           </div> -->
           <div class="com" data-aos="fade-up">
-            
-              <div><a class="footer-links" href="#about-us">About Us</a></div>
-              <div><a class="footer-links" href="/recognition">Recognition</a></div>
-              <div><a class="footer-links" href="#we-offer">Pricing</a></div>
-              <div><a class="footer-links" href="/privacy_policy">Privacy Policy</a></div>
-              <div><a class="footer-links" href="/terms_and_conditions">Terms & Conditions</a></div>
-              <div><a class="footer-links" href="/refund_policy">Refund Policy</a></div>
-            
+            <div><a class="footer-links" href="#about-us">About Us</a></div>
+            <div><a class="footer-links" href="/recognition">Recognition</a></div>
+            <div><a class="footer-links" href="#we-offer">Pricing</a></div>
+            <div><a class="footer-links" href="/privacy_policy">Privacy Policy</a></div>
+            <div>
+              <a class="footer-links" href="/terms_and_conditions">Terms & Conditions</a>
+            </div>
+            <div><a class="footer-links" href="/refund_policy">Refund Policy</a></div>
           </div>
           <div class="social-info" data-aos="fade-up">
             <h1>Social Media</h1>
@@ -287,9 +292,7 @@
             </div>
           </div>
         </div>
-        <footer class="caption">
-          Copyright © 2023 dipEAT. All Rights Reserved.
-        </footer>
+        <footer class="caption">Copyright © 2023 dipEAT. All Rights Reserved.</footer>
       </section>
     </v-sheet>
   </v-app>
@@ -334,11 +337,11 @@ export default {
     totalPageVisitCount: 0,
 
     typingText: "",
-    isTyping : true,
-        isLoginChance : true,
-        text : '',
-        loginText : 'login',
-        signUpText : 'signUp',
+    isTyping: true,
+    isLoginChance: true,
+    text: "",
+    loginText: "login",
+    signUpText: "signUp",
   }),
 
   beforeCreate() {
@@ -363,30 +366,28 @@ export default {
     checkScreenSize() {
       this.isDesktop = window.innerWidth >= 760; // Adjust the breakpoint as needed
     },
-    typingEffect(){
-            if(this.isTyping){
-                this.text = this.isLoginChance ? this.loginText : this.signUpText;
-                this.typingText += this.text.charAt(this.typingText.length);
-                if(this.text.length === this.typingText.length){
-                    setTimeout(this.eraseTyping , 800); // Wait for 1 second before erasing
-                    this.isTyping = false;
-                }
-                else{
-                    setTimeout(this.typingEffect , 100) //Adjust the typing speed as needed
-                }
-            }
-        },
-        eraseTyping(){
-            if(!this.isTyping && this.typingText.length > 0){
-                this.typingText = this.typingText.slice(0 , -1);
-                setTimeout(this.eraseTyping , 100);
-            }
-            else{
-                this.isLoginChance = !this.isLoginChance;
-                setTimeout(this.typingEffect , 800);
-                this.isTyping = true;
-            }
-        },
+    typingEffect() {
+      if (this.isTyping) {
+        this.text = this.isLoginChance ? this.loginText : this.signUpText;
+        this.typingText += this.text.charAt(this.typingText.length);
+        if (this.text.length === this.typingText.length) {
+          setTimeout(this.eraseTyping, 800); // Wait for 1 second before erasing
+          this.isTyping = false;
+        } else {
+          setTimeout(this.typingEffect, 100); //Adjust the typing speed as needed
+        }
+      }
+    },
+    eraseTyping() {
+      if (!this.isTyping && this.typingText.length > 0) {
+        this.typingText = this.typingText.slice(0, -1);
+        setTimeout(this.eraseTyping, 100);
+      } else {
+        this.isLoginChance = !this.isLoginChance;
+        setTimeout(this.typingEffect, 800);
+        this.isTyping = true;
+      }
+    },
     logout() {
       api
         .get("/api/v1/signout/")
@@ -413,14 +414,9 @@ export default {
     },
 
     searchBar() {
-      this.$store.state.searchText = this.search
-        .toLowerCase()
-        .replace(/\s/g, "");
+      this.$store.state.searchText = this.search.toLowerCase().replace(/\s/g, "");
       // console.log(this.$store.state.searchText);
-      localStorage.setItem(
-        "searchText",
-        this.search.toLowerCase().replace(/\s/g, "")
-      );
+      localStorage.setItem("searchText", this.search.toLowerCase().replace(/\s/g, ""));
       localStorage.setItem("searchDisplayText", this.search.toLowerCase());
       this.$eventBus.$emit("callMethodSearchBarRef");
 
@@ -451,7 +447,6 @@ export default {
     // .catch((error) => {
     //   console.log(error);
     // });
-
   },
 
   mounted() {
@@ -965,17 +960,16 @@ footer a {
   padding: 5px 0;
   font-size: 20px;
 }*/
-.com{
+.com {
   display: flex column align-center justify-start;
   width: 20%;
 }
-.com>div{
+.com > div {
   display: flex column align-center justify-center;
   height: 50px;
   width: 100%;
-  
 }
-.com>div>a{
+.com > div > a {
   text-decoration: none;
   color: white;
   font-size: 20px;
@@ -1003,37 +997,35 @@ footer a {
   .sociallogos {
     padding: 10px 0;
     margin-left: 20px;
-  }/*
+  } /*
   .com {
     padding: 10px 0;
   }*/
-  .com{
+  .com {
     display: flex column align-center justify-start;
     width: 100%;
     margin-left: 20px;
   }
 }
-.footer-email .footer-feedback .footer-partner{
+.footer-email .footer-feedback .footer-partner {
   transition: color ease-in-out 0.1s;
 }
-.footer-email:hover{
-  color: #FFEB3B;
+.footer-email:hover {
+  color: #ffeb3b;
 }
 
-.footer-feedback:hover{
-  color: #76FF03;
+.footer-feedback:hover {
+  color: #76ff03;
 }
-.footer-partner:hover{
-  color: #FF4081;
+.footer-partner:hover {
+  color: #ff4081;
 }
-.footer-links{
+.footer-links {
   transform: scale(1);
   transition: transform 0.3s, font-size 0.3s;
 }
-.footer-links:hover{
+.footer-links:hover {
   transform: scale(1.1);
   font-size: 24px;
 }
-
-
 </style>

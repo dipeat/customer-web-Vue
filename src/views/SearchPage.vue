@@ -7,7 +7,14 @@
       <v-row>
         <v-col cols="6" sm="4" v-for="(item, index) in getSearch" :key="index">
           <v-sheet rounded="lg" v-if="item.approved == true">
-            <v-card class="mx-auto" max-width="400" @click="setRestaurant(item.slug)">
+            <v-card
+              class="mx-auto"
+              max-width="400"
+              @click="
+                setRestaurant(item.shop_identifier);
+                setRestaurantID(item.slug);
+              "
+            >
               <v-row dense>
                 <v-col :cols="12">
                   <v-img
@@ -69,10 +76,15 @@ export default {
 
   methods: {
     setRestaurant(item) {
+      // localStorage.removeItem("username");
       this.$store.state.restaurant = item;
-      // console.log(this.$store.state.restaurant);
       localStorage.setItem("restaurant", item);
+      // console.log(localStorage.getItem("restaurant"));
       this.$router.push(`/menu/${item}`);
+    },
+
+    setRestaurantID(item) {
+      localStorage.setItem("restaurant_id", item);
     },
 
     searchBarRef() {
